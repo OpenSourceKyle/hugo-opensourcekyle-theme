@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .Title }}</title>
+    {{ $styles := resources.Get "css/style.css.html" | resources.ExecuteAsTemplate "style.css" . | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $styles.Permalink }}">
+    <!-- Add Font Awesome for the LinkTree icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <script>
+        document.body.style.backgroundImage = "url('{{ .Site.Params.backgroundImage }}')";
+        document.body.style.backgroundRepeat = "no-repeat";
+        document.body.style.backgroundPosition = "center center";
+        document.body.style.backgroundAttachment = "fixed";
+        document.body.style.backgroundSize = "cover";
+    </script>
+    
+    <!-- Add floating social media buttons -->
+    {{ with .Site.Params.linktreeUrl }}
+    <div class="social-float-container">
+        <a href="{{ . }}" target="_blank" class="social-float">
+            <i class="fa-solid fa-tree"></i>
+        </a>
+    </div>
+    {{ end }}
+    
+    <div class="page-wrapper">
+        <header>
+            <nav>
+                <div class="navbar-container">
+                    <div class="navbar-content">
+                        <a href="{{ "/" | relURL }}" class="navbar-title">{{ .Site.Title }}</a>
+                        <button class="hamburger-menu" aria-label="Toggle menu">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                        <div class="navbar-links">
+                            {{ range .Site.Params.headerLinks }}
+                            <a href="{{ .url | relURL }}">{{ .text }}</a>
+                            {{ end }}
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main>
+            {{ block "main" . }}{{ end }}
+        </main>
+    </div>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                {{ range .Site.Params.footerLinks }}
+                <a href="{{ .url }}">
+                    {{ .text }}
+                </a>
+                {{ end }}
+                <a href="{{ .Site.Params.footerLink }}" target="_blank">©{{ now.Format "2006" }} {{ .Site.Params.footerText }}</a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.querySelector('.hamburger-menu').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.querySelector('.navbar-links').classList.toggle('active');
+        });
+
+        function setHeaderHeight() {
+            const header = document.querySelector('header');
+            if (header) {
+                const headerHeight = header.offsetHeight;
+                document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+            }
+        }
+
+        // Set the header height on load
+        window.addEventListener('load', setHeaderHeight);
+
+        // Optionally, update on resize if the header height might change
+        window.addEventListener('resize', setHeaderHeight);
+    </script>
+</body>
+</html> 

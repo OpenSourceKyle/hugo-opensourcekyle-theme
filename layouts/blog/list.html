@@ -1,0 +1,13 @@
+{{ define "main" }}
+<div class="content-container">
+    <h1 style="color: {{ .Site.Params.colors.text }}">Blog Posts</h1>
+    <div class="blog-list">
+        {{ range (where .Site.RegularPages "Section" "blog") }}
+        <div class="blog-entry">
+            <span class="post-date">{{ .Date.Format "Jan 2, 2006" }}</span>
+            <span class="blog-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></span>
+        </div>
+        {{ end }}
+    </div>
+</div>
+{{ end }} 

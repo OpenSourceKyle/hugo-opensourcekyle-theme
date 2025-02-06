@@ -1,0 +1,40 @@
+{{ define "main" }}
+<div class="content-container">   
+    {{ $pages := .Pages }}
+    {{ $categories := dict }}
+    
+    {{ range $pages }}
+        {{ $category := (path.Dir .File.Path | path.Base) }}
+        {{ if eq $category "pages" }}
+            {{ $category = "Uncategorized" }}
+        {{ end }}
+        {{ $currentPages := index $categories $category | default (slice) }}
+        {{ $categories = merge $categories (dict $category (append $currentPages (slice .))) }}
+    {{ end }}
+    
+    {{ range $category, $pages := $categories }}
+    <div class="section-group">
+        <h2>{{ $category | title }}</h2>
+        <ul class="page-list">
+            {{ range $pages }}
+            <li class="page-entry">
+                <a href="{{ .Permalink }}" class="card-link">
+                    <div class="card">
+                        {{ with .Params.image }}
+                        <img src="{{ . | relURL }}" alt="{{ $.Title }}" class="card-image">
+                        {{ end }}
+                        <div class="card-content">
+                            <h3>{{ .Title }}</h3>
+                            {{ if .Date }}
+                            <span class="post-date">- {{ .Date.Format "Jan 2, 2006" }}</span>
+                            {{ end }}
+                        </div>
+                    </div>
+                </a>
+            </li>
+            {{ end }}
+        </ul>
+    </div>
+    {{ end }}
+</div>
+{{ end }} 

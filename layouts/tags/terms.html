@@ -1,0 +1,14 @@
+{{ define "main" }}
+<div class="section">
+    <h1>All Tags</h1>
+    <div class="tags-list">
+        {{ range .Site.Taxonomies.tags }}
+        <div class="tag-group">
+            <a href="{{ .Page.RelPermalink }}" class="tag">
+                #{{ .Page.Title }} ({{ .Count }})
+            </a>
+        </div>
+        {{ end }}
+    </div>
+</div>
+{{ end }} 

@@ -1,0 +1,12 @@
+name = "OpenSourceKyle"
+license = "CC BY-NC 4.0"
+licenselink = "https://creativecommons.org/licenses/by-nc/4.0/"
+description = "A clean, modern Hugo theme with a dark color scheme for my personal and biz page."
+homepage = "https://github.com/OpenSourceKyle"
+tags = ["blog", "personal", "responsive", "dark", "modern"]
+features = ["responsive", "blog", "tags", "clean design"]
+min_version = "0.100.0"
+
+[author]
+  name = "Kyle"
+  homepage = "https://opensourcekyle.com"
