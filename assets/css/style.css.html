@@ -886,17 +886,12 @@ footer {
     margin: 1rem 0 2rem 0;
 }
 
-.card-link {
-    text-decoration: none;
-    color: inherit;
-}
-
 .page-card {
     background-color: rgba(31, 31, 31, 0.9);
     border-radius: 8px;
     overflow: hidden;
     transition: transform 0.2s ease-in-out;
-    height: 200px; /* Fixed height for all cards */
+    min-height: 200px; /* Changed from fixed height to min-height */
     display: flex;
     flex-direction: column;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -909,7 +904,7 @@ footer {
 
 .card-image {
     width: 100%;
-    height: 150px;
+    height: 200px; /* Increased height for better visibility */
     overflow: hidden;
     flex-shrink: 0;
 }
@@ -924,47 +919,48 @@ footer {
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    justify-content: center; /* Center title vertically */
+    flex-grow: 1; /* Allow content to grow */
 }
 
 .card-content h3 {
     color: {{ .Site.Params.colors.headerText }};
     margin: 0;
-    font-size: 1.1em;
+    font-size: 1.2em;
+    line-height: 1.4;
 }
 
 @media (max-width: 768px) {
     .category-grid {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 1rem;
+        grid-template-columns: 1fr; /* Single column on mobile */
+        gap: 1.5rem;
     }
     
     .page-card {
-        height: 170px; /* Slightly smaller on mobile */
+        min-height: 150px;
     }
     
     .card-image {
-        height: 120px;
-    }
-    
-    .page-card:not(:has(.card-image)) .card-content {
-        height: 170px;
+        height: 200px;
     }
     
     .card-content {
-        height: 50px;
+        padding: 1.2rem;
+    }
+    
+    .card-content h3 {
+        font-size: 1.3em; /* Larger font on mobile for better readability */
     }
 }
 
-/* For cards without images, add placeholder space */
+/* Remove fixed height constraints */
 .page-card:not(:has(.card-image)) .card-content {
-    height: 200px; /* Full card height when no image */
+    min-height: 100px;
+    height: auto;
 }
 
-/* For cards with images, keep content area smaller */
 .page-card:has(.card-image) .card-content {
-    height: 50px;
+    min-height: 50px;
+    height: auto;
 }
 
 .featured-image {
