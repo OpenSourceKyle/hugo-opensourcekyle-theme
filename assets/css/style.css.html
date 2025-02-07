@@ -25,6 +25,12 @@ body::before {
     z-index: -1;
 }
 
+img {
+    max-width: 100%; /* Ensures the image does not exceed the width of its container */
+    height: auto;    /* Maintains the aspect ratio of the image */
+    display: block;  /* Ensures there are no extra spaces below the image */
+}
+
 p, ul, li {
     color: {{ .Site.Params.colors.paragraphText }};
 }
