@@ -61,12 +61,53 @@ git submodule update --remote --merge
 
 ---
 
-## 🎨 Want to Customize the Theme?
+## 🎨 Using Hugo Shortcodes
 
-If you want to modify the theme, you have two options:
+This theme includes several custom Hugo shortcodes to enhance your site:
 
-1. **Modify it directly** inside `themes/hugo-opensourcekyle-theme/` (not recommended if using submodules).
-2. **Fork this repository**, make changes, and update your submodule to point to your forked version.
+### **📅 Embed Calendly**
+To embed a Calendly widget, use:
+
+```md
+{{< calendly url="https://calendly.com/your-schedule" >}}
+```
+
+[Calendly Shortcode Reference](100)
+
+---
+
+### **📂 Collapsible Sections**
+To create collapsible sections in Markdown:
+
+```md
+{{< collapsible title="Click to Expand" >}}
+Your hidden content here.
+{{< /collapsible >}}
+```
+
+[Collapsible Shortcode Reference](101)
+
+---
+
+### **🖼️ Lightbox for Images**
+To enable images to open in an overlay:
+
+```md
+{{< lightbox src="/images/example.jpg" alt="A beautiful image" >}}
+```
+
+[Lightbox Shortcode Reference](102)
+
+---
+
+### **🔽 Scroll to Calendly Button**
+To add a floating button that scrolls to your Calendly section:
+
+```md
+{{< scroll-to-calendly >}}
+```
+
+[Scroll-to-Calendly Shortcode Reference](103)
 
 ---
 
