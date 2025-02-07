@@ -1,40 +1,48 @@
 {{ define "main" }}
 <div class="content-container">   
-    {{ $pages := .Pages }}
-    {{ $categories := dict }}
+    <h1 style="color: {{ .Site.Params.colors.text }}">Pages</h1>
     
-    {{ range $pages }}
-        {{ $category := (path.Dir .File.Path | path.Base) }}
-        {{ if eq $category "pages" }}
-            {{ $category = "Uncategorized" }}
-        {{ end }}
-        {{ $currentPages := index $categories $category | default (slice) }}
-        {{ $categories = merge $categories (dict $category (append $currentPages (slice .))) }}
-    {{ end }}
-    
-    {{ range $category, $pages := $categories }}
-    <div class="section-group">
-        <h2>{{ $category | title }}</h2>
-        <ul class="page-list">
-            {{ range $pages }}
-            <li class="page-entry">
-                <a href="{{ .Permalink }}" class="card-link">
-                    <div class="card">
-                        {{ with .Params.image }}
-                        <img src="{{ . | relURL }}" alt="{{ $.Title }}" class="card-image">
-                        {{ end }}
-                        <div class="card-content">
-                            <h3>{{ .Title }}</h3>
-                            {{ if .Date }}
-                            <span class="post-date">- {{ .Date.Format "Jan 2, 2006" }}</span>
-                            {{ end }}
-                        </div>
-                    </div>
-                </a>
-            </li>
+    <div class="pages-list">
+        {{ $pages := where .Site.RegularPages "Section" "pages" }}
+        {{ $sortedPages := $pages.ByDate.Reverse }}
+        {{ $grouped := dict }}
+        
+        {{ range $sortedPages }}
+            {{ if not .Draft }}
+                {{ $category := index (split .File.Dir "/") 1 }}
+                {{ if not $category }}
+                    {{ $category = "Uncategorized" }}
+                {{ end }}
+                {{ if not (index $grouped $category) }}
+                    {{ $grouped = merge $grouped (dict $category (slice .)) }}
+                {{ else }}
+                    {{ $currentEntries := index $grouped $category }}
+                    {{ $grouped = merge $grouped (dict $category (append (slice .) $currentEntries)) }}
+                {{ end }}
             {{ end }}
-        </ul>
+        {{ end }}
+
+        {{ $.Scratch.Set "categories" (slice) }}
+        {{ range $category, $entries := $grouped }}
+            {{ $.Scratch.Add "categories" (slice $category) }}
+        {{ end }}
+        
+        {{ $sortedCategories := sort ($.Scratch.Get "categories") }}
+        
+        {{ range $sortedCategories }}
+            {{ $category := . }}
+            {{ $entries := index $grouped $category }}
+            <h2 class="category-title">{{ humanize $category }}</h2>
+            <ul class="category-entries">
+                {{ range $entries }}
+                <li class="page-entry">
+                    <span class="page-title">
+                        <a href="{{ .RelPermalink }}" style="color: {{ .Site.Params.colors.link }}">{{ .Title }}</a>
+                    </span>
+                </li>
+                {{ end }}
+            </ul>
+        {{ end }}
     </div>
-    {{ end }}
 </div>
 {{ end }} 
