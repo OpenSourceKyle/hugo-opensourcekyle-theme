@@ -7,6 +7,11 @@
             <span class="read-time">· {{ .ReadingTime }} min read</span>
         </div>
         {{ partial "tags.html" . }}
+        {{ if .Params.image }}
+        <div class="featured-image">
+            <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" />
+        </div>
+        {{ end }}
         <div>{{ .Content }}</div>
     </div>
 </div>

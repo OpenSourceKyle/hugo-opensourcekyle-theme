@@ -8,7 +8,9 @@
             <img src="{{ .Site.Params.profileImage | relURL }}" alt="Profile picture of Kyle" class="profile-pic-preview">
         </div>
         <div class="about-text">
-            {{ .Summary }}<a href="{{ .Permalink }}">Read more</a>
+            <div style="color: {{ .Site.Params.colors.paragraphText }}">
+                {{ .Summary }}<a href="{{ .Permalink }}">Read more</a>
+            </div>
         </div>
     </div>
     {{ end }}

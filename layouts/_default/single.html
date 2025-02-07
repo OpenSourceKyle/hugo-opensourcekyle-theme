@@ -1,13 +1,13 @@
 {{ define "main" }}
 <div class="content-container">
     <article class="page-content">
-        <h1>{{ .Title }}</h1>
-        <div class="last-updated">
-            Last updated: {{ .Date.Format "January 2, 2006" }}
+        {{ if .Params.image }}
+        <div class="featured-image">
+            <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" />
         </div>
-        <div class="page-text">
-            {{ .Content }}
-        </div>
-    </article>
-</div>
+        {{ end }}
+    </header>
+    
+    {{ .Content }}
+</article>
 {{ end }} 

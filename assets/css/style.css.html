@@ -343,6 +343,18 @@ footer {
     color: {{ .Site.Params.colors.linkHover }};
 }
 
+.page-image {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.page-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 .page-content h2 {
     color: {{ .Site.Params.colors.headerText }};
     margin-top: 2rem;
@@ -832,6 +844,7 @@ footer {
 .about-text {
     text-align: center;
     width: 100%;
+    color: {{ .Site.Params.colors.paragraphText }};
 }
 
 @media (max-width: 768px) {
@@ -864,5 +877,105 @@ footer {
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
     font-size: 1.8em;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 1rem 0 2rem 0;
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.page-card {
+    background-color: rgba(31, 31, 31, 0.9);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out;
+    height: 200px; /* Fixed height for all cards */
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.page-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.card-image {
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    justify-content: center; /* Center title vertically */
+}
+
+.card-content h3 {
+    color: {{ .Site.Params.colors.headerText }};
+    margin: 0;
+    font-size: 1.1em;
+}
+
+@media (max-width: 768px) {
+    .category-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+    
+    .page-card {
+        height: 170px; /* Slightly smaller on mobile */
+    }
+    
+    .card-image {
+        height: 120px;
+    }
+    
+    .page-card:not(:has(.card-image)) .card-content {
+        height: 170px;
+    }
+    
+    .card-content {
+        height: 50px;
+    }
+}
+
+/* For cards without images, add placeholder space */
+.page-card:not(:has(.card-image)) .card-content {
+    height: 200px; /* Full card height when no image */
+}
+
+/* For cards with images, keep content area smaller */
+.page-card:has(.card-image) .card-content {
+    height: 50px;
+}
+
+.featured-image {
+    margin: 2rem 0;
+    max-width: 100%;
+}
+
+.featured-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 </style> 

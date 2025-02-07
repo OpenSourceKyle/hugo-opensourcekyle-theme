@@ -1,47 +1,58 @@
 {{ define "main" }}
 <div class="content-container">   
-    <h1 style="color: {{ .Site.Params.colors.text }}">Pages</h1>
+    <h1>Pages</h1>
     
     <div class="pages-list">
         {{ $pages := where .Site.RegularPages "Section" "pages" }}
-        {{ $sortedPages := $pages.ByDate.Reverse }}
-        {{ $grouped := dict }}
+        {{ $nonDraftPages := where $pages "Draft" false }}
         
-        {{ range $sortedPages }}
-            {{ if not .Draft }}
-                {{ $category := index (split .File.Dir "/") 1 }}
-                {{ if not $category }}
-                    {{ $category = "Uncategorized" }}
-                {{ end }}
-                {{ if not (index $grouped $category) }}
-                    {{ $grouped = merge $grouped (dict $category (slice .)) }}
-                {{ else }}
-                    {{ $currentEntries := index $grouped $category }}
-                    {{ $grouped = merge $grouped (dict $category (append (slice .) $currentEntries)) }}
-                {{ end }}
+        {{/* Initialize categories scratch */}}
+        {{ $.Scratch.Set "categories" dict }}
+        
+        {{/* Group pages by their folder */}}
+        {{ range $nonDraftPages }}
+            {{ $category := index (split .File.Dir "/") 1 }}
+            {{ if not $category }}
+                {{ $category = "Uncategorized" }}
+            {{ end }}
+            
+            {{ $existingPages := $.Scratch.Get "categories" }}
+            {{ if not (index $existingPages $category) }}
+                {{ $.Scratch.SetInMap "categories" $category (slice .) }}
+            {{ else }}
+                {{ $categoryPages := index $existingPages $category }}
+                {{ $.Scratch.SetInMap "categories" $category (append $categoryPages (slice .)) }}
             {{ end }}
         {{ end }}
-
-        {{ $.Scratch.Set "categories" (slice) }}
-        {{ range $category, $entries := $grouped }}
-            {{ $.Scratch.Add "categories" (slice $category) }}
+        
+        {{/* Get all category names and sort them */}}
+        {{ $categories := $.Scratch.Get "categories" }}
+        {{ $sortedCategories := slice }}
+        {{ range $key, $value := $categories }}
+            {{ $sortedCategories = $sortedCategories | append $key }}
         {{ end }}
+        {{ $sortedCategories = sort $sortedCategories }}
         
-        {{ $sortedCategories := sort ($.Scratch.Get "categories") }}
-        
+        {{/* Display pages grouped by category */}}
         {{ range $sortedCategories }}
             {{ $category := . }}
-            {{ $entries := index $grouped $category }}
             <h2 class="category-title">{{ humanize $category }}</h2>
-            <ul class="category-entries">
-                {{ range $entries }}
-                <li class="page-entry">
-                    <span class="page-title">
-                        <a href="{{ .RelPermalink }}" style="color: {{ .Site.Params.colors.link }}">{{ .Title }}</a>
-                    </span>
-                </li>
+            <div class="category-grid">
+                {{ range (index $categories $category) }}
+                    <a href="{{ .RelPermalink }}" class="card-link">
+                        <div class="page-card">
+                            {{ if .Params.image }}
+                            <div class="card-image">
+                                <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}">
+                            </div>
+                            {{ end }}
+                            <div class="card-content">
+                                <h3>{{ .Title }}</h3>
+                            </div>
+                        </div>
+                    </a>
                 {{ end }}
-            </ul>
+            </div>
         {{ end }}
     </div>
 </div>
