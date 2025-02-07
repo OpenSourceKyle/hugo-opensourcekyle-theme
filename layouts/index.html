@@ -30,7 +30,7 @@
 <div class="section blog">
     <h2>Latest Blog Posts</h2>
     <ul>
-        {{ range first 3 (where .Site.RegularPages "Section" "blog") }}
+        {{ range first 10 (where .Site.RegularPages "Section" "blog") }}
         <li>
             <a href="{{ .Permalink }}">{{ .Title }}</a> - {{ .Date.Format "Jan 2, 2006" }}
         </li>
