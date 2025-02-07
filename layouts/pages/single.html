@@ -10,6 +10,7 @@
         {{ if .Params.image }}
         <div class="featured-image">
             <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" />
+            <i>{{ .Params.image_caption }}</i>
         </div>
         {{ end }}
         <div>{{ .Content }}</div>

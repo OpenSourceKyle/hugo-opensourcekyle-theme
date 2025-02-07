@@ -12,16 +12,14 @@
         {{/* Group pages by their folder */}}
         {{ range $nonDraftPages }}
             {{ $category := index (split .File.Dir "/") 1 }}
-            {{ if not $category }}
-                {{ $category = "Uncategorized" }}
-            {{ end }}
-            
-            {{ $existingPages := $.Scratch.Get "categories" }}
-            {{ if not (index $existingPages $category) }}
-                {{ $.Scratch.SetInMap "categories" $category (slice .) }}
-            {{ else }}
-                {{ $categoryPages := index $existingPages $category }}
-                {{ $.Scratch.SetInMap "categories" $category (append $categoryPages (slice .)) }}
+            {{ if $category }}
+                {{ $existingPages := $.Scratch.Get "categories" }}
+                {{ if not (index $existingPages $category) }}
+                    {{ $.Scratch.SetInMap "categories" $category (slice .) }}
+                {{ else }}
+                    {{ $categoryPages := index $existingPages $category }}
+                    {{ $.Scratch.SetInMap "categories" $category (append $categoryPages (slice .)) }}
+                {{ end }}
             {{ end }}
         {{ end }}
         
