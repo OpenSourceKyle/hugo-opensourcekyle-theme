@@ -1,12 +1,40 @@
 {{ define "main" }}
 <div class="content-container">
     <h1 style="color: {{ .Site.Params.colors.text }}">Blog Posts</h1>
+    
     <div class="blog-list">
-        {{ range (where .Site.RegularPages "Section" "blog") }}
-        <div class="blog-entry">
-            <span class="post-date">{{ .Date.Format "Jan 2, 2006" }}</span>
-            <span class="blog-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></span>
-        </div>
+        {{ $posts := where .Site.RegularPages "Section" "blog" }}
+        {{ $sortedPosts := $posts.ByDate.Reverse }}
+        {{ $grouped := dict }}
+        
+        <!-- Store posts in reverse order within each month -->
+        {{ range $sortedPosts }}
+            {{ $month := .Date.Format "2006-01" }}
+            {{ if not (index $grouped $month) }}
+                {{ $grouped = merge $grouped (dict $month (slice .)) }}
+            {{ else }}
+                {{ $currentEntries := index $grouped $month }}
+                {{ $grouped = merge $grouped (dict $month (append (slice .) $currentEntries)) }}
+            {{ end }}
+        {{ end }}
+
+        {{ $.Scratch.Set "months" (slice) }}
+        {{ range $month, $entries := $grouped }}
+            {{ $.Scratch.Add "months" (slice $month) }}
+        {{ end }}
+        
+        {{ $sortedMonths := sort ($.Scratch.Get "months") "value" "desc" }}
+        
+        {{ range $sortedMonths }}
+            {{ $month := . }}
+            {{ $entries := index $grouped $month }}
+            <h2>{{ dateFormat "January 2006" (time (printf "%s-01" $month)) }}</h2>
+            {{ range $entries }}
+            <div class="blog-entry">
+                <span class="post-date">{{ .Date.Format "Jan 2, 2006" }}</span>
+                <span class="blog-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></span>
+            </div>
+            {{ end }}
         {{ end }}
     </div>
 </div>

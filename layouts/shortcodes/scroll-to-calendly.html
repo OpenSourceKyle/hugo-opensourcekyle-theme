@@ -1,0 +1,33 @@
+<button id="scrollToCalendly" aria-label="Scroll to Calendar">
+  🗓️ Book Now
+</button>
+
+<style>
+#scrollToCalendly {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: {{ .Site.Params.colors.link }};
+  color: {{ .Site.Params.colors.headerText }};
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  z-index: 1000;
+  font-weight: bold;
+  transition: transform 0.2s;
+}
+
+#scrollToCalendly:hover {
+  transform: translateY(-2px);
+  background-color: {{ .Site.Params.colors.linkHover }};
+}
+</style>
+
+<script>
+document.getElementById('scrollToCalendly').addEventListener('click', function() {
+  const calendly = document.querySelector('.calendly-inline-widget');
+  calendly.scrollIntoView({ behavior: 'smooth' });
+});
+</script> 
