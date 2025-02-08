@@ -539,59 +539,42 @@ footer {
     border: none;
     cursor: pointer;
     padding: 0;
-    width: 30px;
+    width: 40px;
     height: 24px;
     position: relative;
-    z-index: 100;
+    z-index: 1001;
+    align-self: center;  /* Align with other navbar items */
 }
 
 .hamburger-menu span {
     display: block;
-    width: 100%;
-    height: 2px;
-    background-color: {{ .Site.Params.colors.headerText }};
-    margin: 5px 0;
+    width: 30px;
+    height: 3px;
+    background-color: {{ .Site.Params.colors.link }};
+    margin: 4px auto;
+    border-radius: 3px;
     transition: all 0.3s ease;
 }
 
 @media (max-width: 768px) {
     .hamburger-menu {
         display: block;
+        margin: auto 0;  /* Center vertically in the navbar */
     }
 
     .navbar-links {
         display: none;
+    }
+
+    .navbar-links.active {
+        display: flex;
+        flex-direction: column;
         position: absolute;
         top: 100%;
         left: 0;
         right: 0;
         background-color: rgba(31, 31, 31, 0.95);
-        flex-direction: column;
-        padding: 20px;
-        text-align: left;
-        z-index: 999;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        max-width: 200px;
-        right: 15px;
-        left: auto;
-        opacity: 0;
-        transform: translateY(-10px);
-        transition: opacity 0.3s ease, transform 0.3s ease;
-        border-radius: 8px;
-    }
-
-    .navbar-links.active {
-        display: flex;
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .navbar-links a {
-        padding: 10px 15px;
-        width: 100%;
-        text-align: left;
-        box-sizing: border-box;
-        white-space: nowrap;
+        padding: 1rem;
     }
 
     .navbar-content {
@@ -1187,7 +1170,7 @@ footer {
 }
 
 /* Hierarchical bullet points for TOC */
-.toc-content > nav > ul > li::before {
+.toc-content ul li::before {
     content: "◆";  /* Diamond for level 1 */
     color: {{ .Site.Params.colors.link }};
     font-weight: bold;
@@ -1196,7 +1179,7 @@ footer {
     margin-left: -1em;
 }
 
-.toc-content > nav > ul > li > ul > li::before {
+.toc-content ul ul li::before {
     content: "•";  /* Circle for level 2 */
     color: {{ .Site.Params.colors.link }};
     font-weight: bold;
@@ -1205,13 +1188,22 @@ footer {
     margin-left: -1em;
 }
 
-.toc-content > nav > ul > li > ul > li > ul > li::before {
+.toc-content ul ul ul li::before {
     content: "◦";  /* Hollow circle for level 3 */
     color: {{ .Site.Params.colors.link }};
     font-weight: bold;
     display: inline-block;
     width: 1em;
     margin-left: -1em;
+}
+
+/* Ensure proper spacing between TOC items */
+.toc-content ul {
+    margin: 0.5em 0;
+}
+
+.toc-content ul li {
+    margin: 0.3em 0;
 }
 
 .toc-content a {
