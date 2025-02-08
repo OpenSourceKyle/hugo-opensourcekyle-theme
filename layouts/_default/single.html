@@ -1,13 +1,59 @@
 {{ define "main" }}
 <div class="content-container">
-    <article class="page-content">
-        {{ if .Params.image }}
-        <div class="featured-image">
-            <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" />
+    {{ if eq .Title "Sitemap" }}
+        <div class="card-content">
+            <h1>{{ .Title }}</h1>
+
+            {{ .Content }}
+
+            <h2>Main Sections</h2>
+            <ul>
+                <li><a href="/about/">About</a></li>
+                <li><a href="/blog/">Blog</a></li>
+                <li><a href="/pages/">Pages</a></li>
+                <li><a href="/coaching/">Coaching</a></li>
+            </ul>
+
+            <h2>Legal & Info</h2>
+            <ul>
+                <li><a href="/privacy/">Privacy Policy</a></li>
+                <li><a href="/terms/">Terms of Service</a></li>
+                <li><a href="/sitemap/">Sitemap</a> (<a href="/sitemap.xml">XML</a>)</li>
+            </ul>
+
+            <h2>Blog Posts</h2>
+            <ul>
+            {{ $blogPosts := where site.RegularPages "Section" "blog" }}
+            {{ range $blogPosts }}
+                <li>{{ .Date.Format "2006-01-02" }} - <a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+            {{ end }}
+            </ul>
+
+            <h2>Pages</h2>
+            <ul>
+            {{ $pages := where site.RegularPages "Section" "pages" }}
+            {{ range $pages }}
+                <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+            {{ end }}
+            </ul>
+
+            <h2>Tags</h2>
+            <ul>
+            {{ $tags := site.Taxonomies.tags.ByCount }}
+            {{ range $tags }}
+                <li><a href="/tags/{{ .Name | urlize }}">#{{ .Name }}</a> ({{ .Count }} posts)</li>
+            {{ end }}
+            </ul>
         </div>
-        {{ end }}
-    </header>
-    
-    {{ .Content }}
-</article>
+    {{ else }}
+        <article class="page-content">
+            {{ if .Params.image }}
+            <div class="featured-image">
+                <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" />
+            </div>
+            {{ end }}
+            {{ .Content }}
+        </article>
+    {{ end }}
+</div>
 {{ end }} 

@@ -16,6 +16,46 @@ body {
     background-color: {{ .Site.Params.colors.background }};
 }
 
+/* Custom Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 50px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(31, 31, 31, {{ $transparency }});
+}
+
+::-webkit-scrollbar-thumb {
+    background: {{ .Site.Params.colors.sectionBackground }};
+    border-radius: 7px;
+    border: 4px solid rgba(31, 31, 31, {{ $transparency }});
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: {{ .Site.Params.colors.sectionBackground }};
+}
+
+/* Firefox */
+* {
+    scrollbar-width: auto;
+    scrollbar-color: {{ .Site.Params.colors.sectionBackground }} rgba(31, 31, 31, {{ $transparency }});
+}
+
+/* For when scrollbar-width: auto isn't enough */
+html {
+    scrollbar-width: 50px;
+}
+
+/* For IE/Edge */
+body {
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+/* Force the scrollbar to always show */
+html {
+    overflow-y: scroll;
+}
+
 body::before {
     content: "";
     position: fixed;
@@ -351,6 +391,20 @@ footer {
 
 .read-time {
     color: {{ .Site.Params.colors.paragraphText }};
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.read-time span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.read-time i {
+    font-size: 0.9em;
+    opacity: 0.8;
 }
 
 .blog-list {
@@ -1002,6 +1056,69 @@ footer {
     backdrop-filter: blur(5px);
 }
 
+/* Mobile TOC Styles */
+@media (max-width: 768px) {
+    .toc-container {
+        position: sticky;
+        top: 70px; /* Match header height */
+        z-index: 999;
+        margin: 0 0 1rem 0;
+        border-radius: 0;
+        background: rgba(31, 31, 31, 0.95);
+    }
+
+    /* Add padding to body to prevent content from hiding behind sticky TOC */
+    body {
+        scroll-padding-top: 140px; /* Header height (70px) + some extra space for TOC */
+    }
+
+    .toc-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+    }
+
+    .toc-content.active {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+    .toc-toggle {
+        width: 100%;
+        text-align: left;
+        padding: 0.5rem;
+    }
+
+    /* Add bullet points to mobile TOC */
+    .toc-content ul {
+        list-style: none;
+        padding-left: 1rem;
+    }
+
+    .toc-content ul li::before {
+        content: "•";
+        color: {{ .Site.Params.colors.link }};
+        font-weight: bold;
+        display: inline-block;
+        width: 1em;
+        margin-left: -1em;
+    }
+
+    /* Ensure TOC links have proper hover states on mobile */
+    .toc-content a {
+        color: {{ .Site.Params.colors.link }};
+        text-decoration: none;
+        transition: color 0.3s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .toc-content a:hover,
+    .toc-content a:active,
+    .toc-content a:focus {
+        color: {{ .Site.Params.colors.linkHover }};
+    }
+}
+
 @media (min-width: 1200px) {
     .toc-container {
         position: fixed;
@@ -1037,13 +1154,23 @@ footer {
     width: 100%;
     background: none;
     border: none;
-    color: {{ .Site.Params.colors.headerText }};
+    color: {{ .Site.Params.colors.link }};
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0;
     font-size: 1.1em;
+    transition: color 0.3s ease;
+}
+
+.toc-label {
+    border-bottom: 1px solid {{ .Site.Params.colors.link }};
+    padding-bottom: 2px;
+}
+
+.toc-toggle:hover {
+    color: {{ .Site.Params.colors.linkHover }};
 }
 
 .toc-content {
@@ -1053,23 +1180,70 @@ footer {
     max-height: 500px;
 }
 
-.toc-content.collapsed {
-    max-height: 0;
-    margin-top: 0;
-}
-
+/* TOC link styling */
 .toc-content ul {
     list-style: none;
     padding-left: 1rem;
 }
 
+/* Hierarchical bullet points for TOC */
+.toc-content > nav > ul > li::before {
+    content: "◆";  /* Diamond for level 1 */
+    color: {{ .Site.Params.colors.link }};
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+.toc-content > nav > ul > li > ul > li::before {
+    content: "•";  /* Circle for level 2 */
+    color: {{ .Site.Params.colors.link }};
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+.toc-content > nav > ul > li > ul > li > ul > li::before {
+    content: "◦";  /* Hollow circle for level 3 */
+    color: {{ .Site.Params.colors.link }};
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
 .toc-content a {
     color: {{ .Site.Params.colors.link }};
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 .toc-content a:hover {
     color: {{ .Site.Params.colors.linkHover }};
+}
+
+.back-to-top {
+    padding: 0.5rem 0 0 0;
+    margin-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.back-to-top a {
+    color: {{ .Site.Params.colors.link }};
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+}
+
+.back-to-top a:hover {
+    color: {{ .Site.Params.colors.linkHover }};
+}
+
+.toc-content.collapsed {
+    max-height: 0;
+    margin-top: 0;
 }
 
 .toggle-button {

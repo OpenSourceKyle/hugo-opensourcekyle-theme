@@ -25,11 +25,17 @@
     <div class="card-content">
         <h1>{{ .Title }}</h1>
         <div class="post-meta">
-            <span class="post-date">{{ .Date.Format "January 2, 2006" }}</span>
-            <span class="read-time">· {{ .ReadingTime }} min read</span>
+            <span>🗓️ {{ .Date.Format "January 2, 2006" }} · ⏱️ {{ div .WordCount (default 200 .Site.Params.wordsPerMinute) }} min read · 📝 {{ .WordCount }} words</span>
         </div>
         
         {{ partial "tags.html" . }}
+
+        {{ if .Params.image }}
+        <div class="featured-image">
+            <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" />
+            <i>{{ .Params.image_caption }}</i>
+        </div>
+        {{ end }}
         
         {{ if not .Params.hide_toc }}
         <div class="toc-container">
@@ -39,14 +45,10 @@
             </button>
             <div id="TableOfContents" class="toc-content">
                 {{ .TableOfContents }}
+                <div class="back-to-top">
+                    <a href="#" onclick="scrollToTop(event)">↑ BACK TO TOP</a>
+                </div>
             </div>
-        </div>
-        {{ end }}
-
-        {{ if .Params.image }}
-        <div class="featured-image">
-            <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" />
-            <i>{{ .Params.image_caption }}</i>
         </div>
         {{ end }}
 
@@ -57,12 +59,44 @@
 </div>
 
 <script>
+function isMobile() {
+    return window.innerWidth <= 768;
+}
+
+function scrollToTop(e) {
+    e.preventDefault();
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+    if (isMobile()) {
+        toggleTOC();
+    }
+}
+
 function toggleTOC() {
     const toc = document.querySelector('.toc-content');
     const icon = document.querySelector('.toc-icon');
     toc.classList.toggle('collapsed');
+    toc.classList.toggle('active');
     icon.textContent = toc.classList.contains('collapsed') ? '▶' : '▼';
 }
+
+// Initialize TOC state on load and resize
+function initTOC() {
+    const toc = document.querySelector('.toc-content');
+    const icon = document.querySelector('.toc-icon');
+    if (isMobile() && !toc.classList.contains('collapsed')) {
+        toc.classList.add('collapsed');
+        icon.textContent = '▶';
+    }
+}
+
+// Run on page load
+document.addEventListener('DOMContentLoaded', initTOC);
+
+// Run on window resize
+window.addEventListener('resize', initTOC);
 
 document.querySelectorAll('.toc-content a').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
@@ -70,13 +104,20 @@ document.querySelectorAll('.toc-content a').forEach(anchor => {
         const targetId = this.getAttribute('href').substring(1);
         const targetElement = document.getElementById(targetId);
         const headerOffset = document.querySelector('header').offsetHeight;
+        const tocOffset = isMobile() ? document.querySelector('.toc-container').offsetHeight : 0;
+        const totalOffset = headerOffset + tocOffset + 20; // Added 20px for spacing
         const elementPosition = targetElement.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        const offsetPosition = elementPosition + window.pageYOffset - totalOffset;
 
         window.scrollTo({
             top: offsetPosition,
             behavior: 'smooth'
         });
+        
+        // Auto-collapse TOC after clicking a link on mobile
+        if (isMobile()) {
+            toggleTOC();
+        }
     });
 });
 </script>
