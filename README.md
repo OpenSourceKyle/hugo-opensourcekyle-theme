@@ -72,8 +72,6 @@ To embed a Calendly widget, use:
 {{< calendly url="https://calendly.com/your-schedule" >}}
 ```
 
-[Calendly Shortcode Reference](100)
-
 ---
 
 ### **📂 Collapsible Sections**
@@ -85,8 +83,6 @@ Your hidden content here.
 {{< /collapsible >}}
 ```
 
-[Collapsible Shortcode Reference](101)
-
 ---
 
 ### **🖼️ Lightbox for Images**
@@ -96,8 +92,6 @@ To enable images to open in an overlay:
 {{< lightbox src="/images/example.jpg" alt="A beautiful image" >}}
 ```
 
-[Lightbox Shortcode Reference](102)
-
 ---
 
 ### **🔽 Scroll to Calendly Button**
@@ -106,8 +100,6 @@ To add a floating button that scrolls to your Calendly section:
 ```md
 {{< scroll-to-calendly >}}
 ```
-
-[Scroll-to-Calendly Shortcode Reference](103)
 
 ---
 
