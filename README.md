@@ -111,6 +111,29 @@ To add a floating button that scrolls to your Calendly section:
 
 ---
 
+## 📄 Creating New Blog Posts or Pages
+
+To create a new blog post or page, you can use the following commands:
+
+### **Creating a New Blog Post**
+
+```sh
+hugo new blog/YYYY-MM-DD-title.md
+```
+
+### **Creating a New Page**
+
+```sh
+hugo new pages/title.md
+```
+
+### **Important Note**
+
+- The filenames must follow the format `YYYY-MM-DD-title.md` for blog posts.
+- The front matter for each post or page will be verified during the build process. Ensure that the required fields (title, date, tags, image, and image_caption) are included in the front matter to avoid build errors.
+
+---
+
 ## 📌 Alternative: Manually Cloning the Theme (If Not Using Submodules)
 
 If you prefer not to use submodules, you can manually clone the theme into the `themes/` folder:
@@ -138,7 +161,7 @@ theme = "hugo-opensourcekyle-theme"
 **2️⃣ Submodule not updating?**
 
 - Run `git submodule update --remote --merge`.
-- If that doesn’t work, try `git submodule sync` and then update again.
+- If that doesn't work, try `git submodule sync` and then update again.
 
 **3️⃣ Want to remove the submodule?**
 If you decide to remove the submodule and just copy the theme manually:

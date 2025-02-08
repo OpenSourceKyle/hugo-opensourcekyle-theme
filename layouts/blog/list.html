@@ -1,6 +1,10 @@
 {{ define "main" }}
 <div class="content-container">
     <h1 style="color: {{ .Site.Params.colors.text }}">Blog Posts</h1>
+
+    <div class="disclaimer-box">
+        <strong>Disclaimer:</strong> The content of this blog reflects my personal thoughts, words, and grammar. It is not meant to be perfect, and this section is primarily for my own reflection and expression.
+    </div>
     
     <div class="blog-list">
         {{ $posts := where .Site.RegularPages "Section" "blog" }}

@@ -1,6 +1,12 @@
 {{ define "main" }}
 <div class="content-container">
     <article class="page-content">
+        {{ $filename := .File }}
+        {{ $pattern := `^\d{4}-\d{2}-\d{2}-.+` }}
+
+        {{ if not (findRE $pattern $filename.BaseFileName) }}
+        {{ errorf "ERROR: Blog post filename must follow 'YYYY-MM-DD-title.md' format: %q" $filename.Path }}
+        {{ else }}
         <h1 style="color: {{ .Site.Params.colors.text }}">{{ .Title }}</h1>
         <div class="post-meta">
             <span class="post-date">{{ .Date.Format "January 2, 2006" }}</span>
@@ -16,6 +22,7 @@
         <div class="page-text" style="color: {{ .Site.Params.colors.paragraphText }}">
             {{ .Content }}
         </div>
+        {{ end }}
     </article>
 </div>
 {{ end }} 

@@ -21,12 +21,10 @@
     </script>
     
     <!-- Add floating social media buttons -->
-    {{ with .Site.Params.linktreeUrl }}
-    <div class="social-float-container">
-        <a href="{{ . }}" target="_blank" class="social-float">
-            <i class="fa-solid fa-tree"></i>
-        </a>
-    </div>
+    {{ if .Site.Params.linktreeLogo }}
+    <a href="{{ .Site.Params.linktreeUrl }}" class="floating-button">
+        <img src="{{ .Site.Params.linktreeLogo }}" alt="Linktree">
+    </a>
     {{ end }}
     
     <div class="page-wrapper">
@@ -34,7 +32,12 @@
             <nav>
                 <div class="navbar-container">
                     <div class="navbar-content">
-                        <a href="{{ "/" | relURL }}" class="navbar-title">{{ .Site.Title }}</a>
+                        <div class="logo-title-container">
+                            <a href="{{ "/" | relURL }}" class="logo-link">
+                                <img src="{{ .Site.Params.logo | relURL }}" alt="Logo" class="site-logo">
+                            </a>
+                            <a href="{{ "/" | relURL }}" class="navbar-title">{{ .Site.Title }}</a>
+                        </div>
                         <button class="hamburger-menu" aria-label="Toggle menu">
                             <span></span>
                             <span></span>
@@ -84,6 +87,20 @@
 
         // Optionally, update on resize if the header height might change
         window.addEventListener('resize', setHeaderHeight);
+
+        // Handle touch events for mobile
+        const logoLink = document.querySelector('.logo-link');
+        const navbarTitle = document.querySelector('.navbar-title');
+
+        logoLink.addEventListener('touchstart', function() {
+            navbarTitle.classList.add('hover');
+        });
+
+        logoLink.addEventListener('touchend', function() {
+            setTimeout(() => {
+                navbarTitle.classList.remove('hover');
+            }, 300);
+        });
     </script>
 </body>
 </html> 

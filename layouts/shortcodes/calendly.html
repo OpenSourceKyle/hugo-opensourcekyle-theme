@@ -1,7 +1,17 @@
-<div class="calendly-wrapper">
-  <div class="calendly-inline-widget" data-url="{{ .Get "url" }}"></div>
-  <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<div class="calendly-container">
+    <iframe src="{{ .Get "url" }}" class="calendly-embed" scrolling="no"></iframe>
 </div>
+
+<script>
+    window.addEventListener('message', function(e) {
+        if (e.origin === 'https://calendly.com') {
+            const iframe = document.querySelector('.calendly-embed');
+            if (iframe && e.data.event === 'calendly:loaded') {
+                iframe.style.height = e.data.payload.height + 'px';
+            }
+        }
+    });
+</script>
 
 <style>
 .calendly-wrapper {

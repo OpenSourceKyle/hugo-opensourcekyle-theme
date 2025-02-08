@@ -1,4 +1,6 @@
 {{ $params := .Site.Params }}
+{{ $transparency := default "0.9" .Site.Params.theme.transparency }}
+
 <style>
 html, body {
     height: 100%;
@@ -31,6 +33,18 @@ img {
     display: block;  /* Ensures there are no extra spaces below the image */
 }
 
+/* Add border to content images but exclude logos and icons */
+.section img:not(.site-logo):not(.floating-button img),
+.content-container img:not(.site-logo):not(.floating-button img),
+.page-content img:not(.site-logo):not(.floating-button img),
+.featured-image img:not(.site-logo):not(.floating-button img),
+.profile-pic {
+    border: 1px solid {{ .Site.Params.colors.link }};
+    border-radius: 8px;
+    padding: 4px;
+    background-color: rgba(31, 31, 31, {{ $transparency }});
+}
+
 p, ul, li {
     color: {{ .Site.Params.colors.paragraphText }};
 }
@@ -40,7 +54,7 @@ header {
     top: 0;
     left: 0;
     right: 0;
-    background-color: rgba(31, 31, 31, 0.8);
+    background-color: rgba(31, 31, 31, {{ $transparency }});
     color: {{ .Site.Params.colors.headerText }};
     padding: 15px 0;
     text-align: center;
@@ -56,8 +70,24 @@ header {
 
 .navbar-content {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+}
+
+.logo-title-container {
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.logo-title-container:hover {
+    transform: scale(1.05); /* Slight magnification */
+}
+
+.site-logo {
+    height: 40px;
+    margin-right: 5px; /* Small space between logo and title */
+    vertical-align: middle;
 }
 
 .navbar-title {
@@ -69,6 +99,14 @@ header {
 }
 
 .navbar-title:hover {
+    color: {{ .Site.Params.colors.linkHover }};
+}
+
+.navbar-title.hover {
+    color: {{ .Site.Params.colors.linkHover }};
+}
+
+.logo-title-container a:hover + .navbar-title {
     color: {{ .Site.Params.colors.linkHover }};
 }
 
@@ -129,14 +167,14 @@ footer {
     flex-shrink: 0;
     text-align: center;
     padding: 15px 0;
-    background-color: rgba(31, 31, 31, 0.8);
+    background-color: rgba(31, 31, 31, {{ $transparency }});
     color: {{ .Site.Params.colors.headerText }};
     width: 100%;
     font-size: 0.9em;
 }
 
 .section, .content-container, .section-list, .coaching-section, .about-section {
-    background-color: rgba(31, 31, 31, 0.9);
+    background-color: rgba(31, 31, 31, {{ $transparency }});
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     padding: 2rem;
@@ -391,7 +429,6 @@ footer {
     width: 100%;
     height: auto;
     max-width: 300px; /* Adjust max-width as needed */
-    border-radius: 8px; /* Optional: for rounded corners */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Optional: for shadow effect */
     float: left; /* Makes the text flow around the image */
     margin-right: 20px; /* Adds space between the image and text */
@@ -696,24 +733,6 @@ footer {
     }
 }
 
-.section-list {
-    background-color: rgba(31, 31, 31, 0.9);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    padding: 2rem;
-    margin: 0 auto;
-    max-width: 800px;
-}
-
-.coaching-section, .about-section {
-    background-color: rgba(31, 31, 31, 0.9);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    padding: 2rem;
-    margin: 0 auto;
-    max-width: 800px;
-}
-
 .card-link {
     text-decoration: none;
     color: inherit;
@@ -723,7 +742,7 @@ footer {
 .card {
     display: flex;
     flex-direction: column;
-    background-color: rgba(31, 31, 31, 0.9);
+    background-color: rgba(31, 31, 31, {{ $transparency }});
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     overflow: hidden;
@@ -838,7 +857,6 @@ footer {
 .profile-pic-preview {
     width: 100%;
     height: auto;
-    border-radius: 50%;  /* if you want to keep the circular image */
 }
 
 .about-text {
@@ -887,7 +905,7 @@ footer {
 }
 
 .page-card {
-    background-color: rgba(31, 31, 31, 0.9);
+    background-color: rgba(31, 31, 31, {{ $transparency }});
     border-radius: 8px;
     overflow: hidden;
     transition: transform 0.2s ease-in-out;
@@ -973,5 +991,167 @@ footer {
     height: auto;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.toc-container {
+    background: rgba(31, 31, 31, {{ $transparency }});
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0 2rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+@media (min-width: 1200px) {
+    .toc-container {
+        position: fixed;
+        right: 2rem;
+        top: 100px;
+        width: 280px;
+        max-height: calc(100vh - 150px);
+        overflow-y: auto;
+        margin: 0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .content-container {
+        max-width: 1000px;
+        margin-right: 320px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0 2rem;
+    }
+
+    .card-content {
+        max-width: 900px;
+    }
+}
+
+@media (min-width: 1600px) {
+    .content-container {
+        max-width: 1200px;
+    }
+}
+
+.toc-toggle {
+    width: 100%;
+    background: none;
+    border: none;
+    color: {{ .Site.Params.colors.headerText }};
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    font-size: 1.1em;
+}
+
+.toc-content {
+    margin-top: 1rem;
+    transition: max-height 0.3s ease-out;
+    overflow: hidden;
+    max-height: 500px;
+}
+
+.toc-content.collapsed {
+    max-height: 0;
+    margin-top: 0;
+}
+
+.toc-content ul {
+    list-style: none;
+    padding-left: 1rem;
+}
+
+.toc-content a {
+    color: {{ .Site.Params.colors.link }};
+    text-decoration: none;
+}
+
+.toc-content a:hover {
+    color: {{ .Site.Params.colors.linkHover }};
+}
+
+.toggle-button {
+    background-color: {{ .Site.Params.colors.link }};
+    color: {{ .Site.Params.colors.headerText }};
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-button:hover {
+    background-color: {{ .Site.Params.colors.linkHover }};
+}
+
+.error-message {
+    background-color: rgba(255, 0, 0, 0.1);
+    border: 1px solid red;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.disclaimer-box {
+    background-color: rgba(255, 0, 0, 0.1); /* Light red background */
+    border: 1px solid red; /* Red border */
+    color: red; /* Red text */
+    padding: 15px; /* Padding for spacing */
+    border-radius: 5px; /* Rounded corners */
+    margin-bottom: 20px; /* Space below the box */
+    font-weight: bold; /* Bold text */
+}
+
+/* Apply hover effect to links and images */
+a, img {
+    transition: transform 0.3s ease;
+}
+
+a:hover, img:hover {
+    transform: scale(1.03); /* Slight magnification */
+}
+
+.calendly-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+}
+
+.calendly-embed {
+    width: 100%;
+    border: none;
+    min-height: 1200px; /* Adjust based on expected content */
+}
+
+.floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: {{ .Site.Params.colors.link }};
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.floating-button img {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+}
+
+.floating-button:hover {
+    transform: scale(1.1);
 }
 </style> 

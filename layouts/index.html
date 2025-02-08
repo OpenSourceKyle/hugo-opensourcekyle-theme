@@ -9,7 +9,7 @@
         </div>
         <div class="about-text">
             <div style="color: {{ .Site.Params.colors.paragraphText }}">
-                {{ .Summary }}<a href="{{ .Permalink }}">Read more</a>
+                {{ .Content }}
             </div>
         </div>
     </div>
@@ -18,15 +18,25 @@
 
 <div class="section pages">
     <h2>Pages</h2>
-    <ul>
-        {{ range .Site.RegularPages }}
-        {{ if eq .Section "pages" }}
-        <li>
-            <a href="{{ .Permalink }}">{{ .Title }}</a>
-        </li>
+    <div class="category-grid">
+        {{ $pages := where .Site.RegularPages "Section" "pages" }}
+        {{ $nonDraftPages := where $pages "Draft" false }}
+        {{ range first (default 6 .Site.Params.pagesToShow) $nonDraftPages }}
+        <a href="{{ .RelPermalink }}" class="card-link">
+            <div class="page-card">
+                {{ if .Params.image }}
+                <div class="card-image">
+                    <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}">
+                </div>
+                {{ end }}
+                <div class="card-content">
+                    <h3>{{ .Title }}</h3>
+                </div>
+            </div>
+        </a>
         {{ end }}
-        {{ end }}
-    </ul>
+    </div>
+    <a href="{{ "/pages/" | relURL }}" class="view-all-link">View all pages sorted by categories</a>
 </div>
 
 <div class="section blog">
@@ -38,11 +48,31 @@
         </li>
         {{ end }}
     </ul>
-    <a href="{{ "/blog/" | relURL }}">View all posts</a>
+    <a href="{{ "/blog/" | relURL }}">View all posts sorted by date</a>
 </div>
 
 <div class="section coaching">
     <h2>Coaching Services</h2>
-    <p>{{ with .Site.GetPage "coaching" }}{{ .Summary }}<a href="{{ .Permalink }}">Learn more</a>{{ end }}</p>
+    {{ with .Site.GetPage "coaching" }}
+    <div class="coaching-content">
+        <p>{{ .Summary }}</p>
+        <a href="javascript:void(0);" class="read-more-link" onclick="toggleCoaching()">Read More</a>
+        <div id="coachingFullContent" class="coaching-full-content" style="display: none;">
+            <p>{{ .Content | safeHTML }}</p>
+        </div>
+    </div>
+    {{ end }}
 </div>
+
+<script>
+function toggleCoaching() {
+    const content = document.getElementById('coachingFullContent');
+    const link = document.querySelector('.read-more-link');
+    if (content.style.display === 'none') {
+        content.style.display = 'block';
+        link.style.display = 'none';
+    }
+}
+</script>
+
 {{ end }} 

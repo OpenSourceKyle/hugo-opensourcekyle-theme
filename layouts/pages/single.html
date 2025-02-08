@@ -1,4 +1,26 @@
 {{ define "main" }}
+{{ $filename := .File }}
+
+{{ if not .Params.title }}
+{{ errorf "ERROR: Missing title in front matter for file: %q" $filename.Path }}
+{{ end }}
+
+{{ if not .Params.date }}
+{{ errorf "ERROR: Missing date in front matter for file: %q" $filename.Path }}
+{{ end }}
+
+{{ if not .Params.tags }}
+{{ errorf "ERROR: Missing tags in front matter for file: %q" $filename.Path }}
+{{ end }}
+
+{{ if not .Params.image }}
+{{ errorf "ERROR: Missing image in front matter for file: %q" $filename.Path }}
+{{ end }}
+
+{{ if not .Params.image_caption }}
+{{ errorf "ERROR: Missing image_caption in front matter for file: %q" $filename.Path }}
+{{ end }}
+
 <div class="content-container">
     <div class="card-content">
         <h1>{{ .Title }}</h1>
@@ -6,14 +28,56 @@
             <span class="post-date">{{ .Date.Format "January 2, 2006" }}</span>
             <span class="read-time">· {{ .ReadingTime }} min read</span>
         </div>
+        
         {{ partial "tags.html" . }}
+        
+        {{ if not .Params.hide_toc }}
+        <div class="toc-container">
+            <button class="toc-toggle" onclick="toggleTOC()">
+                <span class="toc-label">Table of Contents</span>
+                <span class="toc-icon">▼</span>
+            </button>
+            <div id="TableOfContents" class="toc-content">
+                {{ .TableOfContents }}
+            </div>
+        </div>
+        {{ end }}
+
         {{ if .Params.image }}
         <div class="featured-image">
             <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" />
             <i>{{ .Params.image_caption }}</i>
         </div>
         {{ end }}
-        <div>{{ .Content }}</div>
+
+        <div class="page-text" style="color: {{ .Site.Params.colors.paragraphText }}">
+            {{ .Content }}
+        </div>
     </div>
 </div>
+
+<script>
+function toggleTOC() {
+    const toc = document.querySelector('.toc-content');
+    const icon = document.querySelector('.toc-icon');
+    toc.classList.toggle('collapsed');
+    icon.textContent = toc.classList.contains('collapsed') ? '▶' : '▼';
+}
+
+document.querySelectorAll('.toc-content a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        const headerOffset = document.querySelector('header').offsetHeight;
+        const elementPosition = targetElement.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+        });
+    });
+});
+</script>
 {{ end }} 

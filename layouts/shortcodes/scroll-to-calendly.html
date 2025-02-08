@@ -9,7 +9,7 @@
   right: 20px;
   padding: 10px 20px;
   background-color: {{ .Site.Params.colors.link }};
-  color: {{ .Site.Params.colors.headerText }};
+  color: {{ .Site.Params.colors.background }};
   border: none;
   border-radius: 25px;
   cursor: pointer;
@@ -27,7 +27,9 @@
 
 <script>
 document.getElementById('scrollToCalendly').addEventListener('click', function() {
-  const calendly = document.querySelector('.calendly-inline-widget');
-  calendly.scrollIntoView({ behavior: 'smooth' });
+  const calendly = document.querySelector('.calendly-container');
+  if (calendly) {
+    calendly.scrollIntoView({ behavior: 'smooth' });
+  }
 });
 </script> 
