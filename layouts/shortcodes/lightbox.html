@@ -1,3 +1,14 @@
-<a href="javascript:void(0)" class="lightbox" data-src="{{ .Get "src" }}">
-  <img src="{{ .Get "src" }}" alt="{{ .Get "alt" }}" style="max-width: 100%; cursor: pointer;">
-</a> 
+<figure class="lightbox-figure">
+  <a href="javascript:void(0)" class="lightbox" data-src="{{ .Get "src" }}" data-caption="{{ .Get "caption" }}" {{ with .Get "link" }}data-link="{{ . }}"{{ end }}>
+    <img src="{{ .Get "src" }}" alt="{{ .Get "alt" }}" style="max-width: 100%; cursor: pointer;">
+  </a>
+  {{ with .Get "caption" }}
+  <figcaption class="lightbox-caption">
+    {{ if $.Get "link" }}
+    <a href="{{ $.Get "link" }}" target="_blank">{{ . }}</a>
+    {{ else }}
+    {{ . }}
+    {{ end }}
+  </figcaption>
+  {{ end }}
+</figure> 

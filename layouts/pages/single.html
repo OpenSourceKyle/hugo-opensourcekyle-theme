@@ -30,10 +30,22 @@
         
         {{ partial "tags.html" . }}
 
+        {{ if in .Params.tags "nsfw" }}
+        <div class="disclaimer-box">
+            ⚠️ WARNING: This page contains NSFW (Not Safe For Work) content.
+        </div>
+        {{ end }}
+
         {{ if .Params.image }}
         <div class="featured-image">
             <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" />
-            <i>{{ .Params.image_caption }}</i>
+            <i>
+                {{ if .Params.image_link }}
+                <a href="{{ .Params.image_link }}" target="_blank" class="image-credit">{{ .Params.image_caption }}</a>
+                {{ else }}
+                {{ .Params.image_caption }}
+                {{ end }}
+            </i>
         </div>
         {{ end }}
         

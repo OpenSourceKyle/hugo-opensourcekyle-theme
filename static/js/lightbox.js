@@ -9,12 +9,16 @@ document.addEventListener("DOMContentLoaded", function () {
       overlay.classList.add("lightbox-overlay");
       overlay.innerHTML = `
         <span class="close">&times;</span>
-        <img src="" alt="Lightbox Image">
+        <div class="lightbox-content">
+          <img src="" alt="Lightbox Image">
+          <div class="lightbox-caption"></div>
+        </div>
       `;
       document.body.appendChild(overlay);
     }
     
     const overlayImage = overlay.querySelector("img");
+    const overlayCaption = overlay.querySelector(".lightbox-caption");
     const closeButton = overlay.querySelector(".close");
 
     // Prevent scrolling when lightbox is open
@@ -23,11 +27,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Handle image loading
-    function showImage(src) {
+    function showImage(src, caption, link) {
       if (!src) return;
       
       overlay.classList.add('loading');
       overlayImage.src = src;
+      if (link) {
+        overlayCaption.innerHTML = `<a href="${link}" target="_blank">${caption || ''}</a>`;
+      } else {
+        overlayCaption.textContent = caption || '';
+      }
+      overlayCaption.style.display = caption ? 'block' : 'none';
       overlay.classList.add('visible');
       toggleScrollLock(true);
 
@@ -52,8 +62,15 @@ document.addEventListener("DOMContentLoaded", function () {
       link.addEventListener("click", function (event) {
         event.preventDefault();
         const imageSrc = this.getAttribute('data-src');
-        showImage(imageSrc);
+        const imageCaption = this.getAttribute('data-caption');
+        const imageLink = this.getAttribute('data-link');
+        showImage(imageSrc, imageCaption, imageLink);
       });
+    });
+
+    // Remove the click handler for the image that was toggling the caption
+    overlayImage.addEventListener("click", (event) => {
+      event.stopPropagation(); // Just prevent overlay from closing
     });
 
     closeButton.addEventListener("click", () => {
