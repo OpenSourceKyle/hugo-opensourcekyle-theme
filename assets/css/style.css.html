@@ -1490,4 +1490,49 @@ a:hover, img:hover {
         padding: 15px;
     }
 }
+
+/* Link Preview Styles */
+.link-preview {
+    position: absolute;
+    background: {{ .Site.Params.colors.sectionBackground }};
+    border: 1px solid {{ .Site.Params.colors.link }};
+    border-radius: 4px;
+    padding: 10px;
+    width: 250px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    z-index: 9999;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+}
+
+.link-preview.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.link-preview-content {
+    font-size: 0.9em;
+}
+
+.link-preview-title {
+    color: {{ .Site.Params.colors.headerText }};
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.link-preview-url {
+    color: {{ .Site.Params.colors.paragraphText }};
+    font-size: 0.8em;
+    word-break: break-all;
+}
+
+/* Hide preview on mobile */
+@media (max-width: 768px) {
+    .link-preview {
+        display: none;
+    }
+}
 </style> 
