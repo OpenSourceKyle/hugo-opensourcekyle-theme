@@ -9,8 +9,7 @@
         {{ else }}
         <h1 style="color: {{ .Site.Params.colors.text }}">{{ .Title }}</h1>
         <div class="post-meta">
-            <span class="post-date">{{ .Date.Format "January 2, 2006" }}</span>
-            <span class="read-time">· {{ .ReadingTime }} min read</span>
+            <span>🗓️ {{ .Date.Format "January 2, 2006" }} · ⏱️ {{ div .WordCount (default 200 .Site.Params.wordsPerMinute) }} min read · 📝 {{ .WordCount }} words</span>
         </div>
         {{ if .Params.tags }}
         <div class="tags">
