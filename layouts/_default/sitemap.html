@@ -18,6 +18,16 @@
             <li><a href="/sitemap/">Sitemap</a> (<a href="/sitemap.xml">XML</a>)</li>
         </ul>
 
+        <!-- First: Tags Section -->
+        <h2>Tags</h2>
+        <ul>
+        {{ $tags := site.Taxonomies.tags.ByCount }}
+        {{ range $tags }}
+            <li><a href="/tags/{{ .Name | urlize }}">#{{ .Name }}</a> ({{ .Count }} posts)</li>
+        {{ end }}
+        </ul>
+
+        <!-- Second: Pages Section -->
         <h2>Pages</h2>
         <ul>
         {{ $pages := where site.RegularPages "Section" "pages" }}
@@ -26,21 +36,15 @@
         {{ end }}
         </ul>
 
-        <h2>Tags</h2>
+        <!-- Third: Blog Section -->
+        {{ with .Site.GetPage "section" "blog" }}
+        <h2>Blog</h2>
         <ul>
-        {{ $tags := site.Taxonomies.tags.ByCount }}
-        {{ range $tags }}
-            <li><a href="/tags/{{ .Name | urlize }}">#{{ .Name }}</a> ({{ .Count }} posts)</li>
-        {{ end }}
-        </ul>
-        
-        <h2>Blog Posts</h2>
-        <ul>
-        {{ $blogPosts := where site.RegularPages "Section" "blog" }}
-        {{ range $blogPosts }}
+        {{ range .RegularPages }}
             <li>{{ .Date.Format "2006-01-02" }} - <a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
         {{ end }}
         </ul>
+        {{ end }}
 
     </div>
 </div>

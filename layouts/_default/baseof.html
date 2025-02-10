@@ -7,8 +7,7 @@
         {{- if .IsHome -}}
             {{ .Site.Title }}
         {{- else -}}
-            {{ .Title }}
-            {{- if ne .Section "" }}{{ if not (in .Title (.Section | humanize)) }} > {{ humanize .Section }} {{ end }}{{ end }} > {{ .Site.Title }}
+            {{ .Title }} > {{ .Site.Title }}
         {{- end -}}
     </title>
     <!-- Open Graph / Facebook -->
@@ -50,26 +49,22 @@
     
     <div class="page-wrapper">
         <header>
-            <nav>
-                <div class="navbar-container">
-                    <div class="navbar-content">
-                        <div class="logo-title-container">
-                            <a href="{{ "/" | relURL }}" class="logo-link">
-                                <img src="{{ .Site.Params.logo | relURL }}" alt="Logo" class="site-logo">
-                            </a>
-                            <a href="{{ "/" | relURL }}" class="navbar-title">{{ .Site.Title }}</a>
-                        </div>
-                        <button class="hamburger-menu" aria-label="Toggle menu">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </button>
-                        <div class="navbar-links">
-                            {{ range .Site.Params.headerLinks }}
-                            <a href="{{ .url | relURL }}">{{ .text }}</a>
-                            {{ end }}
-                        </div>
-                    </div>
+            <nav class="navbar-container">
+                <div class="logo-title-container">
+                    <a href="{{ "/" | relURL }}" class="logo-link">
+                        <img src="{{ .Site.Params.logo | relURL }}" alt="Logo" class="site-logo">
+                    </a>
+                    <a href="{{ "/" | relURL }}" class="navbar-title">{{ .Site.Title }}</a>
+                </div>
+                <button class="hamburger-menu" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="navbar-links">
+                    {{ range .Site.Params.headerLinks }}
+                    <a href="{{ .url | relURL }}">{{ .text }}</a>
+                    {{ end }}
                 </div>
             </nav>
         </header>

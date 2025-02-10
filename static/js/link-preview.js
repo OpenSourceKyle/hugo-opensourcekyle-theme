@@ -27,8 +27,8 @@ document.addEventListener("DOMContentLoaded", function() {
     let hideTimeout;
 
     contentLinks.forEach(link => {
-        // Skip mailto and tel links
-        if (link.href.startsWith('mailto:') || link.href.startsWith('tel:')) {
+        // Skip if we shouldn't show preview for this link
+        if (!shouldShowPreview(link)) {
             return;
         }
 
@@ -95,4 +95,24 @@ document.addEventListener("DOMContentLoaded", function() {
             preview.classList.remove('visible');
         });
     });
-}); 
+});
+
+function shouldShowPreview(link) {
+    // Skip mailto and tel links
+    if (link.href && (link.href.startsWith('mailto:') || link.href.startsWith('tel:'))) {
+        return false;
+    }
+
+    // Don't show previews for lightbox images
+    if (link.closest('.lightbox')) {
+        return false;
+    }
+
+    const href = link.getAttribute('href');
+    // Don't show previews for javascript:void(0) or empty links
+    if (!href || href === '#' || href === 'javascript:void(0)' || href.startsWith('javascript:')) {
+        return false;
+    }
+
+    return true;
+} 
