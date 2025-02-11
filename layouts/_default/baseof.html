@@ -48,42 +48,12 @@
     {{ end }}
     
     <div class="page-wrapper">
-        <header>
-            <nav class="navbar-container">
-                <div class="logo-title-container">
-                    <a href="{{ "/" | relURL }}" class="logo-link">
-                        <img src="{{ .Site.Params.logo | relURL }}" alt="Logo" class="site-logo">
-                    </a>
-                    <a href="{{ "/" | relURL }}" class="navbar-title">{{ .Site.Title }}</a>
-                </div>
-                <button class="hamburger-menu" aria-label="Toggle menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                <div class="navbar-links">
-                    {{ range .Site.Params.headerLinks }}
-                    <a href="{{ .url | relURL }}">{{ .text }}</a>
-                    {{ end }}
-                </div>
-            </nav>
-        </header>
+        {{ partial "header.html" . }}
         <main>
             {{ block "main" . }}{{ end }}
         </main>
+        {{ partial "footer.html" . }}
     </div>
-    <footer>
-        <div class="footer-content">
-            <div class="footer-links">
-                {{ range .Site.Params.footerLinks }}
-                <a href="{{ .url }}">
-                    {{ .text }}
-                </a>
-                {{ end }}
-                <a href="{{ .Site.Params.footerLink }}" target="_blank">©{{ now.Format "2006" }} {{ .Site.Params.footerText }}</a>
-            </div>
-        </div>
-    </footer>
     <script>
         document.querySelector('.hamburger-menu').addEventListener('click', function() {
             this.classList.toggle('active');

@@ -121,7 +121,7 @@ p, ul, li {
     top: 0;
     left: 0;
     right: 0;
-    height: {{ $navbarHeight }}; /* Use variable instead of hard-coded value */
+    height: {{ $navbarHeight }};
     background-color: rgba(31, 31, 31, {{ $transparency }});
     color: {{ .Site.Params.colors.headerText }};
     padding: 0 2rem;
@@ -228,9 +228,40 @@ footer {
     text-align: center;
     padding: 15px 0;
     background-color: rgba(31, 31, 31, {{ $transparency }});
-    color: {{ .Site.Params.colors.headerText }};
+    color: {{ .Site.Params.headerTextColor | default "var(--header-text)" }};
     width: 100%;
     font-size: 0.9em;
+}
+
+.footer-content {
+    max-width: {{ $wideContentWidth }};
+    margin: 0 auto;
+    padding: 0 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.footer-link {
+    color: {{ .Site.Params.colors.link }};
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+    color: {{ .Site.Params.colors.linkHover }};
+}
+
+.footer-nav {
+    padding: 1rem 0;
+}
+
+.footer-nav .nav-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1rem;
 }
 
 .section, .content-container, .section-list, .coaching-section, .about-section {
@@ -1687,6 +1718,17 @@ article,
 /* Add margin to the last section on homepage */
 .section:last-of-type {
     margin-bottom: 2rem; /* Add gap before footer */
+}
+
+.footer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: {{ $wideContentWidth }};
+    margin: 0 auto;
+    padding: 0 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 </style> 
