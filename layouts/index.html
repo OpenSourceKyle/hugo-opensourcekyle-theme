@@ -1,13 +1,20 @@
 {{ define "main" }}
 
-<div class="section coaching">
-    <h2>Coaching Services</h2>
-    {{ with .Site.GetPage "coaching" }}
-    <div class="coaching-content">
-        <p>{{ .Summary }}</p>
-        <a href="javascript:void(0);" class="read-more-link" onclick="toggleCoaching()">Read More</a>
-        <div id="coachingFullContent" class="coaching-full-content" style="display: none;">
-            <p>{{ .Content | safeHTML }}</p>
+<div class="section about">
+    <h2>About Me</h2>
+    {{ with .Site.GetPage "about" }}
+    <div class="about-preview">
+        <div class="profile-image-container">
+            <img src="{{ .Site.Params.profileImage | relURL }}" alt="Profile picture" class="profile-pic-preview">
+        </div>
+        <div class="about-text">
+            <div style="color: {{ .Site.Params.colors.paragraphText }}">
+                <p>{{ .Summary }}</p>
+                <a href="javascript:void(0);" class="read-more-link" onclick="toggleAbout()">Read More</a>
+                <div id="aboutFullContent" class="about-full-content" style="display: none;">
+                    <p>{{ .Content | safeHTML }}</p>
+                </div>
+            </div>
         </div>
     </div>
     {{ end }}
@@ -48,17 +55,14 @@
     <a href="{{ "/blog/" | relURL }}">View all posts sorted by date</a>
 </div>
 
-<div class="section about">
-    <h2>About Me</h2>
-    {{ with .Site.GetPage "about" }}
-    <div class="about-preview">
-        <div class="profile-image-container">
-            <img src="{{ .Site.Params.profileImage | relURL }}" alt="Profile picture" class="profile-pic-preview">
-        </div>
-        <div class="about-text">
-            <div style="color: {{ .Site.Params.colors.paragraphText }}">
-                {{ .Content }}
-            </div>
+<div class="section coaching">
+    <h2>Coaching Services</h2>
+    {{ with .Site.GetPage "coaching" }}
+    <div class="coaching-content">
+        <p>{{ .Summary }}</p>
+        <a href="javascript:void(0);" class="read-more-link" onclick="toggleCoaching()">Read More</a>
+        <div id="coachingFullContent" class="coaching-full-content" style="display: none;">
+            <p>{{ .Content | safeHTML }}</p>
         </div>
     </div>
     {{ end }}
@@ -67,7 +71,16 @@
 <script>
 function toggleCoaching() {
     const content = document.getElementById('coachingFullContent');
-    const link = document.querySelector('.read-more-link');
+    const link = document.querySelector('.coaching-content .read-more-link');
+    if (content.style.display === 'none') {
+        content.style.display = 'block';
+        link.style.display = 'none';
+    }
+}
+
+function toggleAbout() {
+    const content = document.getElementById('aboutFullContent');
+    const link = document.querySelector('.about-text .read-more-link');
     if (content.style.display === 'none') {
         content.style.display = 'block';
         link.style.display = 'none';
