@@ -8,9 +8,7 @@
         {{ errorf "ERROR: Blog post filename must follow 'YYYY-MM-DD-title.md' format: %q" $filename.Path }}
         {{ else }}
         <h1 style="color: {{ .Site.Params.colors.text }}">{{ .Title }}</h1>
-        <div class="post-meta">
-            <span>🗓️ {{ .Date.Format "January 2, 2006" }} · ⏱️ {{ div .WordCount (default 200 .Site.Params.wordsPerMinute) }} min read · 📝 {{ .WordCount }} words</span>
-        </div>
+        {{ partial "author-bubble.html" . }}
         {{ if .Params.tags }}
         <div class="tags">
             {{ range .Params.tags }}

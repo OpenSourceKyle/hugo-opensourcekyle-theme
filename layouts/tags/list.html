@@ -3,10 +3,19 @@
     <h1>{{ len .Pages }} Posts tagged "{{ .Title }}"</h1>
     {{ range .Pages }}
     <article class="post-summary">
-        <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-        <div class="post-date">{{ .Date.Format "January 2, 2006" }}</div>
-        {{ partial "tags.html" . }}
-        <p>{{ .Summary | plainify }}</p>
+        <div class="post-summary-content">
+            {{ if .Params.image }}
+            <div class="post-thumbnail">
+                <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}">
+            </div>
+            {{ end }}
+            <div class="post-details">
+                <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+                <div class="post-date">{{ .Date.Format .Site.Params.dateFormat }}</div>
+                {{ partial "tags.html" . }}
+                <p>{{ .Summary | plainify }}</p>
+            </div>
+        </div>
     </article>
     {{ end }}
 </div>

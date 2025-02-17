@@ -1,6 +1,6 @@
 <ul>
     {{ $blogPosts := where .Site.RegularPages "Section" "blog" }}
     {{ range $blogPosts }}
-    <li>{{ dateFormat "2006-01-02" .Date }} - <a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+    <li>{{ .Date.Format .Site.Params.dateFormat }} - <a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
     {{ end }}
 </ul> 

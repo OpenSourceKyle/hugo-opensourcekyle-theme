@@ -1,6 +1,62 @@
 {{ define "main" }}
 <div class="content-container">   
     <h1>Pages</h1>
+
+    <!-- Add tag filter section -->
+    <div class="tag-filter">
+        <h2>Filter by Tag</h2>
+        <div class="tags">
+            {{ $currentTag := .Params.tag }}
+            {{ $tagSlice := slice }}
+            
+            {{/* Create a slice of tag objects with name and count */}}
+            {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
+                {{ $tagCount := len $taxonomy }}
+                {{ $tagSlice = $tagSlice | append (dict "name" $name "count" $tagCount) }}
+            {{ end }}
+            
+            {{/* Sort the slice by count in descending order, then by name for ties */}}
+            {{ $sortedTags := sort (sort $tagSlice "name" "asc") "count" "desc" }}
+            
+            {{/* Split tags into frequently and less frequently used */}}
+            {{ $frequentTags := slice }}
+            {{ $rareTags := slice }}
+            {{ range $sortedTags }}
+                {{ if gt .count 1 }}
+                    {{ $frequentTags = $frequentTags | append . }}
+                {{ else }}
+                    {{ $rareTags = $rareTags | append . }}
+                {{ end }}
+            {{ end }}
+            
+            {{/* Display frequent tags */}}
+            {{ range $frequentTags }}
+                <a href="/tags/{{ .name | urlize }}" 
+                   class="tag {{ if eq $currentTag .name }}active{{ end }}"
+                   title="{{ .count }} pages">
+                    #{{ .name }} ({{ .count }})
+                </a>
+            {{ end }}
+            
+            {{/* Display rare tags in a collapsible section */}}
+            {{ if $rareTags }}
+                <div class="rare-tags-section">
+                    <button class="show-more-tags" onclick="toggleRareTags()">
+                        Show less used tags ({{ len $rareTags }})
+                    </button>
+                    <div class="rare-tags" style="display: none;">
+                        {{ range $rareTags }}
+                            <a href="/tags/{{ .name | urlize }}" 
+                               class="tag {{ if eq $currentTag .name }}active{{ end }}"
+                               title="{{ .count }} page">
+                                #{{ .name }} ({{ .count }})
+                            </a>
+                        {{ end }}
+                    </div>
+                </div>
+            {{ end }}
+        </div>
+    </div>
     
     <div class="pages-list">
         {{ $pages := where .Site.RegularPages "Section" "pages" }}
@@ -46,6 +102,13 @@
                             {{ end }}
                             <div class="card-content">
                                 <h3>{{ .Title }}</h3>
+                                {{ with .Params.tags }}
+                                <div class="card-tags">
+                                    {{ range . }}
+                                    <span class="tag">#{{ . }}</span>
+                                    {{ end }}
+                                </div>
+                                {{ end }}
                             </div>
                         </div>
                     </a>
@@ -54,4 +117,46 @@
         {{ end }}
     </div>
 </div>
+
+<script>
+    function toggleRareTags() {
+        const rareTags = document.querySelector('.rare-tags');
+        const button = document.querySelector('.show-more-tags');
+        if (rareTags.style.display === 'none') {
+            rareTags.style.display = 'inline-flex';
+            button.textContent = 'Hide less used tags';
+        } else {
+            rareTags.style.display = 'none';
+            button.textContent = 'Show less used tags ({{ len $rareTags }})';
+        }
+    }
+</script>
+
+<style>
+    .rare-tags-section {
+        display: inline-flex;
+        margin: 0.3rem;
+    }
+    .show-more-tags {
+        background-color: rgba(31, 31, 31, 0.8);
+        color: {{ .Site.Params.colors.headerText }};
+        padding: 0.3rem 0.8rem;
+        border-radius: 15px;
+        border: none;
+        cursor: pointer;
+        font-size: 0.9em;
+        text-decoration: none;
+        transition: transform 0.3s ease;
+    }
+    .show-more-tags:hover {
+        transform: scale(1.1);
+        color: {{ .Site.Params.colors.linkHover }};
+    }
+    .rare-tags {
+        margin-left: 0.5rem;
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+</style>
 {{ end }} 

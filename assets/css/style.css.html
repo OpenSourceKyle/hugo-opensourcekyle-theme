@@ -1,7 +1,6 @@
 {{ $params := .Site.Params }}
 {{ $transparency := default "0.9" .Site.Params.theme.transparency }}
-{{ $contentWidth := default "900px" .Site.Params.theme.contentWidth }}
-{{ $wideContentWidth := default "1200px" .Site.Params.theme.wideContentWidth }}
+{{ $contentWidth := default "1000px" .Site.Params.theme.contentWidth }}
 {{ $headerGap := default "0px" .Site.Params.theme.headerGap }}
 {{ $navbarHeight := "60px" }}
 {{ $mobileNavbarHeight := "60px" }}
@@ -239,7 +238,7 @@ footer {
 }
 
 .footer-content {
-    max-width: {{ $wideContentWidth }};
+    max-width: {{ $contentWidth }};
     margin: 0 auto;
     padding: 0 2rem;
     border-radius: 8px;
@@ -1171,6 +1170,7 @@ footer {
 .featured-image {
     margin: 2rem 0;
     max-width: 100%;
+    order: 1; /* Place first */
 }
 
 .featured-image img {
@@ -1199,240 +1199,109 @@ footer {
     color: {{ .Site.Params.colors.linkHover }};
 }
 
+/* TOC container */
 .toc-container {
-    position: sticky;
-    top: 90px; /* Increased to account for header */
-    max-height: calc(100vh - 120px); /* Adjusted calculation */
-    overflow-y: auto;
-    padding: 1rem;
-    padding-right: 10px;
-    scrollbar-width: thin;
-    scrollbar-color: {{ .Site.Params.colors.link }} transparent;
+    width: 100%;
+    margin: 0 0 2rem 0;
     background-color: rgba(31, 31, 31, {{ $transparency }});
     border-radius: 8px;
+    border: 1px solid {{ .Site.Params.colors.link }};
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    margin-bottom: 20px;
+    position: static;
+    order: 3;
 }
 
-/* Webkit scrollbar styling */
-.toc-container::-webkit-scrollbar {
-    width: 6px;
-}
-
-.toc-container::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.toc-container::-webkit-scrollbar-thumb {
-    background-color: {{ .Site.Params.colors.link }};
-    border-radius: 3px;
-}
-
-/* Mobile TOC Styles */
-@media (max-width: 768px) {
-    .toc-container {
-        position: fixed; /* Change from sticky to fixed */
-        top: {{ $mobileNavbarHeight }}; /* Align directly below navbar */
-        left: 0;
-        right: 0;
-        z-index: 998; /* Just below navbar z-index */
-        margin: 0;
-        padding: 1rem;
-        border-radius: 0;
-        background-color: rgba(31, 31, 31, 0.98); /* More opaque for better readability */
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        max-height: 40vh; /* Slightly smaller to ensure it doesn't take too much space */
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-    }
-
-    /* Add padding to main content to prevent TOC overlap */
-    main {
-        padding-top: calc({{ $mobileNavbarHeight }} + 40px);
-    }
-
-    /* Ensure content scrolls behind TOC */
-    .content-container {
-        position: relative;
-        z-index: 1;
-    }
-
-    .toc-content {
-        max-height: none;
-        overflow: visible;
-    }
-
-    /* Improve TOC toggle button visibility */
-    .toc-toggle {
-        padding: 0.5rem 0;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid {{ .Site.Params.colors.link }};
-        font-weight: bold;
-    }
-
-    /* Make TOC text more readable */
-    .toc-content ul {
-        margin: 0.3em 0;
-        padding-left: 1.2em;
-    }
-
-    .toc-content ul li {
-        margin: 0.2em 0;
-        font-size: 0.95em;
-        line-height: 1.4;
-    }
-
-    /* Subtle scrollbar */
-    .toc-container::-webkit-scrollbar {
-        width: 3px;
-    }
-
-    .toc-container::-webkit-scrollbar-thumb {
-        background-color: {{ .Site.Params.colors.link }};
-        border-radius: 2px;
-    }
-}
-
-@media (min-width: 1200px) {
-    .toc-container {
-        position: fixed;
-        right: 2rem;
-        top: calc({{ $navbarHeight }} + 30px); /* Account for navbar height plus some spacing */
-        width: 280px;
-        max-height: calc(100vh - {{ $navbarHeight }} - 60px); /* Adjust for navbar */
-        overflow-y: auto;
-    }
-
-    /* Adjust main content width */
-    .content-container {
-        max-width: {{ $contentWidth }};
-        margin-left: auto;
-        margin-right: auto;
-        padding: 0 2rem;
-    }
-
-    /* For pages with TOC, adjust the content container */
-    .content-container.has-toc {
-        margin-right: 320px;
-    }
-}
-
-@media (min-width: 1600px) {
-    .content-container {
-        max-width: {{ $wideContentWidth }};
-    }
-}
-
+/* Style the TOC header */
 .toc-toggle {
     width: 100%;
+    padding: 1rem;
     background: none;
     border: none;
-    color: {{ .Site.Params.colors.link }};
-    cursor: pointer;
-    display: flex;
-    justify-content: center; /* Center the title */
-    align-items: center;
-    padding: 0;
+    color: {{ .Site.Params.colors.headerText }};
     font-size: 1.1em;
-    transition: color 0.3s ease;
-    text-align: center; /* Ensure text is centered */
-    gap: 1rem; /* Add space between text and arrow */
+    cursor: default; /* Remove pointer cursor */
+    display: block; /* Change to block */
+    text-align: left;
 }
 
-.toc-label {
-    border-bottom: 1px solid {{ .Site.Params.colors.link }};
-    padding-bottom: 2px;
+/* Remove the toggle icon */
+.toc-icon {
+    display: none;
 }
 
-.toc-toggle:hover {
-    color: {{ .Site.Params.colors.linkHover }};
-}
-
+/* Style the TOC content */
 .toc-content {
-    margin-top: 1rem;
-    text-align: left; /* Left-align the content */
-    transition: max-height 0.3s ease-out;
-    overflow: hidden;
-    max-height: 500px;
+    padding: 1rem;
+    display: block !important;
+    opacity: 1 !important;
+    max-height: none !important;
 }
 
-/* TOC link styling */
+/* Style TOC lists */
 .toc-content ul {
     list-style: none;
-    padding-left: 1rem;
-    text-align: left; /* Ensure list items are left-aligned */
+    padding-left: 1.2em;
+    margin: 0;
 }
 
-/* Hierarchical bullet points for TOC */
-.toc-content ul li::before {
-    content: "◆";  /* Diamond for level 1 */
-    color: {{ .Site.Params.colors.link }};
-    font-weight: bold;
-    display: inline-block;
-    width: 1em;
-    margin-left: -1em;
+.toc-content ul ul {
+    padding-left: 1.5rem;
 }
 
-.toc-content ul ul li::before {
-    content: "•";  /* Circle for level 2 */
-    color: {{ .Site.Params.colors.link }};
-    font-weight: bold;
-    display: inline-block;
-    width: 1em;
-    margin-left: -1em;
-}
-
-.toc-content ul ul ul li::before {
-    content: "◦";  /* Hollow circle for level 3 */
-    color: {{ .Site.Params.colors.link }};
-    font-weight: bold;
-    display: inline-block;
-    width: 1em;
-    margin-left: -1em;
-}
-
-/* Ensure proper spacing between TOC items */
-.toc-content ul {
-    margin: 0.5em 0;
-}
-
-.toc-content ul li {
-    margin: 0.3em 0;
-}
-
+/* Style TOC links */
 .toc-content a {
     color: {{ .Site.Params.colors.link }};
     text-decoration: none;
-    transition: color 0.3s ease;
+    display: inline-block;
+    margin: 0.2rem 0;
+    position: relative;
+}
+
+.toc-content a::before {
+    content: "•";
+    position: absolute;
+    left: -1.2em;
+    color: {{ .Site.Params.colors.link }};
+}
+
+.toc-content ul ul a::before {
+    content: "◦"; /* Different bullet for nested items */
 }
 
 .toc-content a:hover {
     color: {{ .Site.Params.colors.linkHover }};
 }
 
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .toc-container {
+        margin: 0.5rem 0;
+        border-radius: 0;
+    }
+
+    .toc-content ul {
+        margin: 0;
+    }
+}
+
+/* Remove back to top section */
 .back-to-top {
-    padding: 0.5rem 0 0 0;
-    margin-top: 0.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: none;
 }
 
-.back-to-top a {
-    color: {{ .Site.Params.colors.link }};
-    text-decoration: none;
-    font-weight: bold;
-    display: block;
-}
+/* Mobile styles */
+@media (max-width: 768px) {
+    .toc-container {
+        margin: 0.5rem 0;
+        border-radius: 0;
+    }
 
-.back-to-top a:hover {
-    color: {{ .Site.Params.colors.linkHover }};
-}
-
-.toc-content.collapsed {
-    max-height: 0;
-    margin-top: 0;
+    /* Ensure TOC content stays visible on mobile */
+    .toc-content,
+    .toc-content.collapsed {
+        display: block !important;
+        max-height: none !important;
+    }
 }
 
 .toggle-button {
@@ -1490,25 +1359,32 @@ a:hover, img:hover {
     right: 20px;
     width: 50px;
     height: 50px;
+    background-color: rgba(31, 31, 31, 0.7);
+    border: 1px solid {{ .Site.Params.colors.link }};
     border-radius: 50%;
-    background: {{ .Site.Params.colors.link }};
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     cursor: pointer;
-    transition: transform 0.3s ease;
-    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.floating-button:hover {
+    background-color: {{ .Site.Params.colors.link }};
+    transform: scale(1.1);
 }
 
 .floating-button img {
     width: 30px;
     height: 30px;
     object-fit: contain;
+    opacity: 0.5; /* Made more transparent to match button */
 }
 
-.floating-button:hover {
-    transform: scale(1.1);
+.floating-button:hover img {
+    opacity: 1; /* Full opacity on hover */
 }
 
 .lightbox-figure {
@@ -1725,12 +1601,19 @@ article,
     }
 
     .toc-container {
-        position: fixed;
-        right: 2rem;
-        top: calc({{ $navbarHeight }} + 30px); /* Account for navbar height plus some spacing */
-        width: 280px;
-        max-height: calc(100vh - {{ $navbarHeight }} - 60px); /* Adjust for navbar */
-        overflow-y: auto;
+        position: static;
+        width: 100%;
+        max-height: none;
+        overflow-y: visible;
+        margin: 2rem 0;
+    }
+
+    /* Remove margin adjustments for containers with TOC */
+    .content-container.has-toc,
+    .page-content.has-toc,
+    .blog-content.has-toc,
+    .section-content.has-toc {
+        margin-right: 0;
     }
 }
 
@@ -1750,7 +1633,7 @@ article,
     article,
     .article-content,
     .content-wrapper {
-        max-width: {{ $wideContentWidth }};
+        max-width: {{ $contentWidth }};
     }
 }
 
@@ -1759,7 +1642,7 @@ article,
 .footer-container,
 .section {
     width: 100%;
-    max-width: {{ $wideContentWidth }};
+    max-width: {{ $contentWidth }};
     margin: 0 auto;
     padding: 0 2rem;
     box-sizing: border-box;
@@ -1772,7 +1655,7 @@ article,
     .navbar-container,
     .footer-container,
     .section {
-        max-width: {{ $wideContentWidth }};
+        max-width: {{ $contentWidth }};
         margin-left: auto;
         margin-right: auto;
     }
@@ -1871,7 +1754,7 @@ article,
     display: flex;
     justify-content: center;
     align-items: center;
-    max-width: {{ $wideContentWidth }};
+    max-width: {{ $contentWidth }};
     margin: 0 auto;
     padding: 0 2rem;
     border-radius: 8px;
@@ -1923,6 +1806,429 @@ code {
     pre code {
         padding: 0;
         font-size: 0.85em;
+    }
+}
+
+/* Add table wrapper for mobile horizontal scroll */
+@media (max-width: 768px) {
+    /* Create wrapper for tables */
+    table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        white-space: nowrap; /* Prevent text wrapping */
+        border-radius: 0; /* Remove border radius on mobile */
+    }
+
+    /* Ensure consistent cell sizing */
+    th, td {
+        min-width: 120px; /* Minimum width for cells */
+        white-space: normal; /* Allow text wrapping within cells */
+        word-wrap: break-word; /* Break long words */
+    }
+}
+
+/* Content container layout */
+.content-container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Card content container */
+.card-content {
+    order: 1; /* Place first */
+    margin-bottom: 1rem;
+}
+
+/* Featured image container */
+.featured-image {
+    width: 100%;
+    margin: 1rem 0;
+    order: 2; /* Place after card content */
+}
+
+/* TOC container */
+.toc-container {
+    width: 100%;
+    margin: 0 0 2rem 0;
+    background-color: rgba(31, 31, 31, {{ $transparency }});
+    border-radius: 8px;
+    border: 1px solid {{ .Site.Params.colors.link }};
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: static;
+    order: 3;
+}
+
+/* Main content */
+.page-text {
+    order: 4; /* Place last */
+}
+
+/* Remove any floating/fixed positioning */
+@media (min-width: 1200px) {
+    .toc-container {
+        position: static;
+        width: 100%;
+        max-height: none;
+    }
+
+    /* Remove margin adjustments for containers with TOC */
+    .content-container.has-toc,
+    .page-content.has-toc,
+    .blog-content.has-toc,
+    .section-content.has-toc {
+        margin-right: 0;
+    }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .card-content {
+        margin-bottom: 0.5rem;
+    }
+
+    .featured-image {
+        margin: 0.5rem 0;
+    }
+
+    .toc-container {
+        margin: 0.5rem 0;
+        border-radius: 0;
+    }
+}
+
+/* Add padding to headings for better scroll positioning */
+.page-text h1,
+.page-text h2,
+.page-text h3,
+.page-text h4 {
+    padding-top: 30px;
+    margin-top: -20px; /* Offset the padding to maintain visual spacing */
+}
+
+/* Linktree Popup Styles */
+.linktree-popup {
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    z-index: 1001;
+    background-color: rgba(31, 31, 31, {{ $transparency }});
+    border: 1px solid {{ .Site.Params.colors.link }};
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px; /* Reduced width since we only have one link */
+    max-width: 90vw;
+    backdrop-filter: blur(10px);
+}
+
+.linktree-popup.active {
+    display: block;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.linktree-popup-content {
+    padding: 1rem;
+}
+
+.linktree-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid {{ .Site.Params.colors.link }};
+}
+
+.linktree-header h3 {
+    margin: 0;
+    color: {{ .Site.Params.colors.headerText }};
+    font-size: 1.1rem;
+}
+
+.close-popup {
+    background: none;
+    border: none;
+    color: {{ .Site.Params.colors.headerText }};
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.linktree-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.linktree-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: {{ .Site.Params.colors.socialButtonBackground }};
+    color: {{ .Site.Params.colors.headerText }};
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.linktree-link:hover {
+    background-color: {{ .Site.Params.colors.link }};
+    transform: translateY(-2px);
+}
+
+.linktree-link i {
+    font-size: 1.5rem;
+    width: 24px;
+    text-align: center;
+}
+
+.linktree-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.link-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.link-title {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.link-desc {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .linktree-popup {
+        bottom: 70px;
+        right: 10px;
+        width: calc(100vw - 20px);
+        max-height: 70vh;
+    }
+}
+
+/* Author Bubble Styles */
+.author-bubble {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: rgba(31, 31, 31, {{ $transparency }});
+}
+
+.author-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid {{ .Site.Params.colors.link }};
+    background-color: rgba(31, 31, 31, {{ $transparency }});
+    padding: 3px;
+    box-sizing: content-box; /* Ensure padding doesn't affect the size */
+    display: block; /* Remove any inline behavior */
+}
+
+.author-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    flex: 1;
+    padding-top: 0.3rem;
+}
+
+.author-name {
+    color: {{ .Site.Params.colors.headerText }};
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.author-info .post-meta {
+    color: {{ .Site.Params.colors.paragraphText }};
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .author-bubble {
+        padding: 0.8rem;
+        gap: 0.8rem;
+    }
+
+    .author-image {
+        width: 40px;
+        height: 40px;
+    }
+
+    .author-name {
+        font-size: 1rem;
+    }
+
+    .author-info .post-meta {
+        font-size: 0.8rem;
+    }
+}
+
+/* Tag Filter Styles */
+.tag-filter {
+    margin: 2rem 0;
+}
+
+.tag-filter h2 {
+    margin-bottom: 1rem;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag {
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.9em;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    background-color: rgba(31, 31, 31, {{ $transparency }});
+}
+
+.tag.active {
+    background-color: {{ printf "%s" .Site.Params.colors.link }};
+    color: {{ printf "%s" .Site.Params.colors.headerText }};
+}
+
+.tag:hover {
+    transform: scale(1.1);
+}
+
+.card-tags {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+}
+
+.card-tags .tag {
+    font-size: 0.8em;
+    padding: 0.2rem 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .tag-filter {
+        margin: 1rem 0;
+    }
+    
+    .tags {
+        gap: 0.3rem;
+    }
+    
+    .tag {
+        padding: 0.2rem 0.6rem;
+        font-size: 0.8em;
+    }
+}
+
+.rare-tags-section {
+    display: inline-flex;
+    margin: 0.3rem;
+}
+
+.show-more-tags {
+    background-color: rgba(31, 31, 31, {{ $transparency }});
+    color: {{ .Site.Params.colors.headerText }};
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9em;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.show-more-tags:hover {
+    transform: scale(1.1);
+    color: {{ .Site.Params.colors.linkHover }};
+}
+
+.rare-tags {
+    margin-left: 0.5rem;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/* Post Summary Styles */
+.post-summary {
+    margin-bottom: 2rem;
+}
+
+.post-summary-content {
+    display: flex;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.post-thumbnail {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.post-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.post-details {
+    flex-grow: 1;
+}
+
+.post-details h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.post-date {
+    font-size: 0.9em;
+    color: {{ .Site.Params.colors.paragraphText }};
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .post-thumbnail {
+        width: 80px;
+        height: 80px;
+    }
+    .post-summary-content {
+        gap: 1rem;
     }
 }
 </style> 
