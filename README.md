@@ -11,7 +11,7 @@ If you're cloning your **Hugo website repository** on a new computer and the **t
 When cloning your Hugo site, use this command to ensure all submodules (including this theme) are downloaded:
 
 ```sh
-git clone --recursive https://github.com/YOUR_USERNAME/YOUR_HUGO_WEBSITE.git
+git clone --recursive git@github.com:OpenSourceKyle/OpenSourceKyle.github.io.git
 ```
 
 🔹 **If you already cloned the repo and the theme folder is empty**, run:

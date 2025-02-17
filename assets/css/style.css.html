@@ -21,27 +21,31 @@ body {
     background-color: {{ .Site.Params.colors.background }};
 }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px 0;
-    }
-    th, td {
-        padding: 12px;
-        text-align: left;
-        border: 1px solid {{ .Site.Params.colors.tableBorder }};
-    }
-    th {
-        background-color: {{ .Site.Params.colors.tableHeaderBackground }};
-        font-weight: bold;
-        color: {{ .Site.Params.colors.tableHeaderText }};
-    }
-    tr:nth-child(even) {
-        background-color: {{ .Site.Params.colors.tableRowEvenBackground }};
-    }
-    tr:hover {
-        background-color: {{ .Site.Params.colors.tableRowHoverBackground }};
-    }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid {{ .Site.Params.colors.tableBorder }};
+}
+
+th {
+    background-color: {{ .Site.Params.colors.tableHeaderBackground }};
+    font-weight: bold;
+    color: {{ .Site.Params.colors.tableHeaderText }};
+}
+
+tr:nth-child(even) {
+    background-color: {{ .Site.Params.colors.tableRowEvenBackground }};
+}
+
+tr:hover {
+    background-color: {{ .Site.Params.colors.tableRowHoverBackground }};
+}
 
 /* Custom Scrollbar Styling */
 ::-webkit-scrollbar {
@@ -1921,5 +1925,4 @@ code {
         font-size: 0.85em;
     }
 }
-
 </style> 
