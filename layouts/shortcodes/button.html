@@ -1,0 +1,34 @@
+{{ $url := .Get "url" }}
+{{ $text := .Get "text" }}
+{{ if not $url }}
+  {{ errorf "The button shortcode requires a 'url' parameter" }}
+{{ end }}
+{{ if not $text }}
+  {{ errorf "The button shortcode requires a 'text' parameter" }}
+{{ end }}
+
+<a href="{{ $url }}" class="themed-button" role="button">
+  {{ $text }}
+</a>
+
+<style>
+.themed-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: {{ .Site.Params.colors.link }};
+  color: {{ .Site.Params.colors.background }};
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  font-weight: bold;
+  transition: transform 0.2s;
+  text-decoration: none;
+}
+
+.themed-button:hover {
+  transform: translateY(-2px);
+  background-color: {{ .Site.Params.colors.linkHover }};
+  text-decoration: none;
+}
+</style> 
