@@ -1,12 +1,14 @@
-<button id="scrollToCalendly" aria-label="Scroll to Calendar">
-  🗓️ Book Now
+{{ $float := .Get "float" | default false }}
+{{ $text := .Get "text" }}
+{{ if not $text }}
+  {{ errorf "The scroll-to-calendly shortcode requires a 'text' parameter" }}
+{{ end }}
+<button id="scrollToCalendly" class="{{ if $float }}floating{{ end }}" aria-label="Scroll to Calendar">
+  {{ $text }}
 </button>
 
 <style>
 #scrollToCalendly {
-  position: fixed;
-  bottom: 80px;
-  right: 20px;
   padding: 10px 20px;
   background-color: {{ .Site.Params.colors.link }};
   color: {{ .Site.Params.colors.background }};
@@ -14,9 +16,15 @@
   border-radius: 25px;
   cursor: pointer;
   box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-  z-index: 1000;
   font-weight: bold;
   transition: transform 0.2s;
+}
+
+#scrollToCalendly.floating {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 1000;
 }
 
 #scrollToCalendly:hover {
