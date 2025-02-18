@@ -58,17 +58,55 @@ document.addEventListener("DOMContentLoaded", function() {
             const contentContainer = document.querySelector('.content-container');
             const containerRect = contentContainer.getBoundingClientRect();
             
-            // Position preview in the left margin area
-            const previewWidth = 250; // Same as CSS width
-            let leftPos = Math.max(20, containerRect.left - previewWidth - 40);
+            const previewWidth = 250; // Preview width
+            const previewHeight = 80; // Approximate preview height
+            const margin = 20; // Minimum margin from edges
+            
+            // Calculate available space on each side
+            const spaceLeft = containerRect.left - margin;
+            const spaceRight = window.innerWidth - (containerRect.right + margin);
+            
+            let leftPos, topPos;
+            
+            // Determine if we have enough space on either side
+            if (spaceLeft >= previewWidth || spaceRight >= previewWidth) {
+                // Prefer left side if there's space
+                if (spaceLeft >= previewWidth) {
+                    leftPos = Math.max(margin, containerRect.left - previewWidth - margin);
+                    topPos = rect.top + window.scrollY;
+                } else {
+                    // Place on right side
+                    leftPos = containerRect.right + margin;
+                    topPos = rect.top + window.scrollY;
+                }
+                preview.classList.remove('preview-above', 'preview-below');
+            } else {
+                // Place above or below based on available space
+                leftPos = Math.max(margin, Math.min(
+                    window.innerWidth - previewWidth - margin,
+                    rect.left + (rect.width - previewWidth) / 2
+                ));
+                
+                const spaceAbove = rect.top;
+                const spaceBelow = window.innerHeight - (rect.bottom);
+                
+                if (spaceAbove > spaceBelow && spaceAbove >= previewHeight) {
+                    // Place above
+                    topPos = rect.top + window.scrollY - previewHeight - 10;
+                    preview.classList.add('preview-above');
+                    preview.classList.remove('preview-below');
+                } else {
+                    // Place below
+                    topPos = rect.bottom + window.scrollY + 10;
+                    preview.classList.add('preview-below');
+                    preview.classList.remove('preview-above');
+                }
+            }
             
             preview.style.left = `${leftPos}px`;
-            preview.style.top = `${rect.top + window.scrollY}px`;
+            preview.style.top = `${topPos}px`;
             
-            // Show basic info immediately
-            preview.querySelector('.link-preview-title').textContent = url.hostname;
-            
-            // For internal links, show the page title or path
+            // Update preview content
             if (url.origin === window.location.origin) {
                 const path = url.pathname.replace(/\/$/, '').split('/').pop() || 'Home';
                 preview.querySelector('.link-preview-title').textContent = 'Internal Link';
