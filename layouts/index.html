@@ -10,7 +10,6 @@
         <div class="about-text">
             <div style="color: {{ .Site.Params.colors.paragraphText }}">
                 <p>{{ .Summary }}</p>
-                <a href="javascript:void(0);" class="read-more-link" onclick="toggleAbout()">Read More</a>
                 <div id="aboutFullContent" class="about-full-content" style="display: none;">
                     <p>{{ .Content | safeHTML }}</p>
                 </div>

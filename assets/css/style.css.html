@@ -231,18 +231,18 @@ footer {
     flex-shrink: 0;
     text-align: center;
     padding: 15px 0;
-    background-color: rgba(31, 31, 31, {{ $transparency }});
-    color: {{ .Site.Params.headerTextColor | default "var(--header-text)" }};
+    color: {{ .Site.Params.colors.paragraphText }};
     width: 100%;
     font-size: 0.9em;
+    background: none;
+    box-shadow: none;
 }
 
 .footer-content {
     max-width: {{ $contentWidth }};
     margin: 0 auto;
     padding: 0 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    background: none;
 }
 
 .footer-link {
@@ -268,66 +268,77 @@ footer {
     padding: 0 1rem;
 }
 
-.section, .content-container, .section-list, .coaching-section, .about-section {
+/* Base container styles for ALL pages */
+.section,
+.content-container,
+.section-list,
+.coaching-section,
+.about-section,
+.page-content,
+.blog-content,
+.single-content,
+.home-content {
     background-color: rgba(31, 31, 31, {{ $transparency }});
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     padding: 2rem;
-    margin: 20px auto;
-    max-width: 800px;
+    margin: 0 auto 20px;
     width: 100%;
+    max-width: 800px;
     box-sizing: border-box;
-    flex: 1 0 auto;
 }
 
-.section h2 {
+/* Remove any conflicting container styles */
+.page-content,
+.blog-content,
+.single-content,
+.home-content,
+.about-content,
+.coaching-content {
+    padding-top: 2rem; /* Reset padding-top */
+}
+
+/* Standardize content spacing */
+main {
+    width: 100%;
+    max-width: {{ $contentWidth }};
+    margin: 0 auto;
+    padding: calc({{ $navbarHeight }} + {{ $headerGap }}) 0 2rem 0;
+}
+
+/* Standardize headings across all pages */
+.section h2,
+.page-content h2,
+.blog-content h2,
+.single-content h2,
+.home-content h2,
+.about-content h2,
+.coaching-content h2 {
     color: {{ .Site.Params.colors.headerText }};
+    text-transform: uppercase;
+    border-bottom: 2px solid {{ .Site.Params.colors.link }};
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
 }
 
-.section a {
-    color: {{ .Site.Params.colors.link }};
-    text-decoration: none;
-}
-
-.section a:hover {
-    color: {{ .Site.Params.colors.linkHover }};
-}
-
-.section p, .section ul, .section li {
-    color: {{ .Site.Params.colors.paragraphText }};
-}
-
-.section ul a {
-    color: {{ .Site.Params.colors.link }};
-}
-
-.section ul a:hover {
-    color: {{ .Site.Params.colors.linkHover }};
-}
-
-.breadcrumbs {
-    font-size: 0.9em;
-    margin-bottom: 10px;
-    color: #bbb;
-}
-
-.breadcrumbs a {
-    color: {{ .Site.Params.colors.link }};
-    text-decoration: none;
-}
-
-.breadcrumbs a:hover {
-    color: {{ .Site.Params.colors.linkHover }};
-}
-
-@media (max-width: 600px) {
-    .navbar-links a {
-        margin: 0 10px;
+/* Standardize mobile styles */
+@media (max-width: 768px) {
+    .section,
+    .content-container,
+    .section-list,
+    .coaching-section,
+    .about-section,
+    .page-content,
+    .blog-content,
+    .single-content,
+    .home-content {
+        margin: 0 1rem 20px;
+        padding: 1.5rem;
+        border-radius: 8px;
     }
 
     main {
-        padding: 15px;
-        margin: 10px;
+        padding: calc({{ $navbarHeight }} + {{ $headerGap }}) 0 1rem 0;
     }
 }
 
@@ -338,7 +349,7 @@ footer {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    z-index: 1000;
+    z-index: 10000;
 }
 
 .social-float {
@@ -948,10 +959,13 @@ footer {
     font-size: 1.1em;
 }
 
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+.footer-container,
+.footer-nav,
+.footer-nav .nav-content {
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
 }
 
 .footer-links {
@@ -1585,12 +1599,53 @@ a:hover, img:hover {
 main,
 article,
 .article-content,
-.content-wrapper {
-    padding-top: 0; /* Remove duplicate padding */
+.content-wrapper,
+.section {
+    padding-top: calc({{ $navbarHeight }} + {{ $headerGap }});
     width: 100%;
     max-width: {{ $contentWidth }};
     margin: 0 auto;
     box-sizing: border-box;
+}
+
+/* Remove duplicate padding from nested containers */
+.content-container .content-container,
+.page-content .content-container,
+.blog-content .content-container,
+.section-content .content-container,
+.list-content .content-container,
+.taxonomy-content .content-container,
+.single-content .content-container,
+.home-content .content-container,
+.about-content .content-container,
+.coaching-content .content-container,
+main .content-container,
+article .content-container,
+.article-content .content-container,
+.content-wrapper .content-container {
+    padding-top: calc({{ $mobileNavbarHeight }} + {{ $headerGap }});
+}
+
+/* Adjust mobile responsiveness */
+@media (max-width: 768px) {
+    .content-container,
+    .page-content,
+    .blog-content,
+    .section-content,
+    .list-content,
+    .taxonomy-content,
+    .single-content,
+    .home-content,
+    .about-content,
+    .coaching-content,
+    main,
+    article,
+    .article-content,
+    .content-wrapper {
+        padding-top: calc({{ $mobileNavbarHeight }} + {{ $headerGap }});
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
 }
 
 /* Desktop styles */
@@ -1661,16 +1716,16 @@ article,
 
 /* Base container styles */
 .navbar-container,
-.footer-container,
 .section {
     width: 100%;
     max-width: {{ $contentWidth }};
     margin: 0 auto;
-    padding: 0 2rem;
     box-sizing: border-box;
     background-color: rgba(31, 31, 31, {{ $transparency }});
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    padding-top: calc({{ $navbarHeight }} + {{ $headerGap }}); /* Standardize top padding */
 }
 
 @media (min-width: 1200px) {
@@ -1772,16 +1827,6 @@ article,
     margin-bottom: 2rem; /* Add gap before footer */
 }
 
-.footer-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: {{ $contentWidth }};
-    margin: 0 auto;
-    padding: 0 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
 
 /* Add code block styles */
 pre {
@@ -2252,5 +2297,61 @@ code {
     .post-summary-content {
         gap: 1rem;
     }
+}
+
+/* Ensure nested sections don't have duplicate padding */
+.section .section,
+.content-container .section,
+.section-list .section,
+.coaching-section .section,
+.about-section .section {
+    padding-top: calc({{ $mobileNavbarHeight }} + {{ $headerGap }});
+    margin-top: 0;
+}
+
+/* Update social float container z-index */
+.social-float-container {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 10000; /* Increased z-index to be above all content */
+}
+
+/* Ensure iframes and embeds stay below floating elements */
+iframe, 
+.youtube-container,
+.calendly-container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Specifically target YouTube iframes */
+.youtube-container iframe,
+iframe[src*="youtube.com"],
+iframe[src*="youtu.be"] {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    min-height: 315px;
+}
+
+/* Container for YouTube videos */
+.youtube-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+}
+
+/* Update floating elements z-index values */
+.social-float-container,
+.linktree-popup {
+    position: fixed !important;
+    z-index: 999999 !important; /* Extremely high z-index */
 }
 </style> 
