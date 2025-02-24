@@ -38,3 +38,31 @@ footer {
     margin: 0 auto;
     padding: 0 1rem;
 }
+
+.footer-container,
+.footer-nav,
+.footer-nav .nav-content {
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: {{ .Site.Params.colors.link }};
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 0.9em;
+}
+
+.footer-links a:hover {
+    color: {{ .Site.Params.colors.linkHover }};
+}

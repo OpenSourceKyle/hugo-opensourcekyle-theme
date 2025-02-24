@@ -152,3 +152,69 @@
         max-height: 70vh;
     }
 }
+
+/* Update social float container z-index */
+.social-float-container {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 10000; /* Increased z-index to be above all content */
+}
+
+/* Ensure iframes and embeds stay below floating elements */
+iframe, 
+.youtube-container,
+.calendly-container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Specifically target YouTube iframes */
+.youtube-container iframe,
+iframe[src*="youtube.com"],
+iframe[src*="youtu.be"] {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    min-height: 315px;
+}
+
+/* Container for YouTube videos */
+.youtube-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+}
+
+/* Update floating elements z-index values */
+.social-float-container,
+.linktree-popup {
+    position: fixed !important;
+    z-index: 999999 !important; /* Extremely high z-index */
+}
+
+@media (max-width: 768px) {
+    .social-float-container {
+        right: 15px;
+        bottom: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .social-float-container {
+        right: 10px;
+        bottom: 10px;
+    }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+    .social-float-container {
+        bottom: 10px;
+    }
+}
