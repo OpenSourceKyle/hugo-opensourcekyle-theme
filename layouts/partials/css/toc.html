@@ -1,0 +1,72 @@
+/* TOC container */
+.toc-container {
+    width: 100%;
+    margin: 0 0 2rem 0;
+    background-color: rgba(31, 31, 31, {{ $transparency }});
+    border-radius: 8px;
+    border: 1px solid {{ .Site.Params.colors.link }};
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: static;
+    order: 3;
+}
+
+/* Style the TOC header */
+.toc-toggle {
+    width: 100%;
+    padding: 1rem;
+    background: none;
+    border: none;
+    color: {{ .Site.Params.colors.headerText }};
+    font-size: 1.1em;
+    cursor: default; /* Remove pointer cursor */
+    display: block; /* Change to block */
+    text-align: left;
+}
+
+/* Remove the toggle icon */
+.toc-icon {
+    display: none;
+}
+
+/* Style the TOC content */
+.toc-content {
+    padding: 1rem;
+    display: block !important;
+    opacity: 1 !important;
+    max-height: none !important;
+}
+
+/* Style TOC lists */
+.toc-content ul {
+    list-style: none;
+    padding-left: 1.2em;
+    margin: 0;
+}
+
+.toc-content ul ul {
+    padding-left: 1.5rem;
+}
+
+/* Style TOC links */
+.toc-content a {
+    color: {{ .Site.Params.colors.link }};
+    text-decoration: none;
+    display: inline-block;
+    margin: 0.2rem 0;
+    position: relative;
+}
+
+.toc-content a::before {
+    content: "•";
+    position: absolute;
+    left: -1.2em;
+    color: {{ .Site.Params.colors.link }};
+}
+
+.toc-content ul ul a::before {
+    content: "◦"; /* Different bullet for nested items */
+}
+
+.toc-content a:hover {
+    color: {{ .Site.Params.colors.linkHover }};
+}

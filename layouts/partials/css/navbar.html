@@ -1,0 +1,93 @@
+.navbar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: {{ $navbarHeight }};
+    background-color: rgba(31, 31, 31, {{ $transparency }});
+    color: {{ .Site.Params.colors.headerText }};
+    padding: 0 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-title-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-title-container:hover {
+    transform: scale(1.05); /* Slight magnification */
+}
+
+.site-logo {
+    height: 40px;
+    margin-right: 5px; /* Small space between logo and title */
+    margin-left: 10px; /* Add gap between logo and left side */
+    vertical-align: middle;
+}
+
+.navbar-title {
+    font-weight: bold;
+    font-size: 1.8em;
+    color: {{ .Site.Params.colors.link }};
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.navbar-title:hover {
+    color: {{ .Site.Params.colors.linkHover }};
+}
+
+.navbar-title.hover {
+    color: {{ .Site.Params.colors.linkHover }};
+}
+
+.logo-title-container a:hover + .navbar-title {
+    color: {{ .Site.Params.colors.linkHover }};
+}
+
+.navbar-links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-left: auto; /* Ensures links are on the right */
+}
+
+.navbar-links a {
+    color: {{ .Site.Params.colors.link }};
+    text-decoration: none;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+.navbar-links a:hover {
+    color: {{ .Site.Params.colors.linkHover }};
+}
+
+.hamburger-menu {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 40px;
+    height: 24px;
+    position: relative;
+    z-index: 1001;
+    align-self: center;  /* Align with other navbar items */
+}
+
+.hamburger-menu span {
+    display: block;
+    width: 30px;
+    height: 3px;
+    background-color: {{ .Site.Params.colors.link }};
+    margin: 4px auto;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}

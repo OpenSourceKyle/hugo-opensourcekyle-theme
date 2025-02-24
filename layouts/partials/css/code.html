@@ -1,0 +1,47 @@
+/* Add code block styles */
+pre {
+    background-color: rgba(31, 31, 31, {{ $transparency }});
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+    border: 1px solid {{ .Site.Params.colors.link }};
+    white-space: pre-wrap;       /* Wrap long lines */
+    word-wrap: break-word;       /* Break long words */
+    word-break: break-all;       /* Break strings if they're too long */
+}
+
+/* Style code blocks */
+pre code {
+    display: block;
+    line-height: 1.5;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9em;
+    color: {{ .Site.Params.colors.paragraphText }};
+    padding: 0;
+    max-width: 100%;
+}
+
+/* Style inline code */
+code {
+    background-color: rgba(31, 31, 31, {{ $transparency }});
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9em;
+}
+
+/* Ensure code blocks in mobile view are properly contained */
+@media (max-width: 768px) {
+    pre {
+        margin: 1rem -1rem;  /* Negative margin to extend to edges */
+        border-radius: 0;    /* Remove border radius on mobile */
+        padding: 1rem;
+        font-size: 0.85em;   /* Slightly smaller font on mobile */
+    }
+    
+    pre code {
+        padding: 0;
+        font-size: 0.85em;
+    }
+}
