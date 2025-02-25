@@ -1,0 +1,108 @@
+.page-image {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.page-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.page-content h2 {
+    color: {{ .Site.Params.colors.headerText }};
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.page-content ul {
+    list-style-type: disc;
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+}
+
+.page-content li {
+    margin-bottom: 0.5rem;
+}
+
+.last-updated {
+    font-style: italic;
+    margin-bottom: 2rem;
+    opacity: 0.8;
+}
+
+.section-group {
+    margin-bottom: 2rem;
+}
+
+.section-group h2 {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-pic {
+    width: 100%;
+    height: auto;
+    max-width: 300px; /* Adjust max-width as needed */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Optional: for shadow effect */
+    float: left; /* Makes the text flow around the image */
+    margin-right: 20px; /* Adds space between the image and text */
+    margin-bottom: 20px; /* Adds space below the image */
+}
+
+.page-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    list-style: none;
+    padding-left: 0;
+}
+
+.page-entry {
+    margin-bottom: 0;
+}
+
+.page-entry a {
+    color: {{ .Site.Params.colors.headerText }};
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.page-entry a:hover {
+    color: {{ .Site.Params.colors.linkHover }};
+}
+
+.page-entry .post-date {
+    color: {{ .Site.Params.colors.paragraphText }};
+    font-size: 0.9em;
+    margin-left: 0.5rem;
+}
+
+.page-content h1 {
+    color: {{ .Site.Params.colors.headerText }};
+    margin-bottom: 1rem;
+}
+
+.page-content .last-updated {
+    color: {{ .Site.Params.colors.paragraphText }};
+    font-style: italic;
+    margin-bottom: 2rem;
+    opacity: 0.8;
+}
+
+.page-content .page-text {
+    color: {{ .Site.Params.colors.paragraphText }};
+}
+
+.disclaimer-box {
+    background-color: rgba({{ .Site.Params.colors.warning }}, 0.1);
+    border: 1px solid {{ .Site.Params.colors.warning }};
+    color: {{ .Site.Params.colors.warning }};
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
+}

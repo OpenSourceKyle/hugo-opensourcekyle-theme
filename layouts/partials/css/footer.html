@@ -66,3 +66,34 @@ footer {
 .footer-links a:hover {
     color: {{ .Site.Params.colors.linkHover }};
 }
+
+@media (max-width: 480px) {
+    .footer-content {
+        padding: 0 10px;
+    }
+
+    .footer-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .footer-links::before {
+        content: "";
+        order: -1;
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    .footer-links a:nth-child(1),
+    .footer-links a:nth-child(2) {
+        margin: 0;
+        display: inline;
+    }
+
+    .footer-links a:nth-child(1) {
+        margin-right: 1rem;
+    }
+}

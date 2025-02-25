@@ -1,10 +1,3 @@
-{{ $params := .Site.Params }}
-{{ $transparency := default "0.9" .Site.Params.theme.transparency }}
-{{ $contentWidth := default "1000px" .Site.Params.theme.contentWidth }}
-{{ $headerGap := default "0px" .Site.Params.theme.headerGap }}
-{{ $navbarHeight := "60px" }}
-{{ $mobileNavbarHeight := "60px" }}
-
 html, body {
     height: 100%;
     margin: 0;
@@ -150,4 +143,273 @@ a, img {
 
 a:hover, img:hover {
     transform: scale(1.03); /* Slight magnification */
+}
+
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: calc({{ $navbarHeight }} + {{ $headerGap }}); /* Combined height */
+    margin-top: 0;
+}
+
+/* ---------------------------
+   Base Styles (Desktop and larger)
+------------------------------*/
+
+/* Add border to content images but exclude logos and icons */
+.section img:not(.site-logo):not(.floating-button img),
+.content-container img:not(.site-logo):not(.floating-button img),
+.page-content img:not(.site-logo):not(.floating-button img),
+.featured-image img:not(.site-logo):not(.floating-button img),
+.profile-pic {
+    border: 1px solid {{ .Site.Params.colors.link }};
+    border-radius: 8px;
+    padding: 4px;
+    background-color: rgba(31, 31, 31, {{ $transparency }});
+}
+
+/* Base container styles for ALL pages */
+.section,
+.content-container,
+.section-list,
+.coaching-section,
+.about-section,
+.page-content,
+.blog-content,
+.single-content,
+.home-content {
+    background-color: rgba(31, 31, 31, {{ $transparency }});
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 2rem;
+    margin: 0 auto 20px;
+    width: 100%;
+    max-width: 800px;
+    box-sizing: border-box;
+}
+
+/* Reset padding for some containers */
+.page-content,
+.blog-content,
+.single-content,
+.home-content,
+.about-content,
+.coaching-content {
+    padding-top: 2rem;
+}
+
+/* Standardize headings across all pages */
+.section h2,
+.page-content h2,
+.blog-content h2,
+.single-content h2,
+.home-content h2,
+.about-content h2,
+.coaching-content h2 {
+    color: {{ .Site.Params.colors.headerText }};
+    text-transform: uppercase;
+    border-bottom: 2px solid {{ .Site.Params.colors.link }};
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Base content container styles */
+.content-container,
+.page-content,
+.blog-content,
+.section-content,
+.list-content,
+.taxonomy-content,
+.single-content,
+.home-content,
+.about-content,
+.coaching-content,
+main,
+article,
+.article-content,
+.content-wrapper,
+.section {
+    padding-top: calc({{ $navbarHeight }} + {{ $headerGap }});
+    width: 100%;
+    max-width: {{ $contentWidth }};
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/* Remove duplicate padding from nested containers */
+.content-container .content-container,
+.page-content .content-container,
+.blog-content .content-container,
+.section-content .content-container,
+.list-content .content-container,
+.taxonomy-content .content-container,
+.single-content .content-container,
+.home-content .content-container,
+.about-content .content-container,
+.coaching-content .content-container,
+main .content-container,
+article .content-container,
+.article-content .content-container,
+.content-wrapper .content-container {
+    padding-top: calc({{ $mobileNavbarHeight }} + {{ $headerGap }});
+}
+
+/* Base container styles (e.g. navbar, sections) */
+.navbar-container,
+.section {
+    width: 100%;
+    max-width: {{ $contentWidth }};
+    margin: 0 auto;
+    box-sizing: border-box;
+    background-color: rgba(31, 31, 31, {{ $transparency }});
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    padding-top: calc({{ $navbarHeight }} + {{ $headerGap }});
+}
+
+/* ---------------------------
+   Mobile Styles (max-width:768px)
+------------------------------*/
+@media (max-width: 768px) {
+    /* General container adjustments */
+    .section,
+    .content-container,
+    .section-list,
+    .coaching-section,
+    .about-section,
+    .page-content,
+    .blog-content,
+    .single-content,
+    .home-content,
+    .section-content,
+    .list-content,
+    .taxonomy-content,
+    .coaching-content,
+    main,
+    article,
+    .article-content,
+    .content-wrapper {
+        margin: 0 1rem 20px;
+        padding: 1.5rem;
+        border-radius: 8px;
+        padding-top: calc({{ $mobileNavbarHeight }} + {{ $headerGap }});
+        padding-left: 1rem;
+        padding-right: 1rem;
+        width: 100vw;
+        max-width: 100vw;
+        overflow-x: hidden;
+    }
+    
+    /* Navbar & Mobile Menu */
+    .hamburger-menu {
+        display: block;
+        margin: auto 0;
+    }
+    .navbar-links {
+        display: none;
+        position: fixed;
+        top: {{ $mobileNavbarHeight }};
+        left: 0;
+        right: 0;
+        background-color: rgba(31, 31, 31, {{ $transparency }});
+        padding: 1rem;
+        width: 100vw;
+        z-index: 999;
+    }
+    .navbar-links.active {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    .navbar-content {
+        position: relative;
+    }
+    .hamburger-menu.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger-menu.active span:nth-child(2) {
+        opacity: 0;
+    }
+    .hamburger-menu.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+    }
+    
+    /* Main element adjustments */
+    main {
+        padding: 15px;
+        margin: 15px auto;
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Specific element tweaks */
+    .navbar-title { font-size: 1.5em; }
+    .section { margin-bottom: 3rem; padding: 1.5rem; }
+    .section:last-of-type { margin-bottom: 1.5rem; }
+    h1 { font-size: 1.8em; }
+    h2 { font-size: 1.5em; }
+    h3 { font-size: 1.2em; }
+    .blog-entry { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    .post-date { min-width: unset; }
+    footer { padding: 10px 0; font-size: 0.8em; }
+    .footer-links { display: flex; flex-direction: column; gap: 8px; }
+    .footer-separator { display: none; }
+    .profile-pic { float: none; margin: 0 auto 20px; display: block; }
+    .tags { gap: 0.3rem; }
+    .tag { padding: 0.2rem 0.6rem; font-size: 0.8em; }
+    .coaching-section, .about-section { padding: 1.5rem; margin: 10px; }
+    
+    /* Global mobile resets */
+    html, body { max-width: 100vw; overflow-x: hidden; }
+    .page-wrapper { padding-top: calc({{ $mobileNavbarHeight }} + 10px); }
+    .site-logo { height: 30px; }
+    .page-list, .blog-list { grid-template-columns: 1fr; }
+    
+    /* Table wrapper for horizontal scroll */
+    table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        white-space: nowrap;
+        border-radius: 0;
+    }
+    th, td {
+        min-width: 120px;
+        white-space: normal;
+        word-wrap: break-word;
+    }
+    
+    /* Additional mobile tweaks */
+    .card-content { margin-bottom: 0.5rem; }
+    .featured-image { margin: 0.5rem 0; }
+    .toc-container { margin: 0.5rem 0; border-radius: 0; }
+}
+
+/* ---------------------------
+   Additional Defaults
+------------------------------*/
+
+/* Main content ordering */
+.page-text { order: 4; }
+
+/* Add padding to headings for better scroll positioning */
+.page-text h1,
+.page-text h2,
+.page-text h3,
+.page-text h4 {
+    padding-top: 30px;
+    margin-top: -20px;
+}
+
+/* Ensure nested sections don't have duplicate padding */
+.section .section,
+.content-container .section,
+.section-list .section,
+.coaching-section .section,
+.about-section .section {
+    padding-top: calc({{ $mobileNavbarHeight }} + {{ $headerGap }});
+    margin-top: 0;
 }

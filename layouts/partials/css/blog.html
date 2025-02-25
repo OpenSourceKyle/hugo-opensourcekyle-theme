@@ -1,0 +1,27 @@
+.blog-list {
+    margin-top: 2rem;
+    padding-left: 20px;
+}
+
+.blog-entry {
+    display: flex;
+    align-items: center;
+    gap: 0rem;
+    margin-bottom: 1rem;
+    color: {{ .Site.Params.colors.paragraphText }};
+    list-style-type: disc;
+}
+
+.post-date {
+    min-width: 200px;
+}
+
+.blog-title a {
+    color: {{ .Site.Params.colors.link }};
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.blog-title a:hover {
+    color: {{ .Site.Params.colors.linkHover }};
+}
