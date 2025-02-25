@@ -59,7 +59,7 @@
     <h2>Coaching Services</h2>
     {{ with .Site.GetPage "coaching" }}
     <div class="coaching-content">
-        <p>{{ .Summary }}</p>
+        <p id="coachingSummary">{{ .Summary }}</p>
         <a href="javascript:void(0);" class="read-more-link" onclick="toggleCoaching()">Read More</a>
         <div id="coachingFullContent" class="coaching-full-content" style="display: none;">
             <p>{{ .Content | safeHTML }}</p>
@@ -72,9 +72,12 @@
 function toggleCoaching() {
     const content = document.getElementById('coachingFullContent');
     const link = document.querySelector('.coaching-content .read-more-link');
+    const summary = document.getElementById('coachingSummary');
+    
     if (content.style.display === 'none') {
         content.style.display = 'block';
         link.style.display = 'none';
+        summary.style.display = 'none';
     }
 }
 
