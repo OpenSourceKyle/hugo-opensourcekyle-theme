@@ -6,7 +6,7 @@
     height: {{ .Site.Params.theme.navbarHeight }};
     background-color: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
     color: {{ .Site.Params.colors.headerText }};
-    padding: 0 2rem;
+    padding: 0 1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     z-index: 1000;
     display: flex;
@@ -17,7 +17,7 @@
 .logo-title-container {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
 }
 
 .logo-title-container:hover {
@@ -26,9 +26,9 @@
 
 .site-logo {
     height: 40px;
-    margin-right: 5px; /* Small space between logo and title */
-    margin-left: 10px; /* Add gap between logo and left side */
-    vertical-align: middle;
+    width: 40px; /* Make it square */
+    object-fit: contain;
+    margin: 0; /* Remove margins and let gap handle spacing */
 }
 
 .navbar-title {
@@ -37,6 +37,7 @@
     color: {{ .Site.Params.colors.link }};
     text-decoration: none;
     transition: color 0.3s ease;
+    white-space: nowrap; /* Prevent title from wrapping */
 }
 
 .navbar-title:hover {
@@ -76,10 +77,10 @@
     cursor: pointer;
     padding: 0;
     width: 40px;
-    height: 24px;
+    height: 40px;
     position: relative;
     z-index: 1001;
-    align-self: center;  /* Align with other navbar items */
+    margin-left: 15px; /* Consistent spacing */
 }
 
 .hamburger-menu span {
@@ -90,10 +91,86 @@
     margin: 4px auto;
     border-radius: 3px;
     transition: all 0.3s ease;
+    position: relative;
 }
 
 /* Update navbar container to match */
 .navbar-container {
     margin: 0 auto;
     padding: 0 2rem;  /* Made consistent with other containers */
+}
+
+/* Mobile Navigation Styles */
+@media (max-width: 768px) {
+    .navbar-container {
+        padding: 0 10px; /* Smaller padding on mobile */
+        height: 60px; /* Fixed height for mobile */
+        justify-content: space-between;
+    }
+
+    .logo-title-container {
+        flex-shrink: 0; /* Prevent logo/title from shrinking */
+        gap: 10px; /* Slightly reduced gap on mobile */
+    }
+
+    .site-logo {
+        height: 40px;
+        width: 40px;
+        min-width: 40px; /* Prevent logo from shrinking */
+    }
+
+    .navbar-title {
+        font-size: 1.4em; /* Slightly smaller font on mobile */
+    }
+
+    .hamburger-menu {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        min-width: 40px; /* Prevent hamburger from shrinking */
+    }
+
+    /* Hide regular nav links */
+    .navbar-links {
+        display: none;
+        position: fixed;
+        top: 60px; /* Match navbar height */
+        left: 0;
+        right: 0;
+        background-color: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
+        flex-direction: column;
+        padding: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+    }
+
+    .navbar-links.active {
+        display: flex;
+    }
+    
+    .navbar-links a {
+        padding: 0.8rem 0;
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .navbar-links a:last-child {
+        border-bottom: none;
+    }
+    
+    /* Hamburger animation */
+    .hamburger-menu.active span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+    
+    .hamburger-menu.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .hamburger-menu.active span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
 }

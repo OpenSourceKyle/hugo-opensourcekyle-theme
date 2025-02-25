@@ -1,7 +1,7 @@
 <div class="author-bubble">
     <img src="{{ .Site.Params.authorImage | relURL }}" alt="{{ .Site.Title }}" class="author-image">
     <div class="author-info">
-        <span class="author-name">{{ .Site.Params.authorName }}</span>
+        <span class="author-name">by {{ .Site.Params.authorName }}</span>
         <div class="post-meta">
             <span>{{ .Date.Format .Site.Params.dateFormat }} · {{ div .WordCount (default 200 .Site.Params.wordsPerMinute) }}min read · {{ .WordCount }} words</span>
         </div>
