@@ -296,15 +296,45 @@ article .content-container,
     article,
     .article-content,
     .content-wrapper {
-        margin: 0; /* CHANGED: Remove left/right/bottom margin for full width */
-        padding: 1.5rem;
-        border-radius: 8px;
+        margin: 0; /* Remove left/right/bottom margin for full width */
+        padding: 1.5rem 0; /* Remove horizontal padding, keep vertical */
+        border-radius: 0; /* Remove border radius for edge-to-edge design */
         padding-top: calc({{ .Site.Params.theme.navbarHeight }} + {{ .Site.Params.theme.headerGap }});
-        padding-left: 1rem;
-        padding-right: 1rem;
         width: 100vw;
         max-width: 100vw;
         overflow-x: hidden;
+    }
+    
+    /* Section headers and content padding */
+    .section h2,
+    .section p,
+    .section ul,
+    .section a:not(.card-link),
+    .section .read-more-link {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    /* Remove border radius from cards on mobile */
+    .page-card, 
+    .card-image img {
+        border-radius: 0;
+    }
+    
+    /* Make cards full width */
+    .category-grid {
+        padding: 0;
+    }
+    
+    /* Reset padding for cards - keep content visible but container edge-to-edge */
+    .card-content {
+        padding: 15px;
+    }
+    
+    /* Main element adjustments */
+    main {
+        padding: 0;
+        margin: 0 auto; /* No bottom gap on mobile */
     }
     
     /* Navbar & Mobile Menu */
@@ -340,12 +370,6 @@ article .content-container,
     }
     .hamburger-menu.active span:nth-child(3) {
         transform: rotate(-45deg) translate(7px, -7px);
-    }
-    
-    /* Main element adjustments (Remove extra bottom margin) */
-    main {
-        padding: 15px;
-        margin: 0 auto; /* CHANGED: No bottom gap on mobile */
     }
     
     /* Specific element tweaks */
@@ -438,9 +462,6 @@ article .content-container,
     }
     
     /* Additional mobile tweaks */
-    .card-content {
-        margin-bottom: 0.5rem;
-    }
     .featured-image {
         margin: 0.5rem 0;
     }
