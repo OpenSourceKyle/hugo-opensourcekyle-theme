@@ -1,6 +1,6 @@
 /* Add code block styles */
 pre {
-    background-color: rgba(31, 31, 31, {{ $transparency }});
+    background-color: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
     border-radius: 8px;
     padding: 1rem;
     margin: 1rem 0;
@@ -24,7 +24,7 @@ pre code {
 
 /* Style inline code */
 code {
-    background-color: rgba(31, 31, 31, {{ $transparency }});
+    background-color: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
     padding: 0.2em 0.4em;
     border-radius: 3px;
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;

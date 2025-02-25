@@ -44,13 +44,13 @@ tr:hover {
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(31, 31, 31, {{ $transparency }});
+    background: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
 }
 
 ::-webkit-scrollbar-thumb {
     background: {{ .Site.Params.colors.sectionBackground }};
     border-radius: 7px;
-    border: 4px solid rgba(31, 31, 31, {{ $transparency }});
+    border: 4px solid rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -60,7 +60,7 @@ tr:hover {
 /* Firefox */
 * {
     scrollbar-width: auto;
-    scrollbar-color: {{ .Site.Params.colors.sectionBackground }} rgba(31, 31, 31, {{ $transparency }});
+    scrollbar-color: {{ .Site.Params.colors.sectionBackground }} rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
 }
 
 /* For when scrollbar-width: auto isn't enough */
@@ -109,9 +109,9 @@ main {
 /* Standardize content spacing */
 main {
     width: 100%;
-    max-width: {{ $contentWidth }};
+    max-width: {{ .Site.Params.theme.contentWidth }};
     margin: 0 auto;
-    padding: calc({{ $navbarHeight }} + {{ $headerGap }}) 0 2rem 0;
+    padding: calc({{ .Site.Params.theme.navbarHeight }} + {{ .Site.Params.theme.headerGap }}) 0 2rem 0;
 }
 
 h1, h2, h3 {
@@ -149,7 +149,7 @@ a:hover, img:hover {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    padding-top: calc({{ $navbarHeight }} + {{ $headerGap }}); /* Combined height */
+    padding-top: calc({{ .Site.Params.theme.navbarHeight }} + {{ .Site.Params.theme.headerGap }}); /* Combined height */
     margin-top: 0;
 }
 
@@ -166,7 +166,7 @@ a:hover, img:hover {
     border: 1px solid {{ .Site.Params.colors.link }};
     border-radius: 8px;
     padding: 4px;
-    background-color: rgba(31, 31, 31, {{ $transparency }});
+    background-color: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
 }
 
 /* Base container styles for ALL pages */
@@ -179,7 +179,7 @@ a:hover, img:hover {
 .blog-content,
 .single-content,
 .home-content {
-    background-color: rgba(31, 31, 31, {{ $transparency }});
+    background-color: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     padding: 2rem;
@@ -230,9 +230,9 @@ article,
 .article-content,
 .content-wrapper,
 .section {
-    padding-top: calc({{ $navbarHeight }} + {{ $headerGap }});
+    padding-top: calc({{ .Site.Params.theme.navbarHeight }} + {{ .Site.Params.theme.headerGap }});
     width: 100%;
-    max-width: {{ $contentWidth }};
+    max-width: {{ .Site.Params.theme.contentWidth }};
     margin: 0 auto;
     box-sizing: border-box;
 }
@@ -252,21 +252,21 @@ main .content-container,
 article .content-container,
 .article-content .content-container,
 .content-wrapper .content-container {
-    padding-top: calc({{ $mobileNavbarHeight }} + {{ $headerGap }});
+    padding-top: calc({{ .Site.Params.theme.navbarHeight }} + {{ .Site.Params.theme.headerGap }});
 }
 
 /* Base container styles (e.g. navbar, sections) */
 .navbar-container,
 .section {
     width: 100%;
-    max-width: {{ $contentWidth }};
+    max-width: {{ .Site.Params.theme.contentWidth }};
     margin: 0 auto;
     box-sizing: border-box;
-    background-color: rgba(31, 31, 31, {{ $transparency }});
+    background-color: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     padding: 2rem;
-    padding-top: calc({{ $navbarHeight }} + {{ $headerGap }});
+    padding-top: calc({{ .Site.Params.theme.navbarHeight }} + {{ .Site.Params.theme.headerGap }});
 }
 
 /* ---------------------------
@@ -294,7 +294,7 @@ article .content-container,
         margin: 0 1rem 20px;
         padding: 1.5rem;
         border-radius: 8px;
-        padding-top: calc({{ $mobileNavbarHeight }} + {{ $headerGap }});
+        padding-top: calc({{ .Site.Params.theme.navbarHeight }} + {{ .Site.Params.theme.headerGap }});
         padding-left: 1rem;
         padding-right: 1rem;
         width: 100vw;
@@ -310,10 +310,10 @@ article .content-container,
     .navbar-links {
         display: none;
         position: fixed;
-        top: {{ $mobileNavbarHeight }};
+        top: {{ .Site.Params.theme.navbarHeight }};
         left: 0;
         right: 0;
-        background-color: rgba(31, 31, 31, {{ $transparency }});
+        background-color: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
         padding: 1rem;
         width: 100vw;
         z-index: 999;
@@ -363,7 +363,7 @@ article .content-container,
     
     /* Global mobile resets */
     html, body { max-width: 100vw; overflow-x: hidden; }
-    .page-wrapper { padding-top: calc({{ $mobileNavbarHeight }} + 10px); }
+    .page-wrapper { padding-top: calc({{ .Site.Params.theme.navbarHeight }} + 10px); }
     .site-logo { height: 30px; }
     .page-list, .blog-list { grid-template-columns: 1fr; }
     
@@ -410,6 +410,6 @@ article .content-container,
 .section-list .section,
 .coaching-section .section,
 .about-section .section {
-    padding-top: calc({{ $mobileNavbarHeight }} + {{ $headerGap }});
+    padding-top: calc({{ .Site.Params.theme.navbarHeight }} + {{ .Site.Params.theme.headerGap }});
     margin-top: 0;
 }

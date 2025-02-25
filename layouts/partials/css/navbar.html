@@ -3,8 +3,8 @@
     top: 0;
     left: 0;
     right: 0;
-    height: {{ $navbarHeight }};
-    background-color: rgba(31, 31, 31, {{ $transparency }});
+    height: {{ .Site.Params.theme.navbarHeight }};
+    background-color: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
     color: {{ .Site.Params.colors.headerText }};
     padding: 0 2rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
