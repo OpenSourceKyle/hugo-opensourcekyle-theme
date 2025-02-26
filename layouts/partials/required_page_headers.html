@@ -1,1 +1,6 @@
-{{ return (slice "# Summary" "# Intro" "# Info" "# Action") }}
+{{/*
+  Required headers for pages.
+  This is used to validate the content of pages.
+  If a page is missing any of these headers, it will be flagged as an error.
+*/}}
+{{ return (slice "# Intro" "# Details" "# Action") }}

@@ -1,38 +1,27 @@
 {{ define "main" }}
 
 {{/* VALIDATE PAGE FRONT MATTER */}}
-{{ $filename := .File.Path }}
-{{ $missingFields := slice }}  {{/* Initialize an empty slice for missing fields */}}
-{{ if not .Params.title }}
-  {{ $missingFields = append $missingFields "title" }}
-{{ end }}
-{{ if not .Params.date }}
-  {{ $missingFields = append $missingFields "date" }}
-{{ end }}
-{{ if not .Params.tags }}
-  {{ $missingFields = append $missingFields "tags" }}
-{{ end }}
-{{ if not .Params.image }}
-  {{ $missingFields = append $missingFields "image" }}
-{{ end }}
-{{ if not .Params.image_caption }}
-  {{ $missingFields = append $missingFields "image_caption" }}
-{{ end }}
-
-{{ if gt (len $missingFields) 0 }}  {{/* Only print if there are missing fields */}}
-  {{ errorf "ERROR: %q is missing required front matter fields: %s" $filename (delimit $missingFields ", ") }}
-{{ end }}
+{{ $filename := .File.Path }} {{ $missingFields := slice }}
+{{ if not (isset .Params "title") }} {{ $missingFields = $missingFields | append "title" }} {{ else if eq .Params.title "" }} {{ $missingFields = $missingFields | append "title" }} {{ end }}
+{{ if not (isset .Params "date") }} {{ $missingFields = $missingFields | append "date" }} {{ else if eq .Params.date "" }} {{ $missingFields = $missingFields | append "date" }} {{ end }}
+{{ if not (isset .Params "tags") }} {{ $missingFields = $missingFields | append "tags" }} {{ else if eq (len .Params.tags) 0 }} {{ $missingFields = $missingFields | append "tags" }} {{ end }}
+{{ if not (isset .Params "image") }} {{ $missingFields = $missingFields | append "image" }} {{ else if eq .Params.image "" }} {{ $missingFields = $missingFields | append "image" }} {{ end }}
+{{ if not (isset .Params "image_caption") }} {{ $missingFields = $missingFields | append "image_caption" }} {{ else if eq .Params.image_caption "" }} {{ $missingFields = $missingFields | append "image_caption" }} {{ end }}
+{{ if not (isset .Params "description") }} {{ $missingFields = $missingFields | append "description" }} {{ else if eq .Params.description "" }} {{ $missingFields = $missingFields | append "description" }} {{ end }}
+{{ if gt (len $missingFields) 0 }} {{ errorf "ERROR - FRONT MATTER: %q is missing or has empty required front matter fields: %s" $filename (delimit $missingFields ", ") }} {{ end }}
 
 {{/* VALIDATE PAGE CONTENT */}}
-{{ if and (eq .Kind "page") (not (in .Params.tags "sitemap")) }}  {{/* Skip validation for pages tagged as sitemap */}}
-  {{ if .Content }}  {{/* Ensure content exists before validation */}}
-    {{ $pageContent := .Content }}
-    {{ $pageFile := .File.Path }}
-    {{ $requiredHeaders := partial "required_page_headers.html" }}
-
-    {{ range $requiredHeaders }}
-      {{ if not (findRE (printf "^%s" .) $pageContent) }}
-        {{ errorf "Missing required header: %s in %s" . $pageFile }}
+{{ if and (eq .Kind "page") (not (in .Params.tags "exclude-from-validation")) }}
+  {{ if .Content }}
+    {{ $pageContent := .Content }} {{ $pageFile := .File.Path }} {{ $requiredHeaders := partial "required_page_headers.html" }}
+    {{ $missingHeaders := slice }} {{/* Ensure this is a slice */}}
+    {{ range $requiredHeaders }} {{ if not (findRE (printf "^%s" .) $pageContent) }} {{ $missingHeaders = $missingHeaders | append . }} {{ end }} {{ end }}
+    {{ if gt (len $missingHeaders) 0 }}
+      {{ errorf "ERROR - HEADER MISSING: %q is missing required headers: %s" $pageFile (delimit $missingHeaders ", ") }}
+    {{ else }}
+      {{ $foundHeaders := findRE `(?m)^# (.+)$` $pageContent }}
+      {{ if ne (delimit $foundHeaders " | ") (delimit $requiredHeaders " | ") }}
+        {{ errorf "ERROR - HEADER ORDER: %q has incorrect header order. Expected: %s, Found: %s" $pageFile (delimit $requiredHeaders " → ") (delimit $foundHeaders " → ") }}
       {{ end }}
     {{ end }}
   {{ end }}
