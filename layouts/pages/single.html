@@ -40,24 +40,6 @@
         </div>
         {{ end }}
 
-        {{ if not .Params.hide_toc }}
-        <div class="toc-container">
-            <button class="toc-toggle" onclick="toggleTOC()">
-                <span class="toc-label">Table of Contents</span>
-                <span class="toc-icon">▼</span>
-            </button>
-            <div id="TableOfContents" class="toc-content">
-                {{ .TableOfContents }}
-            </div>
-        </div>
-        {{ end }}
-
-        {{ if .Params.description }}
-        <div class="page-description">
-            {{ .Params.description }}
-        </div>
-        {{ end }}
-
         {{ if .Params.image }}
         <div class="featured-image">
             <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" />
@@ -68,6 +50,24 @@
                 {{ .Params.image_caption }}
                 {{ end }}
             </i>
+        </div>
+        {{ end }}
+
+        {{ if .Params.description }}
+        <div class="page-description">
+            {{ .Params.description }}
+        </div>
+        {{ end }}
+
+        {{ if not .Params.hide_toc }}
+        <div class="toc-container">
+            <button class="toc-toggle" onclick="toggleTOC()">
+                <span class="toc-label">Table of Contents</span>
+                <span class="toc-icon">▼</span>
+            </button>
+            <div id="TableOfContents" class="toc-content">
+                {{ .TableOfContents }}
+            </div>
         </div>
         {{ end }}
 
