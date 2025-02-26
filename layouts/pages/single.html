@@ -1,24 +1,41 @@
 {{ define "main" }}
-{{ $filename := .File }}
 
+{{/* VALIDATE PAGE FRONT MATTER */}}
+{{ $filename := .File.Path }}
+{{ $missingFields := slice }}  {{/* Initialize an empty slice for missing fields */}}
 {{ if not .Params.title }}
-{{ errorf "ERROR: Missing title in front matter for file: %q" $filename.Path }}
+  {{ $missingFields = append $missingFields "title" }}
 {{ end }}
-
 {{ if not .Params.date }}
-{{ errorf "ERROR: Missing date in front matter for file: %q" $filename.Path }}
+  {{ $missingFields = append $missingFields "date" }}
 {{ end }}
-
 {{ if not .Params.tags }}
-{{ errorf "ERROR: Missing tags in front matter for file: %q" $filename.Path }}
+  {{ $missingFields = append $missingFields "tags" }}
 {{ end }}
-
 {{ if not .Params.image }}
-{{ errorf "ERROR: Missing image in front matter for file: %q" $filename.Path }}
+  {{ $missingFields = append $missingFields "image" }}
+{{ end }}
+{{ if not .Params.image_caption }}
+  {{ $missingFields = append $missingFields "image_caption" }}
 {{ end }}
 
-{{ if not .Params.image_caption }}
-{{ errorf "ERROR: Missing image_caption in front matter for file: %q" $filename.Path }}
+{{ if gt (len $missingFields) 0 }}  {{/* Only print if there are missing fields */}}
+  {{ errorf "ERROR: %q is missing required front matter fields: %s" $filename (delimit $missingFields ", ") }}
+{{ end }}
+
+{{/* VALIDATE PAGE CONTENT */}}
+{{ if and (eq .Kind "page") (not (in .Params.tags "sitemap")) }}  {{/* Skip validation for pages tagged as sitemap */}}
+  {{ if .Content }}  {{/* Ensure content exists before validation */}}
+    {{ $pageContent := .Content }}
+    {{ $pageFile := .File.Path }}
+    {{ $requiredHeaders := partial "required_page_headers.html" }}
+
+    {{ range $requiredHeaders }}
+      {{ if not (findRE (printf "^%s" .) $pageContent) }}
+        {{ errorf "Missing required header: %s in %s" . $pageFile }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
 {{ end }}
 
 <div class="content-container">

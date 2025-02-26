@@ -74,17 +74,6 @@ To embed a Calendly widget, use:
 
 ---
 
-### **📂 Collapsible Sections**
-To create collapsible sections in Markdown:
-
-```md
-{{< collapsible title="Click to Expand" >}}
-Your hidden content here.
-{{< /collapsible >}}
-```
-
----
-
 ### **🖼️ Lightbox for Images**
 To enable images to open in an overlay:
 

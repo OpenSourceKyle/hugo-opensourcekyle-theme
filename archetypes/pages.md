@@ -7,6 +7,8 @@ image_caption: ""
 image_link: ""
 ---
 
-# Opener
+{{ range partial "required_page_headers.html" }}
+{{ . }}
 
-Write your content here...
+(Add content here...)
+{{ end }}
