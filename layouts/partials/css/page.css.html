@@ -97,27 +97,22 @@
 }
 
 .disclaimer-box {
-    background-color: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }}) !important;
-    border: 1px solid {{ .Site.Params.colors.warning }} !important;
-    color: {{ .Site.Params.colors.warning }} !important;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid {{ .Site.Params.colors.warning }};
+    color: {{ .Site.Params.colors.warning }};
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 30px;
-    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     text-align: center;
     font-size: 0.95rem;
     line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
+    font-smoothing: antialiased;
     box-sizing: border-box;
 }
 
 .disclaimer-box strong {
-    color: {{ .Site.Params.colors.warning }} !important;
+    color: {{ .Site.Params.colors.warning }};
     display: inline;
     margin-right: 5px;
     font-size: 1.1rem;
