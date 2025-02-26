@@ -1,17 +1,10 @@
 <style>
-{{ partial "css/base.css.html" . }}
-{{ partial "css/navbar.css.html" . }}
-{{ partial "css/footer.css.html" . }}
-{{ partial "css/social-float.css.html" . }}
-{{ partial "css/toc.css.html" . }}
-{{ partial "css/lightbox.css.html" . }}
-{{ partial "css/link-preview.css.html" . }}
-{{ partial "css/code.css.html" . }}
-{{ partial "css/post.css.html" . }}
-{{ partial "css/tags.css.html" . }}
-{{ partial "css/author.css.html" . }}
-{{ partial "css/page-metadata.css.html" . }}
-{{ partial "css/blog.css.html" . }}
-{{ partial "css/card.css.html" . }}
-{{ partial "css/collapsible.css.html" . }}
+{{ $theme := .Site.Params.theme_name | default "hugo-opensourcekyle-theme" }}
+{{ $cssDir := printf "themes/%s/layouts/partials/css" $theme }}{{ $files := readDir $cssDir }}
+{{ range $files }}
+  {{/* Only process files ending in .css.html */}}
+  {{ if strings.HasSuffix .Name ".css.html" }}
+    {{ partial (printf "css/%s" .Name) $ }}
+  {{ end }}
+{{ end }}
 </style>

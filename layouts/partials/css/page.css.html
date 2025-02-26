@@ -97,9 +97,9 @@
 }
 
 .disclaimer-box {
-    background-color: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
-    border: 1px solid {{ .Site.Params.colors.warning }};
-    color: {{ .Site.Params.colors.warning }};
+    background-color: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }}) !important;
+    border: 1px solid {{ .Site.Params.colors.warning }} !important;
+    color: {{ .Site.Params.colors.warning }} !important;
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 30px;
@@ -117,7 +117,7 @@
 }
 
 .disclaimer-box strong {
-    color: {{ .Site.Params.colors.warning }};
+    color: {{ .Site.Params.colors.warning }} !important;
     display: inline;
     margin-right: 5px;
     font-size: 1.1rem;

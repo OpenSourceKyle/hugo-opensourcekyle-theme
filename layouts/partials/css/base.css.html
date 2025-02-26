@@ -54,12 +54,6 @@ body::before {
     background: {{ .Site.Params.colors.sectionBackground }};
 }
 
-/* Firefox scrollbar colors */
-* {
-    scrollbar-width: auto;
-    scrollbar-color: {{ .Site.Params.colors.sectionBackground }} rgba(31,31,31,{{ .Site.Params.theme.transparency }});
-}
-
 /* Table defaults */
 table {
     width: 100%;
@@ -399,18 +393,6 @@ article .content-container,
     }
     .post-date {
         min-width: unset;
-    }
-    footer {
-        padding: 10px 0;
-        font-size: 0.8em;
-    }
-    .footer-links {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
-    .footer-separator {
-        display: none;
     }
     .profile-pic {
         float: none;
