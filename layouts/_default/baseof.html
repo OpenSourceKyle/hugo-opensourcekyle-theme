@@ -56,12 +56,13 @@
     {{ with .OutputFormats.Get "RSS" }}
     <link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ $.Site.Title }}">
     {{ end }}
-    {{ $styles := resources.Get "css/style.css.html" | resources.ExecuteAsTemplate "style.css" . | minify | fingerprint }}
+    {{ $styles := resources.Get "css/style.css.html" | resources.ExecuteAsTemplate "style.css" . | minify }}
     <link rel="stylesheet" href="{{ $styles.Permalink }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{{ "css/lightbox.css" | relURL }}">
     <script defer src="{{ "js/lightbox.js" | relURL }}"></script>
     <script defer src="{{ "js/link-preview.js" | relURL }}"></script>
+    <script defer src="{{ "js/collapsible.js" | relURL }}"></script>
 </head>
 <body>
     <script>
@@ -81,65 +82,79 @@
     {{ end }}
     
     <div class="page-wrapper">
-        {{ partial "header.html" . }}
+        <header>
+            {{ partial "navbar.html" . }}
+        </header>
+        
         <main>
             {{ block "main" . }}{{ end }}
         </main>
-        {{ partial "footer.html" . }}
+        
+        <footer>
+            {{ partial "footer.html" . }}
+        </footer>
     </div>
     <script>
-        document.querySelector('.hamburger-menu').addEventListener('click', function() {
-            this.classList.toggle('active');
-            document.querySelector('.navbar-links').classList.toggle('active');
-        });
-
-        function setHeaderHeight() {
-            const header = document.querySelector('header');
-            if (header) {
-                const headerHeight = header.offsetHeight;
-                document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburgerMenu = document.querySelector('.hamburger-menu');
+            if (hamburgerMenu) {
+                hamburgerMenu.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const navbarLinks = document.querySelector('.navbar-links');
+                    if (navbarLinks) {
+                        navbarLinks.classList.toggle('active');
+                    }
+                });
             }
-        }
 
-        // Set the header height on load
-        window.addEventListener('load', setHeaderHeight);
+            function setHeaderHeight() {
+                const header = document.querySelector('header');
+                if (header) {
+                    const headerHeight = header.offsetHeight;
+                    document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+                }
+            }
 
-        // Optionally, update on resize if the header height might change
-        window.addEventListener('resize', setHeaderHeight);
+            // Set the header height on load
+            window.addEventListener('load', setHeaderHeight);
 
-        // Handle touch events for mobile
-        const logoLink = document.querySelector('.logo-link');
-        const navbarTitle = document.querySelector('.navbar-title');
+            // Optionally, update on resize if the header height might change
+            window.addEventListener('resize', setHeaderHeight);
 
-        logoLink.addEventListener('touchstart', function() {
-            navbarTitle.classList.add('hover');
-        });
+            // Handle touch events for mobile
+            const logoLink = document.querySelector('.logo-link');
+            const navbarTitle = document.querySelector('.navbar-title');
 
-        logoLink.addEventListener('touchend', function() {
-            setTimeout(() => {
-                navbarTitle.classList.remove('hover');
-            }, 300);
-        });
+            logoLink.addEventListener('touchstart', function() {
+                navbarTitle.classList.add('hover');
+            });
 
-        // Linktree popup functionality
-        const linktreeButton = document.getElementById('linktree-button');
-        const linktreePopup = document.getElementById('linktree-popup');
-        const closePopup = document.querySelector('.close-popup');
+            logoLink.addEventListener('touchend', function() {
+                setTimeout(() => {
+                    navbarTitle.classList.remove('hover');
+                }, 300);
+            });
 
-        linktreeButton.addEventListener('click', function(e) {
-            e.stopPropagation();
-            linktreePopup.classList.toggle('active');
-        });
+            // Linktree popup functionality
+            const linktreeButton = document.getElementById('linktree-button');
+            const linktreePopup = document.getElementById('linktree-popup');
+            const closePopup = document.querySelector('.close-popup');
 
-        closePopup.addEventListener('click', function() {
-            linktreePopup.classList.remove('active');
-        });
+            linktreeButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                linktreePopup.classList.toggle('active');
+            });
 
-        // Close popup when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!linktreePopup.contains(e.target) && e.target !== linktreeButton) {
+            closePopup.addEventListener('click', function() {
                 linktreePopup.classList.remove('active');
-            }
+            });
+
+            // Close popup when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!linktreePopup.contains(e.target) && e.target !== linktreeButton) {
+                    linktreePopup.classList.remove('active');
+                }
+            });
         });
     </script>
 </body>

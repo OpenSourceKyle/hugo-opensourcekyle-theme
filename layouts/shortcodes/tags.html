@@ -1,3 +1,4 @@
+{{/* Shortcode for tags on sitemap page */}}
 <ul>
     {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
     <li><a href="/tags/{{ $name | urlize }}">#{{ $name }}</a> ({{ len $taxonomy }} posts)</li>

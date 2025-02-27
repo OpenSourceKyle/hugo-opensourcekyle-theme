@@ -1,0 +1,261 @@
+/* ------------------------------
+   Floating Button Container
+------------------------------*/
+.floating-button-container {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 999999;
+}
+
+/* ------------------------------
+   Floating Button (Circle)
+------------------------------*/
+.floating-button {
+  position: fixed !important;
+  right: 20px !important;
+  bottom: 20px !important;
+  width: 50px;
+  height: 50px;
+  background-color: {{ .Site.Params.colors.socialButtonBackground }};
+  border: 1px solid {{ .Site.Params.colors.link }};
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 15px {{ .Site.Params.colors.link }}33; /* Using link color with 20% opacity */
+  transition: all 0.3s ease;
+  z-index: 999999;
+  top: auto !important;
+  left: auto !important;
+  margin: 0 !important;
+  transform: none;
+}
+
+.floating-button img {
+  width: 60% !important; /* Slightly smaller to match the image */
+  height: 60% !important;
+  object-fit: contain;
+  display: block;
+  filter: brightness(1.1) contrast(0.9); /* Make the icon slightly brighter */
+}
+
+.floating-button:hover {
+  transform: scale(1.05); /* Subtle hover effect */
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5), 0 0 20px {{ .Site.Params.colors.linkHover }}40; /* Using linkHover with 25% opacity */
+  border-color: {{ .Site.Params.colors.linkHover }};
+  background-color: {{ .Site.Params.colors.sectionBackground }};
+}
+
+.floating-button:active {
+  transform: scale(0.95); /* Slight press effect */
+}
+
+/* ------------------------------
+   Themed Button (Shortcodes)
+------------------------------*/
+.themed-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: {{ .Site.Params.colors.link }};
+  color: {{ .Site.Params.colors.background }};
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  font-weight: bold;
+  transition: transform 0.2s, background-color 0.2s;
+  text-decoration: none;
+}
+
+.themed-button:hover {
+  transform: translateY(-2px);
+  background-color: {{ .Site.Params.colors.linkHover }};
+  color: {{ .Site.Params.colors.background }};
+  text-decoration: none;
+}
+
+/* ------------------------------
+   Linktree Popup
+------------------------------*/
+.linktree-popup {
+  display: none;
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background-color: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
+  border: 1px solid {{ .Site.Params.colors.link }};
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  max-width: 90vw;
+  backdrop-filter: blur(10px);
+  z-index: 999998;
+}
+
+.linktree-popup.active {
+  display: block;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.linktree-popup-content {
+  padding: 1rem;
+}
+
+.linktree-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid {{ .Site.Params.colors.link }};
+}
+
+.linktree-header h3 {
+  margin: 0;
+  color: {{ .Site.Params.colors.headerText }};
+  font-size: 1.1rem;
+}
+
+.close-popup {
+  background: none;
+  border: none;
+  color: {{ .Site.Params.colors.headerText }};
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.linktree-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.linktree-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: {{ .Site.Params.colors.socialButtonBackground }};
+  color: {{ .Site.Params.colors.headerText }};
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.linktree-link:hover {
+  background-color: {{ .Site.Params.colors.link }};
+  transform: translateY(-2px);
+}
+
+.linktree-link i {
+  font-size: 1.5rem;
+  width: 24px;
+  text-align: center;
+}
+
+.linktree-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.link-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.link-title {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.link-desc {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+/* ------------------------------
+   Media Queries
+------------------------------*/
+@media (max-width: 768px) {
+  .floating-button {
+    right: 15px !important;
+    bottom: 15px !important;
+  }
+  .linktree-popup {
+    bottom: 70px;
+    right: 10px;
+    width: 300px;
+    max-width: 90vw;
+    max-height: 70vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-button {
+    right: 10px !important;
+    bottom: 10px !important;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .floating-button {
+    bottom: 10px !important;
+  }
+}
+
+/* ------------------------------
+   iFrames & Embedded Content
+------------------------------*/
+iframe,
+.youtube-container,
+.calendly-container {
+  position: relative;
+  z-index: 1;
+}
+
+.youtube-container iframe,
+iframe[src*="youtube.com"],
+iframe[src*="youtu.be"] {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 315px;
+}
+
+.youtube-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+}
+
+.youtube-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

@@ -1,0 +1,463 @@
+/* ---------------------------
+   Base Setup
+------------------------------*/
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    background-color: {{ .Site.Params.colors.background }};
+}
+
+/* Force the scrollbar to always show */
+html {
+    overflow-y: scroll;
+    scrollbar-width: 50px; /* For Firefox's scrollbar width */
+}
+
+/* For IE/Edge */
+body {
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+/* Fullscreen background overlay */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+    z-index: -1;
+}
+
+/* Custom Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 50px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
+}
+
+::-webkit-scrollbar-thumb {
+    background: {{ .Site.Params.colors.sectionBackground }};
+    border-radius: 7px;
+    border: 4px solid rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: {{ .Site.Params.colors.sectionBackground }};
+}
+
+/* Table defaults */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid {{ .Site.Params.colors.tableBorder }};
+}
+
+th {
+    background-color: {{ .Site.Params.colors.tableHeaderBackground }};
+    font-weight: bold;
+    color: {{ .Site.Params.colors.tableHeaderText }};
+}
+
+tr:nth-child(even) {
+    background-color: {{ .Site.Params.colors.tableRowEvenBackground }};
+}
+
+tr:hover {
+    background-color: {{ .Site.Params.colors.tableRowHoverBackground }};
+}
+
+/* Images & Links */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+a {
+    color: {{ .Site.Params.colors.link }};
+    text-decoration: none;
+    transition: color 0.3s, transform 0.3s ease;
+}
+
+a:hover {
+    color: {{ .Site.Params.colors.linkHover }};
+    transform: scale(1.03);
+}
+
+p, ul, li {
+    color: {{ .Site.Params.colors.paragraphText }};
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: {{ .Site.Params.colors.headerText }};
+}
+
+/* Main content area */
+main {
+    width: 100%;
+    flex: 1;
+    padding: 0;
+    margin-bottom: 2rem; /* Gap before footer on desktop */
+    max-width: {{ .Site.Params.theme.contentWidth }};
+    margin: 0 auto; /* Center on desktop */
+    padding: calc({{ .Site.Params.theme.navbarHeight }} + {{ .Site.Params.theme.headerGap }}) 0 2rem 0;
+}
+
+/* Page wrapper for full-height layout */
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: calc({{ .Site.Params.theme.navbarHeight }} + {{ .Site.Params.theme.headerGap }});
+}
+
+/* ---------------------------
+   Desktop & Larger
+------------------------------*/
+
+/* Add border to content images but exclude logos/floating icons */
+.section img:not(.site-logo):not(.floating-button img),
+.page-content img:not(.site-logo):not(.floating-button img),
+.featured-image img:not(.site-logo):not(.floating-button img),
+.profile-pic {
+    border: 1px solid {{ .Site.Params.colors.link }};
+    border-radius: 8px;
+    padding: 4px;
+    background-color: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
+}
+
+/* Base container styles for ALL pages */
+.section,
+.section-list,
+.coaching-section,
+.about-section,
+.page-content,
+.blog-content,
+.single-content,
+.home-content {
+    background-color: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 2rem;
+    margin: 0 auto 20px;
+    width: 100%;
+    max-width: 800px;
+    box-sizing: border-box;
+}
+
+/* Reset padding for certain containers */
+.page-content,
+.blog-content,
+.single-content,
+.home-content,
+.about-content,
+.coaching-content {
+    padding-top: 2rem;
+}
+
+/* Base content container styles */
+.page-content,
+.blog-content,
+.section-content,
+.list-content,
+.taxonomy-content,
+.single-content,
+.home-content,
+.about-content,
+.coaching-content,
+main,
+article,
+.content-wrapper,
+.section {
+    padding-top: calc({{ .Site.Params.theme.navbarHeight }} + {{ .Site.Params.theme.headerGap }});
+    width: 100%;
+    max-width: {{ .Site.Params.theme.contentWidth }};
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/* Removed duplicate padding from nested .content-container references */
+
+/* Base container styles (navbar, sections) */
+.navbar-container,
+.section {
+    width: 100%;
+    max-width: {{ .Site.Params.theme.contentWidth }};
+    margin: 0 auto;
+    box-sizing: border-box;
+    background-color: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    padding-top: calc({{ .Site.Params.theme.navbarHeight }} + {{ .Site.Params.theme.headerGap }});
+}
+
+/* Main content ordering */
+.page-text {
+    order: 4;
+}
+
+/* Add padding to headings for better scroll positioning */
+.page-text h1,
+.page-text h2,
+.page-text h3,
+.page-text h4 {
+    padding-top: 30px;
+    margin-top: -20px;
+}
+
+/* Ensure nested sections don't have duplicate padding */
+.section .section,
+.section-list .section,
+.coaching-section .section,
+.about-section .section {
+    padding-top: calc({{ .Site.Params.theme.navbarHeight }} + {{ .Site.Params.theme.headerGap }});
+    margin-top: 0;
+}
+
+/* ---------------------------
+   Mobile Styles (max-width:768px)
+------------------------------*/
+@media (max-width: 768px) {
+    /* General container adjustments */
+    .section,
+    .section-list,
+    .coaching-section,
+    .about-section,
+    .page-content,
+    .blog-content,
+    .single-content,
+    .home-content,
+    .section-content,
+    .list-content,
+    .taxonomy-content,
+    .coaching-content,
+    main,
+    article,
+    .article-content,
+    .content-wrapper {
+        margin: 0; /* Remove left/right/bottom margin for full width */
+        padding: 1.5rem 0; /* Remove horizontal padding, keep vertical */
+        border-radius: 0; /* Remove border radius for edge-to-edge design */
+        padding-top: calc({{ .Site.Params.theme.navbarHeight }} + {{ .Site.Params.theme.headerGap }});
+        width: 100vw;
+        max-width: 100vw;
+        overflow-x: hidden;
+    }
+    
+    /* Section headers and content padding */
+    .section h2,
+    .section p,
+    .section ul,
+    /* .section a:not(.card-link), removed */
+    .section .read-more-link {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    /* Removed border radius from cards on mobile */
+    /* Removed .page-card, .card-image img { ... } block */
+    
+    /* Make cards full width */
+    .category-grid {
+        padding: 0;
+    }
+    
+    /* Removed Reset padding for cards block (.card-content { ... }) */
+    
+    /* Main element adjustments */
+    main {
+        padding: 0;
+        margin: 0 auto; /* No bottom gap on mobile */
+    }
+    
+    /* Navbar & Mobile Menu */
+    .hamburger-menu {
+        display: block;
+        margin: auto 0;
+    }
+    .navbar-links {
+        display: none;
+        position: fixed;
+        top: {{ .Site.Params.theme.navbarHeight }};
+        left: 0;
+        right: 0;
+        background-color: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
+        padding: 1rem;
+        width: 100vw;
+        z-index: 999;
+    }
+    .navbar-links.active {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    .navbar-content {
+        position: relative;
+    }
+    .hamburger-menu.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger-menu.active span:nth-child(2) {
+        opacity: 0;
+    }
+    .hamburger-menu.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+    }
+    
+    /* Specific element tweaks */
+    .navbar-title {
+        font-size: 1.5em;
+    }
+    .section {
+        margin-bottom: 3rem;
+        padding: 1.5rem;
+    }
+    .section:last-of-type {
+        margin-bottom: 1.5rem;
+    }
+    h1 {
+        font-size: 1.8em;
+    }
+    h2 {
+        font-size: 1.5em;
+    }
+    h3 {
+        font-size: 1.2em;
+    }
+    .post-date {
+        min-width: unset;
+    }
+    .profile-pic {
+        float: none;
+        margin: 0 auto 20px;
+        display: block;
+    }
+    .tags {
+        gap: 0.3rem;
+    }
+    .tag {
+        padding: 0.2rem 0.6rem;
+        font-size: 0.8em;
+    }
+    .coaching-section,
+    .about-section {
+        padding: 1.5rem;
+        margin: 10px;
+    }
+    
+    /* Global mobile resets */
+    html, body {
+        max-width: 100vw;
+        overflow-x: hidden;
+    }
+    .page-wrapper {
+        padding-top: calc({{ .Site.Params.theme.navbarHeight }} + {{ .Site.Params.theme.headerGap }});
+    }
+    .site-logo {
+        height: 30px;
+    }
+    .page-list,
+    .blog-list {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Table wrapper for horizontal scroll */
+    table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        white-space: nowrap;
+        border-radius: 0;
+    }
+    th, td {
+        min-width: 120px;
+        white-space: normal;
+        word-wrap: break-word;
+    }
+    
+    /* Additional mobile tweaks */
+    .featured-image {
+        margin: 0.5rem 0;
+    }
+    .toc-container {
+        margin: 0.5rem 0;
+        border-radius: 0;
+    }
+}
+
+/* ---------------------------
+   Additional Mobile Overrides
+------------------------------*/
+@media (max-width: 768px) {
+    /* Page container adjustments */
+    .page-wrapper {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+    
+    /* Content area */
+    main {
+        padding-left: 0;
+        padding-right: 0;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+    }
+    
+    /* Various container widths reset */
+    .section-container,
+    .content-wrapper,
+    .page-content,
+    .about-section,
+    .blog-content,
+    .coaching-content,
+    article,
+    section {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        box-sizing: border-box;
+    }
+    
+    /* Adjust specific backgrounds */
+    .content-section {
+        border-radius: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+    
+    /* Removed extra horizontal padding from cards block */
+    /* Removed .card, .content-box { ... } */
+    
+    /* Special fix for homepage sections */
+    .home-section,
+    .about-container {
+        padding: 20px 15px !important;
+        margin: 0 !important;
+        width: 100% !important;
+        border-radius: 0 !important;
+    }
+}

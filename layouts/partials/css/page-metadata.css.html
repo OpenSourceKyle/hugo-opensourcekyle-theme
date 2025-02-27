@@ -1,0 +1,70 @@
+.tags {
+    margin: 1rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag {
+    background-color: rgba(31, 31, 31, 0.8);
+    color: {{ .Site.Params.colors.headerText }};
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.9em;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.tag:hover {
+    transform: scale(1.1);
+    color: {{ .Site.Params.colors.linkHover }};
+}
+
+.post-date {
+    min-width: 100px;
+    font-style: italic;
+    color: {{ .Site.Params.colors.paragraphText }};
+}
+
+.post-summary {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.post-summary h3 {
+    margin-bottom: 0.5rem;
+}
+
+.post-summary .post-date {
+    margin: 0.5rem 0;
+}
+
+.tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.tag-group {
+    margin-bottom: 1rem;
+}
+
+.read-time {
+    color: {{ .Site.Params.colors.paragraphText }};
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.read-time span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.read-time i {
+    font-size: 0.9em;
+    opacity: 0.8;
+}

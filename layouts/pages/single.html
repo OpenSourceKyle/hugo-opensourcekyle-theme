@@ -1,28 +1,34 @@
 {{ define "main" }}
-{{ $filename := .File }}
 
-{{ if not .Params.title }}
-{{ errorf "ERROR: Missing title in front matter for file: %q" $filename.Path }}
+{{/* VALIDATE PAGE FRONT MATTER */}}
+{{ $filename := .File.Path }} {{ $missingFields := slice }}
+{{ if not (isset .Params "title") }} {{ $missingFields = $missingFields | append "title" }} {{ else if eq .Params.title "" }} {{ $missingFields = $missingFields | append "title" }} {{ end }}
+{{ if not (isset .Params "date") }} {{ $missingFields = $missingFields | append "date" }} {{ else if eq .Params.date "" }} {{ $missingFields = $missingFields | append "date" }} {{ end }}
+{{ if not (isset .Params "tags") }} {{ $missingFields = $missingFields | append "tags" }} {{ else if eq (len .Params.tags) 0 }} {{ $missingFields = $missingFields | append "tags" }} {{ end }}
+{{ if not (isset .Params "image") }} {{ $missingFields = $missingFields | append "image" }} {{ else if eq .Params.image "" }} {{ $missingFields = $missingFields | append "image" }} {{ end }}
+{{ if not (isset .Params "image_caption") }} {{ $missingFields = $missingFields | append "image_caption" }} {{ else if eq .Params.image_caption "" }} {{ $missingFields = $missingFields | append "image_caption" }} {{ end }}
+{{ if not (isset .Params "description") }} {{ $missingFields = $missingFields | append "description" }} {{ else if eq .Params.description "" }} {{ $missingFields = $missingFields | append "description" }} {{ end }}
+{{ if gt (len $missingFields) 0 }} {{ errorf " - FRONT MATTER: %q is missing or has empty required front matter fields: %s" $filename (delimit $missingFields ", ") }} {{ end }}
+
+{{/* VALIDATE PAGE CONTENT using .RawContent */}}
+{{ if and (eq .Kind "page") (not (in .Params.tags "exclude-from-validation")) }}
+  {{ if .RawContent }}
+    {{ $pageContent := .RawContent }} {{ $pageFile := .File.Path }} {{ $requiredHeaders := partial "required_page_headers.html" }}
+    {{ $missingHeaders := slice }}
+    {{ range $requiredHeaders }} {{ if not (findRE (printf "(?m)^%s" .) $pageContent) }} {{ $missingHeaders = $missingHeaders | append . }} {{ end }} {{ end }}
+    {{ if gt (len $missingHeaders) 0 }}
+      {{ errorf "ERROR - HEADER MISSING: %q is missing required headers: %s" $pageFile (delimit $missingHeaders ", ") }}
+    {{ else }}
+      {{ $foundHeaders := findRE "(?m)^(# .+)$" $pageContent }}
+      {{ if ne (delimit $foundHeaders " | ") (delimit $requiredHeaders " | ") }}
+        {{ errorf "ERROR - HEADER ORDER: %q has incorrect header order. Expected: %s, Found: %s" $pageFile (delimit $requiredHeaders " → ") (delimit $foundHeaders " → ") }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
 {{ end }}
 
-{{ if not .Params.date }}
-{{ errorf "ERROR: Missing date in front matter for file: %q" $filename.Path }}
-{{ end }}
-
-{{ if not .Params.tags }}
-{{ errorf "ERROR: Missing tags in front matter for file: %q" $filename.Path }}
-{{ end }}
-
-{{ if not .Params.image }}
-{{ errorf "ERROR: Missing image in front matter for file: %q" $filename.Path }}
-{{ end }}
-
-{{ if not .Params.image_caption }}
-{{ errorf "ERROR: Missing image_caption in front matter for file: %q" $filename.Path }}
-{{ end }}
-
+{{/* PAGE CONTENT */}}
 <div class="content-container">
-    <div class="card-content">
         <h1>{{ .Title }}</h1>
         {{ partial "author-bubble.html" . }}
         {{ partial "tags.html" . }}
@@ -45,7 +51,13 @@
             </i>
         </div>
         {{ end }}
-        
+
+        {{ if .Params.description }}
+        <div class="page-description">
+            Description:<br>{{ .Params.description }}
+        </div>
+        {{ end }}
+
         {{ if not .Params.hide_toc }}
         <div class="toc-container">
             <button class="toc-toggle" onclick="toggleTOC()">
@@ -54,16 +66,13 @@
             </button>
             <div id="TableOfContents" class="toc-content">
                 {{ .TableOfContents }}
-                <div class="back-to-top">
-                    <a href="#" onclick="scrollToTop(event)">↑ BACK TO TOP</a>
-                </div>
             </div>
         </div>
         {{ end }}
 
-    <div class="page-text" style="color: {{ .Site.Params.colors.paragraphText }}">
-        {{ .Content }}
-    </div>
+        <div class="page-text">
+            {{ .Content }}
+        </div>
 </div>
 
 <script>

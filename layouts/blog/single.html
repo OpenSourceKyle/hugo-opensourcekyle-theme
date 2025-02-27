@@ -1,12 +1,13 @@
 {{ define "main" }}
-<div class="content-container">
-    <article class="page-content">
-        {{ $filename := .File }}
-        {{ $pattern := `^\d{4}-\d{2}-\d{2}-.+` }}
 
-        {{ if not (findRE $pattern $filename.BaseFileName) }}
-        {{ errorf "ERROR: Blog post filename must follow 'YYYY-MM-DD-title.md' format: %q" $filename.Path }}
-        {{ else }}
+{{ $filename := .File }}
+{{ $pattern := `^\d{4}-\d{2}-\d{2}-.+` }}
+{{ if not (findRE $pattern $filename.BaseFileName) }}
+{{ errorf "ERROR: Blog post filename must follow 'YYYY-MM-DD-title.md' format: %q" $filename.Path }}
+{{ else }}
+
+<div class="content-container">
+    <article>
         <h1 style="color: {{ .Site.Params.colors.text }}">{{ .Title }}</h1>
         {{ partial "author-bubble.html" . }}
         {{ if .Params.tags }}
@@ -16,7 +17,7 @@
             {{ end }}
         </div>
         {{ end }}
-        <div class="page-text" style="color: {{ .Site.Params.colors.paragraphText }}">
+        <div class="page-text">
             {{ .Content }}
         </div>
         {{ end }}

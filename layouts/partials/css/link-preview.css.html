@@ -1,0 +1,66 @@
+/* Link Preview Styles */
+.link-preview {
+    position: absolute;
+    width: 250px;
+    background: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
+    border: 1px solid {{ .Site.Params.colors.link }};
+    border-radius: 8px;
+    padding: 10px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 1000;
+    color: {{ .Site.Params.colors.text }};
+    backdrop-filter: blur(5px);
+}
+
+.link-preview.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.link-preview.preview-above::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid {{ .Site.Params.colors.link }};
+}
+
+.link-preview.preview-below::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid {{ .Site.Params.colors.link }};
+}
+
+.link-preview-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.link-preview-title {
+    font-weight: bold;
+    color: {{ .Site.Params.colors.headerText }};
+}
+
+.link-preview-url {
+    font-size: 0.9em;
+    color: {{ .Site.Params.colors.paragraphText }};
+    word-break: break-all;
+}
+
+/* Hide preview on mobile */
+@media (max-width: 768px) {
+    .link-preview {
+        display: none;
+    }
+}

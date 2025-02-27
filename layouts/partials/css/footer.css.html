@@ -1,0 +1,32 @@
+/* Footer Base Styles */
+.footer-container {
+  flex-shrink: 0;
+  text-align: center !important;
+  padding: 0px 0;
+  color: {{ .Site.Params.colors.paragraphText }};
+  width: 100%;
+  font-size: 0.9em;
+  background: none;
+  box-shadow: none;
+  position: relative; /* Ensure it stays in the flow of the document */
+}
+
+.footer-link:hover {
+  color: {{ .Site.Params.colors.linkHover }};
+}
+
+/* Mobile Styles (max-width: 480px) */
+@media (max-width: 480px) {
+  .footer-container {
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center !important;
+  }
+  
+  .footer-link {
+    display: block;
+    margin: 0.8rem 0;
+    text-align: center !important;
+  }
+}

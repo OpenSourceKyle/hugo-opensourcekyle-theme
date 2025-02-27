@@ -5,8 +5,12 @@ tags: []
 image: ""
 image_caption: ""
 image_link: ""
+description: ""
 ---
 
-# Opener
+{{ range partial "required_page_headers.html" }}
+{{ . }}
 
-Write your content here...
+(Add content here...)
+
+{{ end }}
