@@ -38,6 +38,18 @@
         </div>
         {{ end }}
 
+        {{ if .Params.description }}
+        <div class="page-description">
+            <div class="description-toggle" onclick="toggleDescription(this)">
+                <i class="fas fa-chevron-down toggle-icon"></i>
+                Page Summary
+            </div>
+            <div class="description-content">
+                {{ .Params.description }}
+            </div>
+        </div>
+        {{ end }}
+
         {{ if .Params.image }}
         <div class="featured-image">
             <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" />
@@ -48,18 +60,6 @@
                 {{ .Params.image_caption }}
                 {{ end }}
             </i>
-        </div>
-        {{ end }}
-
-        {{ if .Params.description }}
-        <div class="page-description">
-            <div class="description-toggle" onclick="toggleDescription(this)">
-                <i class="fas fa-chevron-down toggle-icon"></i>
-                Page Summary
-            </div>
-            <div class="description-content">
-                {{ .Params.description }}
-            </div>
         </div>
         {{ end }}
 

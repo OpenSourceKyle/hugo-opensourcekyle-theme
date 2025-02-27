@@ -397,7 +397,6 @@
 .featured-image {
     margin: 2rem 0;
     max-width: 100%;
-    order: 1; /* Place first */
 }
 
 .featured-image img {
@@ -430,13 +429,12 @@
 .content-container {
     display: flex;
     flex-direction: column;
-    background-color: rgba(20, 20, 20, {{ .Site.Params.theme.transparency }}); /* Darker grey background color */
+    background-color: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }}); /* Darker grey background color */
     padding: 10px; /* Add slight padding */
 }
 
 /* Card content container */
 .card-content {
-    order: 1; /* Place first */
     margin-bottom: 1rem;
 }
 
@@ -444,11 +442,10 @@
 .featured-image {
     width: 100%;
     margin: 1rem 0;
-    order: 2; /* Place after card content */
 }
 
 .page-description {
-    background-color: rgba(17, 34, 64, {{ .Site.Params.theme.transparency }});
+    background-color: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
     border: 1px solid {{ .Site.Params.colors.tableBorder }};
     color: {{ .Site.Params.colors.paragraphText }};
     padding: 0;

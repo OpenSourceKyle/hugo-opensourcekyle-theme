@@ -7,7 +7,6 @@
     border: 1px solid {{ .Site.Params.colors.link }};
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     position: static;
-    order: 3;
 }
 
 /* Style the TOC header */
@@ -83,14 +82,6 @@
     .toc-content.collapsed {
         display: block !important;
         max-height: none !important;
-    }
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-    .toc-container {
-        margin: 0.5rem 0;
-        border-radius: 0;
     }
 
     .toc-content ul {
