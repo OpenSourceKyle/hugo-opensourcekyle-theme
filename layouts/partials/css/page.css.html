@@ -542,3 +542,38 @@
         margin-top: 1rem;  /* Slightly less space on mobile */
     }
 }
+
+#back-to-toc {
+    position: fixed;
+    bottom: 80px; /* Position above the linktree button */
+    right: 20px; /* Keep same right position as desktop */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(33, 33, 33, 0.7);
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex; /* Ensure it's visible */
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: background-color 0.3s, transform 0.3s;
+    z-index: 99999;
+}
+
+#back-to-toc:hover {
+    background-color: rgba(33, 33, 33, 0.9);
+    transform: scale(1.1);
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 768px) {
+    #back-to-toc {
+        bottom: 80px; /* Position above the linktree button */
+        right: 20px; /* Keep same right position as desktop */
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+}

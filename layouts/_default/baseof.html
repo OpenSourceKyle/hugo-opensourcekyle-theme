@@ -59,7 +59,6 @@
     {{ $styles := resources.Get "css/style.css.html" | resources.ExecuteAsTemplate "style.css" . | minify }}
     <link rel="stylesheet" href="{{ $styles.Permalink }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ "css/lightbox.css" | relURL }}">
     <script defer src="{{ "js/lightbox.js" | relURL }}"></script>
     <script defer src="{{ "js/link-preview.js" | relURL }}"></script>
     <script defer src="{{ "js/collapsible.js" | relURL }}"></script>
@@ -158,5 +157,11 @@
             });
         });
     </script>
+    
+    <!-- Add this before the closing body tag -->
+    <button id="back-to-toc" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    <script src="{{ "js/back-to-toc.js" | relURL }}"></script>
 </body>
 </html> 
