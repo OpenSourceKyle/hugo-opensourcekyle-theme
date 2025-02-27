@@ -104,7 +104,7 @@ p, ul, li {
     color: {{ .Site.Params.colors.paragraphText }};
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4, h5, h6 {
     color: {{ .Site.Params.colors.headerText }};
 }
 
@@ -125,7 +125,6 @@ main {
     flex-direction: column;
     min-height: 100vh;
     padding-top: calc({{ .Site.Params.theme.navbarHeight }} + {{ .Site.Params.theme.headerGap }});
-    margin-top: 0;
 }
 
 /* ---------------------------
@@ -134,7 +133,6 @@ main {
 
 /* Add border to content images but exclude logos/floating icons */
 .section img:not(.site-logo):not(.floating-button img),
-.content-container img:not(.site-logo):not(.floating-button img),
 .page-content img:not(.site-logo):not(.floating-button img),
 .featured-image img:not(.site-logo):not(.floating-button img),
 .profile-pic {
@@ -146,7 +144,6 @@ main {
 
 /* Base container styles for ALL pages */
 .section,
-.content-container,
 .section-list,
 .coaching-section,
 .about-section,
@@ -174,23 +171,7 @@ main {
     padding-top: 2rem;
 }
 
-/* Headings across all pages */
-.section h2,
-.page-content h2,
-.blog-content h2,
-.single-content h2,
-.home-content h2,
-.about-content h2,
-.coaching-content h2 {
-    color: {{ .Site.Params.colors.headerText }};
-    text-transform: uppercase;
-    border-bottom: 2px solid {{ .Site.Params.colors.link }};
-    padding-bottom: 0.5rem;
-    margin-bottom: 1.5rem;
-}
-
 /* Base content container styles */
-.content-container,
 .page-content,
 .blog-content,
 .section-content,
@@ -202,7 +183,6 @@ main {
 .coaching-content,
 main,
 article,
-.article-content,
 .content-wrapper,
 .section {
     padding-top: calc({{ .Site.Params.theme.navbarHeight }} + {{ .Site.Params.theme.headerGap }});
@@ -212,23 +192,7 @@ article,
     box-sizing: border-box;
 }
 
-/* Remove duplicate padding from nested containers */
-.content-container .content-container,
-.page-content .content-container,
-.blog-content .content-container,
-.section-content .content-container,
-.list-content .content-container,
-.taxonomy-content .content-container,
-.single-content .content-container,
-.home-content .content-container,
-.about-content .content-container,
-.coaching-content .content-container,
-main .content-container,
-article .content-container,
-.article-content .content-container,
-.content-wrapper .content-container {
-    padding-top: calc({{ .Site.Params.theme.navbarHeight }} + {{ .Site.Params.theme.headerGap }});
-}
+/* Removed duplicate padding from nested .content-container references */
 
 /* Base container styles (navbar, sections) */
 .navbar-container,
@@ -260,7 +224,6 @@ article .content-container,
 
 /* Ensure nested sections don't have duplicate padding */
 .section .section,
-.content-container .section,
 .section-list .section,
 .coaching-section .section,
 .about-section .section {
@@ -274,7 +237,6 @@ article .content-container,
 @media (max-width: 768px) {
     /* General container adjustments */
     .section,
-    .content-container,
     .section-list,
     .coaching-section,
     .about-section,
@@ -303,27 +265,21 @@ article .content-container,
     .section h2,
     .section p,
     .section ul,
-    .section a:not(.card-link),
+    /* .section a:not(.card-link), removed */
     .section .read-more-link {
         padding-left: 15px;
         padding-right: 15px;
     }
     
-    /* Remove border radius from cards on mobile */
-    .page-card, 
-    .card-image img {
-        border-radius: 0;
-    }
+    /* Removed border radius from cards on mobile */
+    /* Removed .page-card, .card-image img { ... } block */
     
     /* Make cards full width */
     .category-grid {
         padding: 0;
     }
     
-    /* Reset padding for cards - keep content visible but container edge-to-edge */
-    .card-content {
-        padding: 15px;
-    }
+    /* Removed Reset padding for cards block (.card-content { ... }) */
     
     /* Main element adjustments */
     main {
@@ -386,11 +342,6 @@ article .content-container,
     h3 {
         font-size: 1.2em;
     }
-    .blog-entry {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
     .post-date {
         min-width: unset;
     }
@@ -418,7 +369,7 @@ article .content-container,
         overflow-x: hidden;
     }
     .page-wrapper {
-        padding-top: calc({{ .Site.Params.theme.navbarHeight }} + 10px);
+        padding-top: calc({{ .Site.Params.theme.navbarHeight }} + {{ .Site.Params.theme.headerGap }});
     }
     .site-logo {
         height: 30px;
@@ -462,7 +413,6 @@ article .content-container,
         width: 100%;
         max-width: 100%;
         overflow-x: hidden;
-        padding: 0;
     }
     
     /* Content area */
@@ -499,14 +449,8 @@ article .content-container,
         width: 100% !important;
     }
     
-    /* Remove extra horizontal padding from cards */
-    .card,
-    .content-box {
-        border-radius: 0 !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        width: 100% !important;
-    }
+    /* Removed extra horizontal padding from cards block */
+    /* Removed .card, .content-box { ... } */
     
     /* Special fix for homepage sections */
     .home-section,

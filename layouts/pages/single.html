@@ -29,7 +29,6 @@
 
 {{/* PAGE CONTENT */}}
 <div class="content-container">
-    <div class="card-content">
         <h1>{{ .Title }}</h1>
         {{ partial "author-bubble.html" . }}
         {{ partial "tags.html" . }}
@@ -55,7 +54,7 @@
 
         {{ if .Params.description }}
         <div class="page-description">
-            {{ .Params.description }}
+            Description:<br>{{ .Params.description }}
         </div>
         {{ end }}
 
@@ -71,9 +70,9 @@
         </div>
         {{ end }}
 
-    <div class="page-text">
-        {{ .Content }}
-    </div>
+        <div class="page-text">
+            {{ .Content }}
+        </div>
 </div>
 
 <script>

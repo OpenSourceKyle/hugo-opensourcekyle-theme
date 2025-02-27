@@ -1,6 +1,7 @@
 {{ define "main" }}
 
-<div class="section about">
+<!-- About Section -->
+<div class="content-container">
     <h2>About Me</h2>
     {{ with .Site.GetPage "about" }}
     <div class="about-preview">
@@ -10,19 +11,20 @@
         <div class="about-text">
             <div style="color: {{ .Site.Params.colors.paragraphText }}">
                 <p>{{ .Summary }}</p>
-                <a href="{{ .RelPermalink }}" class="read-more-link">Read More</a>
+                <a href="{{ .RelPermalink }}" class="read-more-link">Read My Full Story</a>
             </div>
         </div>
     </div>
     {{ end }}
 </div>
 
-<div class="section pages">
+<!-- Pages Section -->
+<div class="content-container">
     <h2>Pages</h2>
     <div class="category-grid">
         {{ $pages := where .Site.RegularPages "Section" "pages" }}
         {{ $nonDraftPages := where $pages "Draft" false }}
-        {{ range first (default 6 .Site.Params.pagesToShow) $nonDraftPages }}
+        {{ range first (default 12 .Site.Params.pagesToShow) $nonDraftPages }}
         <a href="{{ .RelPermalink }}" class="card-link">
             <div class="page-card">
                 {{ if .Params.image }}
@@ -40,10 +42,11 @@
     <a href="{{ "/pages/" | relURL }}" class="view-all-link">View all pages</a>
 </div>
 
-<div class="section blog">
+<!-- Blog Section -->
+<div class="content-container">
     <h2>Latest Blog Posts</h2>
     <ul class="blog-list-preview">
-        {{ range first 5 (where .Site.RegularPages "Section" "blog") }}
+        {{ range first 10 (where .Site.RegularPages "Section" "blog") }}
         <li>
             <span class="post-date">{{ .Date.Format .Site.Params.dateFormat }}</span>
             <span class="blog-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></span>
@@ -53,12 +56,13 @@
     <a href="{{ "/blog/" | relURL }}" class="view-all-link">View all posts</a>
 </div>
 
-<div class="section coaching">
+<!-- Coaching Section -->
+<div class="content-container">
     <h2>Coaching Services</h2>
     {{ with .Site.GetPage "coaching" }}
     <div class="coaching-content">
         <p id="coachingSummary">{{ .Summary }}</p>
-        <a href="{{ .RelPermalink }}" class="read-more-link">Read More</a>
+        <a href="{{ .RelPermalink }}" class="read-more-link">Learn More</a>
     </div>
     {{ end }}
 </div>

@@ -82,11 +82,17 @@
     {{ end }}
     
     <div class="page-wrapper">
-        {{ partial "navbar.html" . }}
+        <header>
+            {{ partial "navbar.html" . }}
+        </header>
+        
         <main>
             {{ block "main" . }}{{ end }}
         </main>
-        {{ partial "footer.html" . }}
+        
+        <footer>
+            {{ partial "footer.html" . }}
+        </footer>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
