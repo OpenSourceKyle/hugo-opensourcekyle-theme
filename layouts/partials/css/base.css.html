@@ -18,7 +18,8 @@ body {
 /* Force the scrollbar to always show */
 html {
     overflow-y: scroll;
-    scrollbar-width: 50px; /* For Firefox's scrollbar width */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
 }
 
 /* For IE/Edge */
@@ -37,21 +38,32 @@ body::before {
 
 /* Custom Scrollbar Styling */
 ::-webkit-scrollbar {
-    width: 50px;
+    display: none;
 }
 
-::-webkit-scrollbar-track {
-    background: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
-}
+/* Only show scrollbar on desktop */
+@media (min-width: 769px) {
+    html {
+        scrollbar-width: thin;
+    }
 
-::-webkit-scrollbar-thumb {
-    background: {{ .Site.Params.colors.sectionBackground }};
-    border-radius: 7px;
-    border: 4px solid rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
-}
+    ::-webkit-scrollbar {
+        width: 8px;
+        display: block;
+    }
 
-::-webkit-scrollbar-thumb:hover {
-    background: {{ .Site.Params.colors.sectionBackground }};
+    ::-webkit-scrollbar-track {
+        background: rgba(31, 31, 31, {{ .Site.Params.theme.transparency }});
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: {{ .Site.Params.colors.sectionBackground }};
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: {{ .Site.Params.colors.link }};
+    }
 }
 
 /* Table defaults */

@@ -448,15 +448,97 @@
 }
 
 .page-description {
-    background-color: rgba(17, 34, 64, {{ .Site.Params.theme.transparency }}); /* Matches section background */
-    border: 1px solid {{ .Site.Params.colors.tableBorder }}; /* Slightly richer gray-blue for soft edges */
-    color: {{ .Site.Params.colors.paragraphText }}; /* Softer white-blue for readability */
-    padding: 15px;
+    background-color: rgba(17, 34, 64, {{ .Site.Params.theme.transparency }});
+    border: 1px solid {{ .Site.Params.colors.tableBorder }};
+    color: {{ .Site.Params.colors.paragraphText }};
+    padding: 0;
     border-radius: 8px;
+    margin-top: 1.5rem;  /* Add space above the description */
     margin-bottom: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     font-size: 0.95rem;
     line-height: 1.6;
     box-sizing: border-box;
-    text-align: center !important;
+    overflow: hidden;
+}
+
+.description-toggle {
+    width: 100%;
+    padding: 15px;
+    color: {{ .Site.Params.colors.headerText }};
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    user-select: none;
+    background-color: rgba(31, 31, 31, 0.3);
+    border-bottom: 1px solid {{ .Site.Params.colors.tableBorder }};
+    box-sizing: border-box;
+}
+
+.description-toggle .toggle-icon {
+    font-size: 1.2em;
+    color: {{ .Site.Params.colors.link }};
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.description-toggle:hover {
+    background-color: rgba(31, 31, 31, 0.5);
+}
+
+.description-toggle:hover .toggle-icon {
+    color: {{ .Site.Params.colors.linkHover }};
+}
+
+.description-toggle.active .toggle-icon {
+    transform: rotate(180deg);
+}
+
+.description-content {
+    max-height: 0;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    padding: 0 15px;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.description-content::-webkit-scrollbar {
+    display: none;
+}
+
+.description-content.active {
+    max-height: none;
+    padding: 15px;
+}
+
+@media (min-width: 769px) {
+    .page-description {
+        padding: 15px;
+    }
+    
+    .description-toggle {
+        display: none;
+    }
+    
+    .description-content {
+        max-height: none;
+        padding: 0;
+    }
+}
+
+/* Add this for mobile optimization */
+@media (max-width: 768px) {
+    .description-toggle {
+        padding: 12px;
+        font-size: 0.95rem;
+    }
+    .page-description {
+        margin-top: 1rem;  /* Slightly less space on mobile */
+    }
 }

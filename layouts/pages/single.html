@@ -31,7 +31,6 @@
 <div class="content-container">
         <h1>{{ .Title }}</h1>
         {{ partial "author-bubble.html" . }}
-        {{ partial "tags.html" . }}
 
         {{ if in .Params.tags "nsfw" }}
         <div class="disclaimer-box">
@@ -54,7 +53,13 @@
 
         {{ if .Params.description }}
         <div class="page-description">
-            Description:<br>{{ .Params.description }}
+            <div class="description-toggle" onclick="toggleDescription(this)">
+                <i class="fas fa-chevron-down toggle-icon"></i>
+                Page Summary
+            </div>
+            <div class="description-content">
+                {{ .Params.description }}
+            </div>
         </div>
         {{ end }}
 
