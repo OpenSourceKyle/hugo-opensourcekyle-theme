@@ -1,8 +1,8 @@
+{{/* Process files ending in themes/THEME_NAME/layouts/partials/css/FILENAME.css.html */}}
 <style>
 {{ $theme := .Site.Params.theme_name | default "hugo-opensourcekyle-theme" }}
 {{ $cssDir := printf "themes/%s/layouts/partials/css" $theme }}{{ $files := readDir $cssDir }}
 {{ range $files }}
-  {{/* Only process files ending in .css.html */}}
   {{ if strings.HasSuffix .Name ".css.html" }}
     {{ partial (printf "css/%s" .Name) $ }}
   {{ end }}

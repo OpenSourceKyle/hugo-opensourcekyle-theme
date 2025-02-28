@@ -14,14 +14,14 @@
     <!-- Essential Meta Tags -->
     <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
     
-    <!-- Open Graph / Facebook -->
+    <!-- Open Graph / Facebook Meta Tags -->
     <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
     <meta property="og:site_name" content="{{ .Site.Title }}">
     <meta property="og:url" content="{{ .Permalink }}">
     <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} > {{ .Site.Title }}{{ end }}">
     <meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Summary }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}{{ end }}">
     
-    <!-- OpenGraph Image -->
+    <!-- Open Graph Image -->
     {{ $ogImage := "" }}
     {{ if .Params.image }}
         {{ $ogImage = .Params.image | absURL }}
@@ -34,134 +34,71 @@
     <meta property="og:image:height" content="{{ .Site.Params.logoHeight }}">
     <meta property="og:image:alt" content="{{ with .Params.image_caption }}{{ . }}{{ else }}{{ .Site.Params.logoAlt }}{{ end }}">
     
-    <!-- Twitter Card -->
+    <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} > {{ .Site.Title }}{{ end }}">
     <meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Summary }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}{{ end }}">
     <meta name="twitter:image" content="{{ $ogImage }}">
     
-    <!-- Article Specific (for blog posts and articles) -->
+    <!-- Article Specific Meta Tags (for blog posts and articles) -->
     {{ if and .IsPage (eq .Type "blog") }}
     {{/* Meta tag dates must follow ISO 8601 format for SEO */}}
     <meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
     <meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">
     {{ with .Params.tags }}
-    {{ range . }}
-    <meta property="article:tag" content="{{ . }}">
-    {{ end }}
+        {{ range . }}
+            <meta property="article:tag" content="{{ . }}">
+        {{ end }}
     {{ end }}
     {{ end }}
 
     <!-- Existing head content -->
     {{ with .OutputFormats.Get "RSS" }}
-    <link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ $.Site.Title }}">
+        <link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ $.Site.Title }}">
     {{ end }}
+    
+    <!-- Stylesheets -->
     {{ $styles := resources.Get "css/style.css.html" | resources.ExecuteAsTemplate "style.css" . | minify }}
     <link rel="stylesheet" href="{{ $styles.Permalink }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- JavaScript Files -->
+    <script src="{{ "js/back-to-toc.js" | relURL }}"></script>
+    <script src="{{ "js/main.js" | relURL }}"></script>
     <script defer src="{{ "js/lightbox.js" | relURL }}"></script>
     <script defer src="{{ "js/link-preview.js" | relURL }}"></script>
     <script defer src="{{ "js/collapsible.js" | relURL }}"></script>
     <script defer src="{{ "js/description-toggle.js" | relURL }}"></script>
+    <script defer src="{{ "js/tag-toggle.js" | relURL }}"></script>
 </head>
-<body>
-    <script>
-        document.body.style.backgroundImage = "url('{{ .Site.Params.backgroundImage }}')";
-        document.body.style.backgroundRepeat = "no-repeat";
-        document.body.style.backgroundPosition = "center center";
-        document.body.style.backgroundAttachment = "fixed";
-        document.body.style.backgroundSize = "cover";
-    </script>
-    
-    <!-- Replace the existing floating button with this -->
+<body data-background-image="{{ .Site.Params.backgroundImage }}">
+    <!-- Floating Button for Linktree -->
     {{ if .Site.Params.linktreeLogo }}
-    <button class="floating-button" id="linktree-button">
-        <img src="{{ .Site.Params.linktreeLogo }}" alt="Linktree">
-    </button>
-    {{ partial "linktree-popup.html" . }}
+        <button class="floating-button" id="linktree-button">
+            <img src="{{ .Site.Params.linktreeLogo }}" alt="Linktree">
+        </button>
+        {{ partial "linktree-popup.html" . }}
     {{ end }}
     
+    <!-- Page Content -->
     <div class="page-wrapper">
+        <!-- Header -->
         <header>
             {{ partial "navbar.html" . }}
         </header>
-        
+        <!-- Main Content -->
         <main>
             {{ block "main" . }}{{ end }}
         </main>
-        
+        <!-- Footer -->
         <footer>
             {{ partial "footer.html" . }}
         </footer>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const hamburgerMenu = document.querySelector('.hamburger-menu');
-            if (hamburgerMenu) {
-                hamburgerMenu.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    const navbarLinks = document.querySelector('.navbar-links');
-                    if (navbarLinks) {
-                        navbarLinks.classList.toggle('active');
-                    }
-                });
-            }
 
-            function setHeaderHeight() {
-                const header = document.querySelector('header');
-                if (header) {
-                    const headerHeight = header.offsetHeight;
-                    document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
-                }
-            }
-
-            // Set the header height on load
-            window.addEventListener('load', setHeaderHeight);
-
-            // Optionally, update on resize if the header height might change
-            window.addEventListener('resize', setHeaderHeight);
-
-            // Handle touch events for mobile
-            const logoLink = document.querySelector('.logo-link');
-            const navbarTitle = document.querySelector('.navbar-title');
-
-            logoLink.addEventListener('touchstart', function() {
-                navbarTitle.classList.add('hover');
-            });
-
-            logoLink.addEventListener('touchend', function() {
-                setTimeout(() => {
-                    navbarTitle.classList.remove('hover');
-                }, 300);
-            });
-
-            // Linktree popup functionality
-            const linktreeButton = document.getElementById('linktree-button');
-            const linktreePopup = document.getElementById('linktree-popup');
-            const closePopup = document.querySelector('.close-popup');
-
-            linktreeButton.addEventListener('click', function(e) {
-                e.stopPropagation();
-                linktreePopup.classList.toggle('active');
-            });
-
-            closePopup.addEventListener('click', function() {
-                linktreePopup.classList.remove('active');
-            });
-
-            // Close popup when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!linktreePopup.contains(e.target) && e.target !== linktreeButton) {
-                    linktreePopup.classList.remove('active');
-                }
-            });
-        });
-    </script>
-    
-    <!-- Add this before the closing body tag -->
+    <!-- Back to Top Button -->
     <button id="back-to-toc" aria-label="Back to top">
         <i class="fas fa-arrow-up"></i>
     </button>
-    <script src="{{ "js/back-to-toc.js" | relURL }}"></script>
 </body>
 </html> 

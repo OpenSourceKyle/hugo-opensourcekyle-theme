@@ -65,13 +65,6 @@ git submodule update --remote --merge
 
 This theme includes several custom Hugo shortcodes to enhance your site:
 
-### **📅 Embed Calendly**
-To embed a Calendly widget, use:
-
-```md
-{{< calendly url="https://calendly.com/your-schedule" >}}
-```
-
 ---
 
 ### **🖼️ Lightbox for Images**
@@ -83,11 +76,38 @@ To enable images to open in an overlay:
 
 ---
 
-### **🔽 Scroll to Calendly Button**
-To add a floating button that scrolls to your Calendly section:
+### **🔘 Buttons**
+To add a themed button with a link:
 
 ```md
-{{< scroll-to-calendly >}}
+{{< button url="https://example.com" text="Click Here" >}}
+```
+
+---
+
+### **📝 Blog Posts List**
+To display a list of all blog posts (commonly used on sitemap pages):
+
+```md
+{{< blog >}}
+```
+
+---
+
+### **📑 Pages List**
+To display a list of all pages (commonly used on sitemap pages):
+
+```md
+{{< pages >}}
+```
+
+---
+
+### **🏷️ Tags List**
+To display a list of all tags with post counts:
+
+```md
+{{< tags >}}
 ```
 
 ---
@@ -99,13 +119,13 @@ To create a new blog post or page, you can use the following commands:
 ### **Creating a New Blog Post**
 
 ```sh
-hugo new blog/YYYY-MM-DD-title.md
+hugo new blog/YYYY-MM-DD-TITLE.md
 ```
 
 ### **Creating a New Page**
 
 ```sh
-hugo new pages/title.md
+hugo new pages/TITLE.md
 ```
 
 ### **Important Note**

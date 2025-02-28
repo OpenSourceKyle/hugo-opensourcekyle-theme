@@ -105,6 +105,26 @@ h1, h2, h3, h4, h5, h6 {
   color: {{ .Site.Params.colors.headerText }};
 }
 
+/* Summary/Details Styling */
+summary {
+  color: {{ .Site.Params.colors.headerText }};
+  cursor: pointer;
+  padding: 0.5rem 0;
+  transition: color 0.3s ease;
+}
+
+summary:hover {
+  color: {{ .Site.Params.colors.linkHover }};
+}
+
+details {
+  margin: 1rem 0;
+}
+
+details[open] summary {
+  margin-bottom: 1rem;
+}
+
 /* Main Content & Page Wrapper */
 main {
   width: 100%;
