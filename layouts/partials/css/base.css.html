@@ -51,27 +51,35 @@ body::before {
   }
 }
 
-/* Table Defaults */
+/* Table Styles */
 table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    color: {{ .Site.Params.colors.paragraphText }};
 }
-th, td {
-  padding: 12px;
-  text-align: left;
-  border: 1px solid {{ .Site.Params.colors.tableBorder }};
-}
+
 th {
-  background-color: {{ .Site.Params.colors.tableHeaderBackground }};
-  font-weight: bold;
-  color: {{ .Site.Params.colors.tableHeaderText }};
+    background-color: {{ .Site.Params.colors.tableHeaderBackground }};
+    color: {{ .Site.Params.colors.tableHeaderText }};
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border: 1px solid {{ .Site.Params.colors.tableBorder }};
 }
-tr:nth-child(even) {
-  background-color: {{ .Site.Params.colors.tableRowEvenBackground }};
+
+td {
+    color: {{ .Site.Params.colors.paragraphText }};
+    padding: 0.5rem 1rem;
+    border: 1px solid {{ .Site.Params.colors.tableBorder }};
+    background-color: {{ .Site.Params.colors.tableRowEvenBackground }};
 }
-tr:hover {
-  background-color: {{ .Site.Params.colors.tableRowHoverBackground }};
+
+tr:nth-child(odd) td {
+    background-color: {{ .Site.Params.colors.tableRowOddBackground }};
+}
+
+tr:hover td {
+    background-color: {{ .Site.Params.colors.tableRowHoverBackground }};
 }
 
 /* Images, Links & Typography */
@@ -230,45 +238,6 @@ article,
   main {
     padding: 0;
     margin: 0 auto;
-  }
-  
-  /* Navbar & Mobile Menu */
-  .hamburger-menu {
-    display: block;
-    margin: auto 0;
-  }
-  .navbar-links {
-    display: none;
-    position: fixed;
-    top: {{ .Site.Params.theme.navbarHeight }};
-    left: 0;
-    right: 0;
-    background-color: rgba(31,31,31,{{ .Site.Params.theme.transparency }});
-    padding: 1rem;
-    width: 100vw;
-    z-index: 999;
-  }
-  .navbar-links.active {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-  }
-  .navbar-content {
-    position: relative;
-  }
-  .hamburger-menu.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-  }
-  .hamburger-menu.active span:nth-child(2) {
-    opacity: 0;
-  }
-  .hamburger-menu.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -7px);
-  }
-  
-  .navbar-title {
-    font-size: 1.5em;
   }
   .section {
     margin-bottom: 3rem;
