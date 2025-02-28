@@ -58,11 +58,10 @@
 
 <!-- Coaching Section -->
 <div class="content-container">
-    <h2>Coaching Services</h2>
     {{ with .Site.GetPage "coaching" }}
-    <div class="coaching-content">
-        <p id="coachingSummary">{{ .Summary }}</p>
-        <a href="{{ .RelPermalink }}" class="read-more-link">Learn More</a>
+    <div class="coaching-content" style="display: flex; flex-direction: column; align-items: center;">
+        <p id="coachingSummary" style="font-size: 1.5em;">{{ .Summary }}</p>
+        <a href="{{ .RelPermalink }}" class="button" style="font-size: 1.5em !important; padding: 10px 20px !important; display: inline-block !important; margin: auto !important;">💡 Learn More 💡</a>
     </div>
     {{ end }}
 </div>
