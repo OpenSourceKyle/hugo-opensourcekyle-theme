@@ -11,7 +11,7 @@ If you're cloning your **Hugo website repository** on a new computer and the **t
 When cloning your Hugo site, use this command to ensure all submodules (including this theme) are downloaded:
 
 ```sh
-git clone --recursive git@github.com:OpenSourceKyle/OpenSourceKyle.github.io.git
+git clone --recurse-submodules git@github.com:OpenSourceKyle/OpenSourceKyle.github.io.git
 ```
 
 🔹 **If you already cloned the repo and the theme folder is empty**, run:
@@ -68,11 +68,15 @@ This theme includes several custom Hugo shortcodes to enhance your site:
 ---
 
 ### **🖼️ Lightbox for Images**
-To enable images to open in an overlay:
+To enable images to open in an overlay, you can use the following syntax:
 
 ```md
-{{< lightbox src="/images/example.jpg" alt="A beautiful image" >}}
+{{< lightbox src="/images/example.jpg" caption="A beautiful image" link="https://example.com" >}}
 ```
+
+- **src**: The path to the image you want to display.
+- **caption**: A caption for the image.
+- **link** (optional): A URL that the image will link to when clicked. If provided, the caption will be a clickable link.
 
 ---
 
